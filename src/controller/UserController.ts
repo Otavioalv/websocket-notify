@@ -35,6 +35,27 @@ class UserController {
         }
     }
 
+    public async loginUser(req: Request, res: Response): Promise<void> {
+        try{
+            const data: userInterface = await req.body;
+            
+
+            if(!data.name || !data.passwd) {
+                res.status(400).send({message: "Insira os parametros corretamente"});
+                return;
+            }
+
+            
+
+            // Verificar se usuario existe
+            
+
+            res.status(200).send({message: "Login realizado com sucesso"});
+        } catch(err) {
+            res.status(500).send({message: "Erro interno no servidor"});
+        }
+    }
+
     private async validateDataCreateUser(data:userInterface): Promise<string[]>{
         const errorsArr: string[] = [];
 
@@ -59,6 +80,16 @@ class UserController {
         }
 
         return errorsArr;
+    }
+
+    private async generateTokenUser(user:userInterface): Promise<string>{
+        const payload: {name: string} = {
+            name: user.name
+        };
+
+
+
+        return '';
     }
 }
 
