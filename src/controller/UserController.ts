@@ -1,6 +1,8 @@
 import { userInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
+import {sign} from 'jsonwebtoken';
 import {Request, Response} from 'express';
+import { authJwt } from '@/config';
 
 
 class UserController {
@@ -45,8 +47,8 @@ class UserController {
                 return;
             }
 
+            await this.generateTokenUser(data);
             
-
             // Verificar se usuario existe
             
 
@@ -83,13 +85,17 @@ class UserController {
     }
 
     private async generateTokenUser(user:userInterface): Promise<string>{
-        const payload: {name: string} = {
-            name: user.name
-        };
+        try {
+            // Procurar o usuario pelo id pra colocar no payload
 
-
-
-        return '';
+            const payload: {name: string} = {
+                name: user.name
+            };
+            const token:string = sign(payload, authJwt.secret);
+            return token;   
+        } catch (e) {
+            throw new Error("Erro ao gerar token");
+        }
     }
 }
 
