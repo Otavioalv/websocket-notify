@@ -10,7 +10,7 @@ export default function InputField({dataInfo}: {dataInfo: textFieldProps}) {
     
     return (
         // bg-slate-950 border-2 focus:outline-none focus:border-purple-400 border-slate-700 rounded-lg
-        <div className="w-full border-2 flex focus-within:border-violet-500 border-slate-700 rounded-lg">
+        <div className="w-full border-2 flex focus-within:border-violet-500 border-violet-800/60 rounded-lg z-10">
             {dataInfo.type === 'password' ? (
                 <label 
                     htmlFor={dataInfo.name}
