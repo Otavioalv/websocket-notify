@@ -1,15 +1,17 @@
 import React from "react";
 
-import TextField from "../components/inputs/TextField";
+import {FaUser, FaLock, FaLockOpen} from 'react-icons/fa';
+import InputField from "../components/inputs/InputField";
 import Button from "../components/inputs/Button";
 
 export default function Form () {
     return (
         <div className="bg-slate-900 flex justify-center items-center  w-full h-full m-0 p-0  text-white">
-            <form className="flex flex-col p-0 gap-6 w-1/4">
+            {/* w-1/4 */}
+            <form className="flex flex-col gap-6 p-5 w-96 max-w-96 border border-violet-500/45 rounded-lg">
                 
-                <TextField dataInfo={{name: "username", type: "text"}}/>
-                <TextField dataInfo={{name: "password", type: "text"}}/>
+                <InputField dataInfo={{name: "username", type: "text", icon: FaUser}}/>
+                <InputField dataInfo={{name: "password", type: "password", icon: FaLock, altIcon: FaLockOpen}}/>
                 
                 {/* <div>
                     <input type="text" />
@@ -17,7 +19,9 @@ export default function Form () {
                     <a href=""></a>
                 </div> */}
 
-                <Button name='login'/>
+                No account? Sing up!
+
+                <Button name='LOGIN'/>
             </form>
         </div>
     )
