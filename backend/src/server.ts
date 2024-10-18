@@ -1,8 +1,10 @@
 import express, { NextFunction, Request, Response} from 'express';
+import cors from 'cors';
 import {router} from './routers/router'
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.use((err:any, req:Request, res:Response, next: NextFunction) => {

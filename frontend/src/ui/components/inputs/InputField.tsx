@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import {textFieldProps} from "../../../data/@types/inputs";
+import {textFieldProps, textFieldPropsTest} from "../../../data/@types/inputs";
 
-export default function InputField({dataInfo}: {dataInfo: textFieldProps}) {
+export default function InputField({dataInfo, ...rest}:  {dataInfo: textFieldPropsTest}) {
     const [showPasswd, setShowPasswd] = useState<boolean>(false);
 
     const toggleShowPasswd = () => {
@@ -31,13 +31,16 @@ export default function InputField({dataInfo}: {dataInfo: textFieldProps}) {
                     <dataInfo.icon className="w-6 h-6"/>
                 </label>
             )}
-            <input 
+            {/* <input 
                 type={dataInfo.type  === 'password' && showPasswd ? 'text' : dataInfo.type} 
                 name={dataInfo.name} 
                 id={dataInfo.name}
                 placeholder={dataInfo.name[0].toUpperCase() + dataInfo.name.substring(1)}
                 className="focus:outline-none w-full bg-transparent pl-4"
-            />
+                
+            /> */}
+
+            <input {...rest}/>
         </div>
     )
 }
