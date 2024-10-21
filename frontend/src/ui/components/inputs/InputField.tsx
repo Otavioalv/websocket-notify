@@ -1,7 +1,9 @@
 import React, {useState} from "react";
-import {textFieldProps, textFieldPropsTest} from "../../../data/@types/inputs";
+import {textFieldProps } from "../../../data/@types/inputs";
 
-export default function InputField({dataInfo, ...rest}:  {dataInfo: textFieldPropsTest}) {
+
+// {dataInfo, ...rest}:  {dataInfo: textFieldPropsTest}
+export default function InputField({dataInfo}:  {dataInfo: textFieldProps}) {
     const [showPasswd, setShowPasswd] = useState<boolean>(false);
 
     const toggleShowPasswd = () => {
@@ -9,8 +11,9 @@ export default function InputField({dataInfo, ...rest}:  {dataInfo: textFieldPro
     }
     
     return (
-        // bg-slate-950 border-2 focus:outline-none focus:border-purple-400 border-slate-700 rounded-lg
         <div className="w-full border-2 flex focus-within:border-violet-500 border-violet-800/60 rounded-lg z-10">
+            
+
             {dataInfo.type === 'password' ? (
                 <label 
                     htmlFor={dataInfo.name}
@@ -31,6 +34,8 @@ export default function InputField({dataInfo, ...rest}:  {dataInfo: textFieldPro
                     <dataInfo.icon className="w-6 h-6"/>
                 </label>
             )}
+
+
             {/* <input 
                 type={dataInfo.type  === 'password' && showPasswd ? 'text' : dataInfo.type} 
                 name={dataInfo.name} 
@@ -40,7 +45,18 @@ export default function InputField({dataInfo, ...rest}:  {dataInfo: textFieldPro
                 
             /> */}
 
-            <input {...rest}/>
+
+                {/* dataInfo.name[0].toUpperCase() + dataInfo.name.substring(1) */}
+            <input 
+                type={dataInfo.type  === 'password' && showPasswd ? 'text' : dataInfo.type} 
+                name={dataInfo.name} 
+                id={dataInfo.name}
+                placeholder={dataInfo.name}
+                onChange={dataInfo.onChange}
+                value={dataInfo.value}
+                className="focus:outline-none w-full bg-transparent pl-4"    
+            />
+
         </div>
     )
 }
