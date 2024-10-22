@@ -20,7 +20,6 @@ class UserController {
             }
 
             const user = await this.userModel.findUserByName(data.name);
-
             if(user.name) {
                 res.status(401).send({message: "Ussuario ja existe, realize o login"});
                 return;
@@ -47,10 +46,17 @@ class UserController {
                 return;
             }
 
-            await this.generateTokenUser(data);
             
             // Verificar se usuario existe
-            
+            const user = await this.userModel.findUserByName(data.name);
+            if(!user.name) {
+                res.status(401).send({message: "Usuario não existe. Crie um usuario novo"});
+            }
+
+            // Verificar se senha esta correta
+
+            // Gerar token
+            await this.generateTokenUser(data);
 
             res.status(200).send({message: "Login realizado com sucesso"});
         } catch(err) {
@@ -92,6 +98,8 @@ class UserController {
                 name: user.name
             };
             const token:string = sign(payload, authJwt.secret);
+
+            console.log(token);
             return token;   
         } catch (e) {
             throw new Error("Erro ao gerar token");

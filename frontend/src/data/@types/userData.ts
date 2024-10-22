@@ -1,6 +1,6 @@
 
 
 export interface userDataForm {
-    username: string,
+    name: string,
     passwd: string
 }
