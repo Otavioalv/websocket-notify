@@ -10,7 +10,8 @@ const URL_API: string = "http://127.0.0.1:8090/";  // /notify /login-user
 interface responseAxiosInterface extends AxiosResponse{
     data: {
         message: string,
-        errors?: string[]
+        errors?: string[],
+        token?: string
     }
 }
 
@@ -24,6 +25,7 @@ export async function loginUser(data: userDataForm) {
         const url: string = URL_API + "notify/login-user"
         const response = await axios.post(url, data) as responseAxiosInterface;
 
+        console.log(response.data);
         await choseNotify([response.data.message], response.status);
     } catch (error) {
         const err = error as errorAxiosInterface;
@@ -36,12 +38,38 @@ export async function createUser(data: userDataForm) {
         console.log(data);
         const url: string = URL_API + "notify/create-user"
         const response = await axios.post(url, data) as responseAxiosInterface;    
-
+        
         await choseNotify([response.data.message], response.status);
     } catch (error) {
         
         const err = error as errorAxiosInterface;
         await choseNotify([err.response.data.message], err.response.status);
         await choseNotify(err.response.data.errors?.map( m => m) || [], 100);
+    }
+}
+
+export async function privateRouterTest() {
+    try {
+        console.log("Private router");
+        
+
+        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6ImdhYnJpZWwiLCJpYXQiOjE3Mjk2OTIwNzl9.4PZ6hqs0T4ZtICmP2wAOHWIHPquyqwt6oR66vFHFsiU
+        const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6ImdhYnJpZWwiLCJpYXQiOjE3Mjk2OTIwNzl9.4PZ6hqs0T4ZtICmP2wAOHWIHPquyqwt6oR66vFHFsiU";
+
+        const headers = {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }
+
+        
+        const url: string = URL_API + "notify/authenticate-test";
+        const response = await axios.post(url, {}, headers) as responseAxiosInterface;
+
+        await choseNotify([response.data.message], response.status);
+
+    } catch (error) {
+        const err = error as errorAxiosInterface;
+        await choseNotify([err.response.data.message], err.response.status);
     }
 }

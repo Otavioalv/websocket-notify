@@ -20,7 +20,10 @@ router.post('/login-user', async (req: Request, res: Response) => {
 })
 
 router.post('/authenticate-test',  authenticatedRouter, async(req: Request, res: Response) => {
-    res.status(200).send({message: "Rota acessivel"});
+    
+    res.cookie('test', {name: "otavio", id: 23, text: "Teste de cookie??"});
+
+    res.status(200).send({message: "Rota acessivel coockie set"});
 });
 
 export {router};

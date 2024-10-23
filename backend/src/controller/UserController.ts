@@ -1,8 +1,7 @@
 import { userInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
-import {sign} from 'jsonwebtoken';
 import {Request, Response} from 'express';
-import { authJwt } from '@/config';
+import { genereteTokenUser } from '@/utils/tokenUtils';
 
 
 class UserController {
@@ -21,7 +20,7 @@ class UserController {
 
             const user = await this.userModel.findUserByName(data.name);
             if(user.name) {
-                res.status(401).send({message: "Ussuario ja existe, realize o login"});
+                res.status(401).send({message: "Ussuario ja existe"});
                 return;
             }
 
@@ -50,15 +49,20 @@ class UserController {
             // Verificar se usuario existe
             const user = await this.userModel.findUserByName(data.name);
             if(!user.name) {
-                res.status(401).send({message: "Usuario não existe. Crie um usuario novo"});
+                res.status(401).send({message: "Usuario não existe"});
+                return;
             }
 
             // Verificar se senha esta correta
+            if(data.passwd !== user.passwd){
+                res.status(401).send({message: "Senha incorreta"});
+                return;
+            }
 
             // Gerar token
-            await this.generateTokenUser(data);
+            const token:string = await genereteTokenUser(user);
 
-            res.status(200).send({message: "Login realizado com sucesso"});
+            res.status(200).send({message: "Login realizado com sucesso", token: token});
         } catch(err) {
             res.status(500).send({message: "Erro interno no servidor"});
         }
@@ -90,21 +94,22 @@ class UserController {
         return errorsArr;
     }
 
-    private async generateTokenUser(user:userInterface): Promise<string>{
-        try {
-            // Procurar o usuario pelo id pra colocar no payload
+    // private async generateTokenUser(user:userInterface): Promise<string>{
+    //     try {
+    //         // Procurar o usuario pelo id pra colocar no payload
 
-            const payload: {name: string} = {
-                name: user.name
-            };
-            const token:string = sign(payload, authJwt.secret);
+    //         const payload: {name: string, id: number} = {
+    //             id: user.id_user,
+    //             name: user.name
+    //         };
+    //         const token:string = sign(payload, authJwt.secret);
 
-            console.log(token);
-            return token;   
-        } catch (e) {
-            throw new Error("Erro ao gerar token");
-        }
-    }
+    //         console.log(token);
+    //         return token;   
+    //     } catch (e) {
+    //         throw new Error("Erro ao gerar token");
+    //     }
+    // }
 }
 
 export {UserController}
