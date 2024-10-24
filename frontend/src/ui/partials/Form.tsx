@@ -1,5 +1,5 @@
 import React, {useState, ChangeEvent, MouseEvent} from "react";
-import { createUser, loginUser, privateRouterTest} from "../../data/services/WebsocketService";
+import { createUser, loginUser, privateRouterTest, privateRouterTestCookie} from "../../data/services/WebsocketService";
 
 import {FaUser, FaLock, FaLockOpen} from 'react-icons/fa';
 
@@ -44,12 +44,23 @@ export default function Form () {
         await privateRouterTest();
     }
 
+    const handleRotaCookie = async (event: MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+        console.log("Botao cookie");
+        await privateRouterTestCookie();
+    }
+
     return (
         <div className="bg-slate-900 flex justify-center items-center  w-full h-full m-0 p-0  text-white">
             
-            <button className="bg-black p-3 rounded-md absolute left-0 top-0" onClick={(e) => handleRotaPrivada(e)}>
-                Rota de teste privada
-            </button>
+            <div className="absolute left-0 top-0">
+                <button className="bg-black p-3 rounded-md  " onClick={(e) => handleRotaPrivada(e)}>
+                    Rota de teste privada
+                </button>
+                <button className="bg-black p-3 rounded-md  " onClick={(e) => handleRotaCookie(e)}>
+                    Rota de teste Cookie
+                </button>
+            </div>
 
             <form className="flex flex-col gap-6 p-5 w-96 max-w-96 rounded-lg relative bg-violet-600 overflow-hidden" onChange={(e) => {e.preventDefault()}}>
                 

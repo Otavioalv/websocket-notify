@@ -1,7 +1,7 @@
 import { userInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
 import {Request, Response} from 'express';
-import { genereteTokenUser } from '@/utils/tokenUtils';
+import { genereteTokenUser, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
 
 
 class UserController {
@@ -62,8 +62,14 @@ class UserController {
             // Gerar token
             const token:string = await genereteTokenUser(user);
 
+            // Salvar token no cookie
+            // res.clearCookie("access_token"); // Deletar essa parte
+            await setTokenCookie(res, token); // Fazer verificação se token existe
+
+            // Futuramente, nao enviar token, fazer a API salvar o token no cookie fazendo com que o cliente nao tenha acesso ao token, tornando o sistema mais seguro
             res.status(200).send({message: "Login realizado com sucesso", token: token});
         } catch(err) {
+            console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});
         }
     }
@@ -93,23 +99,6 @@ class UserController {
 
         return errorsArr;
     }
-
-    // private async generateTokenUser(user:userInterface): Promise<string>{
-    //     try {
-    //         // Procurar o usuario pelo id pra colocar no payload
-
-    //         const payload: {name: string, id: number} = {
-    //             id: user.id_user,
-    //             name: user.name
-    //         };
-    //         const token:string = sign(payload, authJwt.secret);
-
-    //         console.log(token);
-    //         return token;   
-    //     } catch (e) {
-    //         throw new Error("Erro ao gerar token");
-    //     }
-    // }
 }
 
 export {UserController}

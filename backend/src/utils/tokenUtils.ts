@@ -1,6 +1,8 @@
 import { authJwt } from "@/config"
-import { userInterface } from "@/interfaces/userInterface"
 import { JwtPayload, sign, verify, VerifyErrors } from "jsonwebtoken"
+import { Response, Request, CookieOptions } from "express"
+
+import { userInterface } from "@/interfaces/userInterface"
 
 interface payloadTokenInterface extends JwtPayload{
     id: number,
@@ -34,5 +36,33 @@ export const getPayload = async (token: string) => {
     } catch (e) {
         const error = e as VerifyErrors;
         throw new Error(`${error.name}: ${error.message}`);
+    }
+}
+
+
+export const setTokenCookie = async (res: Response, token: string) => {
+    try {
+        const options:CookieOptions = {
+            httpOnly: true,  /* Torna inacessivel no cliente */
+            // secure: true, /* Possivel produção com HTTPS */
+            secure: false,
+            sameSite: "strict" /* Protege contra CSRF (deixando mais seguro)*/
+        }
+    
+        res.cookie("access_token", token, options);   
+    } catch (e) {
+        const error = e as Error;
+        console.log("Erro ao realizar login: ", error.name);
+        throw new Error("Erro ao realizar login");
+    }
+}
+
+export const getTokenCookie = async (req: Request) => {
+    try {
+        const cookies = await req.cookies["access_token"];
+
+        console.log(cookies);
+    } catch(e) {
+        throw new Error("Erro ao recuperar cookie");
     }
 }

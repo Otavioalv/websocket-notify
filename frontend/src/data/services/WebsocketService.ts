@@ -74,3 +74,19 @@ export async function privateRouterTest() {
         await choseNotify([err.response.data.message], err.response.status);
     }
 }
+
+export async function privateRouterTestCookie() {
+    try {
+        console.log("Private router");
+        
+        
+        const url: string = URL_API + "notify/authenticate-cookie";
+        const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
+
+
+        await choseNotify([response.data.message], response.status);
+    } catch (error) {
+        const err = error as errorAxiosInterface;
+        await choseNotify([err.response.data.message], err.response.status);
+    }
+}
