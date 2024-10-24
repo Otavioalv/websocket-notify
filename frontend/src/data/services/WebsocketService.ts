@@ -54,7 +54,8 @@ export async function privateRouterTest() {
         
 
         // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6ImdhYnJpZWwiLCJpYXQiOjE3Mjk2OTIwNzl9.4PZ6hqs0T4ZtICmP2wAOHWIHPquyqwt6oR66vFHFsiU
-        const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6ImdhYnJpZWwiLCJpYXQiOjE3Mjk2OTIwNzl9.4PZ6hqs0T4ZtICmP2wAOHWIHPquyqwt6oR66vFHFsiU";
+        // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Im90YXZpbyIsImlhdCI6MTcyOTc4MTU2OX0.v-E6qkY_SmfIVUQebVTX5D4Myr3akEcOTG_VFHMpVok
+        const token: string = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Im90YXZpbyIsImlhdCI6MTcyOTc4MTU2OX0.v-E6qkY_SmfIVUQebVTX5D4Myr3akEcOTG_VFHMpVok";
 
         const headers = {
             headers: {
