@@ -43,13 +43,12 @@ export const getPayload = async (token: string) => {
 export const setTokenCookie = async (res: Response, token: string) => {
     try {
         const options:CookieOptions = {
-            httpOnly: true,  /* Torna inacessivel no cliente */
-            // secure: true, /* Possivel produção com HTTPS */
-            secure: false,
-            sameSite: "strict" /* Protege contra CSRF (deixando mais seguro)*/
+            httpOnly: true,
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
         }
     
-        res.cookie("access_token", token, options);   
+        res.cookie("access_token", token, options);  
+        console.log("Token salvo");
     } catch (e) {
         const error = e as Error;
         console.log("Erro ao realizar login: ", error.name);

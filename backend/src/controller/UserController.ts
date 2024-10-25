@@ -1,6 +1,6 @@
 import { userInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
-import {Request, Response} from 'express';
+import {CookieOptions, Request, Response} from 'express';
 import { genereteTokenUser, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
 
 
@@ -64,7 +64,21 @@ class UserController {
 
             // Salvar token no cookie
             // res.clearCookie("access_token"); // Deletar essa parte
-            await setTokenCookie(res, token); // Fazer verificação se token existe
+            // await setTokenCookie(res, token); // Fazer verificação se token existe
+
+
+
+        
+            res.cookie("access_token", token, {
+                httpOnly: true,
+                secure: false,
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+            });  
+
+            console.log("Token salvo");
+
+
+            
 
             // Futuramente, nao enviar token, fazer a API salvar o token no cookie fazendo com que o cliente nao tenha acesso ao token, tornando o sistema mais seguro
             res.status(200).send({message: "Login realizado com sucesso", token: token});

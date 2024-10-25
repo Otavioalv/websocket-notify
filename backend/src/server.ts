@@ -5,10 +5,10 @@ import {router} from './routers/router'
 
 const app = express();
 
-app.use(cors({
-    origin: "http://localhost:3000", credentials: true
-}));
 app.use(cookieParser());
+app.use(cors({
+    origin: ["http://localhost:3000", "http://localhost:8080", "http://192.168.1.115:3000"], credentials: true
+}));
 app.use(express.json());
 
 app.use((err:any, req:Request, res:Response, next: NextFunction) => {

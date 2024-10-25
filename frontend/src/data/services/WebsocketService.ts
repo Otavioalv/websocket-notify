@@ -2,7 +2,10 @@ import axios, {AxiosError, AxiosResponse} from "axios";
 import { userDataForm } from "../@types/userData";
 import { choseNotify } from "./ToastService";
 
-const URL_API: string = "http://127.0.0.1:8090/";  // /notify /login-user
+
+// "http://127.0.0.1:8090/"
+// "http://192.168.1.115:8090/"
+const URL_API: string = "http://192.168.1.115:8090/";  // /notify /login-user
 
 
 
@@ -22,8 +25,13 @@ interface errorAxiosInterface extends AxiosError {
 
 export async function loginUser(data: userDataForm) {
     try {
+        // {withCredentials: true, headers: {"Content-Type": "aplication/json"}}
+
         const url: string = URL_API + "notify/login-user"
-        const response = await axios.post(url, data) as responseAxiosInterface;
+        const response = await axios.post(url, data, {
+            withCredentials: true,
+            headers: {"Content-Type": "application/json"}
+        }) as responseAxiosInterface;
 
         console.log(response.data);
         await choseNotify([response.data.message], response.status);
@@ -81,7 +89,10 @@ export async function privateRouterTestCookie() {
         
         
         const url: string = URL_API + "notify/authenticate-cookie";
-        const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
+        const response = await axios.post(url, {}, {
+            withCredentials: true,
+            headers: {"Content-Type": "application/json"}
+        }) as responseAxiosInterface;
 
 
         await choseNotify([response.data.message], response.status);

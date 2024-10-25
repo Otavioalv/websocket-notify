@@ -21,7 +21,7 @@ router.post('/login-user', async (req: Request, res: Response) => {
 
 
 router.post('/authenticate-cookie', async (req: Request, res: Response) => {
-    const cookies = await req.cookies["access_token"];
+    const cookies = await req.cookies.access_token;
     console.log("Cookies: ", cookies);
     res.status(200).send({message: cookies});
 })

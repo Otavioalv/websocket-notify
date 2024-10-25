@@ -35,6 +35,8 @@ export default function Form () {
         else if(btt === "singUp") {
             await createUser(formData);
         }
+
+        // router dom tem um componente chamado Redirect, que redireciona para outra pagina. Usar isso ou algo similar aqui
     }
 
 
@@ -57,7 +59,7 @@ export default function Form () {
                 <button className="bg-black p-3 rounded-md  " onClick={(e) => handleRotaPrivada(e)}>
                     Rota de teste privada
                 </button>
-                <button className="bg-black p-3 rounded-md  " onClick={(e) => handleRotaCookie(e)}>
+                <button className="bg-black p-3 rounded-md  " onClick={async (e) => await handleRotaCookie(e)}>
                     Rota de teste Cookie
                 </button>
             </div>
@@ -89,7 +91,7 @@ export default function Form () {
                 <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] left-0 top-24 -ml-3 bg-gradient-to-r from-violet-600/60 to-violet-900/60 animate-spin-4s"></div>
                 <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] -left-10 mt-[5%] top-32 -ml-3 bg-gradient-to-r from-violet-600/60 to-violet-900/60 animate-spin-5s"></div>
 
-                <Button name='LOGIN' type="submit" onClick={(e) => handleForm(e, 'login')}/>
+                <Button name='LOGIN' type="submit" onClick={async (e) => await handleForm(e, 'login')}/>
                 <h1 className="z-10"> No account? Sing up!</h1>
                 <Button name="SING UP" type="submit" onClick={(e) => handleForm(e, 'singUp')}/>
             </form>
