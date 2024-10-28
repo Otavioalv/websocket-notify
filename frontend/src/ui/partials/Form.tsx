@@ -40,26 +40,25 @@ export default function Form () {
     }
 
 
-    const handleRotaPrivada = async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleRotaPrivada = async () => {
         console.log("botao");
         await privateRouterTest();
     }
 
-    const handleRotaCookie = async (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
+    const handleRotaCookie = async () => {
         console.log("Botao cookie");
         await privateRouterTestCookie();
     }
+
 
     return (
         <div className="bg-slate-900 flex justify-center items-center  w-full h-full m-0 p-0  text-white">
             
             <div className="absolute left-0 top-0">
-                <button className="bg-black p-3 rounded-md  " onClick={(e) => handleRotaPrivada(e)}>
+                <button className="bg-black p-3 rounded-md  " onClick={handleRotaPrivada}>
                     Rota de teste privada
                 </button>
-                <button className="bg-black p-3 rounded-md  " onClick={async (e) => await handleRotaCookie(e)}>
+                <button className="bg-black p-3 rounded-md  " onClick={handleRotaCookie}>
                     Rota de teste Cookie
                 </button>
             </div>

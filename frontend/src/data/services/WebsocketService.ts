@@ -5,7 +5,7 @@ import { choseNotify } from "./ToastService";
 
 // "http://127.0.0.1:8090/"
 // "http://192.168.1.115:8090/"
-const URL_API: string = "http://192.168.1.115:8090/";  // /notify /login-user
+const URL_API: string = "http://127.0.0.1:8090/";  // /notify /login-user
 
 
 
@@ -88,8 +88,8 @@ export async function privateRouterTestCookie() {
         console.log("Private router");
         
         
-        const url: string = URL_API + "notify/authenticate-cookie";
-        const response = await axios.post(url, {}, {
+        const url: string = URL_API + "notify/login";
+        const response = await axios.post(url, {username: "otavio"}, {
             withCredentials: true,
             headers: {"Content-Type": "application/json"}
         }) as responseAxiosInterface;

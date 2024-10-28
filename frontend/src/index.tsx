@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './ui/partials/App';
 import Form from './ui/partials/Form';
+import TestCookie from './ui/partials/TestCookie';
 
 
 
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
           {
             path: '/form',
             element: <Form/>
-          }   
+          },
+          {
+            path: '/test-cookie',
+            element: <TestCookie/>
+          }
         ]
     },
 ]);

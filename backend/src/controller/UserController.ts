@@ -72,7 +72,7 @@ class UserController {
             res.cookie("access_token", token, {
                 httpOnly: true,
                 secure: false,
-                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                maxAge: 3600000, // 1 day
             });  
 
             console.log("Token salvo");
