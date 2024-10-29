@@ -2,12 +2,8 @@ import { authJwt } from "@/config"
 import { JwtPayload, sign, verify, VerifyErrors } from "jsonwebtoken"
 import { Response, Request, CookieOptions } from "express"
 
-import { userInterface } from "@/interfaces/userInterface"
+import { payloadTokenInterface, userInterface } from "@/interfaces/userInterface"
 
-interface payloadTokenInterface extends JwtPayload{
-    id: number,
-    name: string
-}
 
 
 export const genereteTokenUser = async (user: userInterface):Promise<string> => {
@@ -26,11 +22,10 @@ export const genereteTokenUser = async (user: userInterface):Promise<string> => 
     }
 }
 
-export const getPayload = async (token: string) => {
-    try {
-        if(token.startsWith("Bearer ")) {
-            token = token.slice(7, token.length);
-        }
+export const getPayload = async (token: string):Promise<payloadTokenInterface> => {
+    try {    
+        token = token.replace("Bearer ", "");
+
         const payload = verify(token, authJwt.secret) as payloadTokenInterface;
         return payload;
     } catch (e) {
@@ -44,11 +39,10 @@ export const setTokenCookie = async (res: Response, token: string) => {
     try {
         const options:CookieOptions = {
             httpOnly: true,
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
+            secure: false 
         }
     
-        res.cookie("access_token", token, options);  
-        console.log("Token salvo");
+        res.cookie('access_token', token, options);
     } catch (e) {
         const error = e as Error;
         console.log("Erro ao realizar login: ", error.name);
@@ -58,10 +52,22 @@ export const setTokenCookie = async (res: Response, token: string) => {
 
 export const getTokenCookie = async (req: Request) => {
     try {
-        const cookies = await req.cookies["access_token"];
+        const cookies = await req.cookies.access_token;
 
         console.log(cookies);
     } catch(e) {
         throw new Error("Erro ao recuperar cookie");
+    }
+}
+
+export const clearTokenCookie = async (res: Response) => {
+    try {
+
+        res.clearCookie('access_token', {
+            httpOnly: true,
+            secure: false // Defina como 'true' em produção
+        });
+    } catch (err) {
+        throw new Error("Erro ao deletar cookie");
     }
 }

@@ -1,7 +1,7 @@
-import { userInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, userInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
 import {CookieOptions, Request, Response} from 'express';
-import { genereteTokenUser, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
+import { clearTokenCookie, genereteTokenUser, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
 
 
 class UserController {
@@ -62,27 +62,38 @@ class UserController {
             // Gerar token
             const token:string = await genereteTokenUser(user);
 
-            // Salvar token no cookie
-            // res.clearCookie("access_token"); // Deletar essa parte
-            // await setTokenCookie(res, token); // Fazer verificação se token existe
-
-
-
-        
-            res.cookie("access_token", token, {
-                httpOnly: true,
-                secure: false,
-                maxAge: 3600000, // 1 day
-            });  
-
-            console.log("Token salvo");
-
-
+            // Salva nos Cookies
+            await setTokenCookie(res, token);
             
 
             // Futuramente, nao enviar token, fazer a API salvar o token no cookie fazendo com que o cliente nao tenha acesso ao token, tornando o sistema mais seguro
             res.status(200).send({message: "Login realizado com sucesso", token: token});
         } catch(err) {
+            console.log(err);
+            res.status(500).send({message: "Erro interno no servidor"});
+        }
+    }
+
+    public async logoutUser(req: Request, res: Response): Promise<void> {
+        try {
+
+            await clearTokenCookie(res);
+
+            res.status(200).send({message: "LogOut realizado com sucesso"});
+        } catch (err) {
+            console.log(err);
+            res.status(500).send({message: "Erro interno no servidor"});
+        }
+    }
+
+    public async listUsers(req: Request, res: Response): Promise<void> {
+        try {
+            const payload = await req.body.payload as payloadTokenInterface;
+
+            console.log(payload);
+
+            res.status(200).send({message: "Ussuarios listados com sucesso"});
+        } catch (err) {
             console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});
         }

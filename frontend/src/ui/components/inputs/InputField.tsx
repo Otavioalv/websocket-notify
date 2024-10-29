@@ -34,19 +34,7 @@ export default function InputField({dataInfo}:  {dataInfo: textFieldProps}) {
                     <dataInfo.icon className="w-6 h-6"/>
                 </label>
             )}
-
-
-            {/* <input 
-                type={dataInfo.type  === 'password' && showPasswd ? 'text' : dataInfo.type} 
-                name={dataInfo.name} 
-                id={dataInfo.name}
-                placeholder={dataInfo.name[0].toUpperCase() + dataInfo.name.substring(1)}
-                className="focus:outline-none w-full bg-transparent pl-4"
-                
-            /> */}
-
-
-                {/* dataInfo.name[0].toUpperCase() + dataInfo.name.substring(1) */}
+            
             <input 
                 type={dataInfo.type  === 'password' && showPasswd ? 'text' : dataInfo.type} 
                 name={dataInfo.name} 

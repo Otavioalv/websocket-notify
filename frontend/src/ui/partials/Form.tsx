@@ -1,5 +1,5 @@
 import React, {useState, ChangeEvent, MouseEvent} from "react";
-import { createUser, loginUser, privateRouterTest, privateRouterTestCookie} from "../../data/services/WebsocketService";
+import { createUser, loginUser, logoutCookie, testPrivate} from "../../data/services/WebsocketService";
 
 import {FaUser, FaLock, FaLockOpen} from 'react-icons/fa';
 
@@ -7,7 +7,6 @@ import InputField from "../components/inputs/InputField";
 import Button from "../components/inputs/Button";
 
 import { userDataForm } from "../../data/@types/userData";
-
 
 
 export default function Form () {
@@ -26,8 +25,10 @@ export default function Form () {
         )
     }
 
-    const handleForm = async (event: MouseEvent<HTMLButtonElement>, btt: 'login' | 'singUp') => {
-        event.preventDefault();
+    const handleForm = async (e: MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        const btt:string = e.currentTarget.id;
+
 
         if(btt === 'login'){
             await loginUser(formData);
@@ -37,17 +38,15 @@ export default function Form () {
         }
 
         // router dom tem um componente chamado Redirect, que redireciona para outra pagina. Usar isso ou algo similar aqui
+    } 
+    
+    const handleLogOutCookie = async() => {
+        console.log("Botao cookir");
+        await logoutCookie();
     }
 
-
-    const handleRotaPrivada = async () => {
-        console.log("botao");
-        await privateRouterTest();
-    }
-
-    const handleRotaCookie = async () => {
-        console.log("Botao cookie");
-        await privateRouterTestCookie();
+    const handleTestPrivate = async() => {
+        await testPrivate();
     }
 
 
@@ -55,11 +54,12 @@ export default function Form () {
         <div className="bg-slate-900 flex justify-center items-center  w-full h-full m-0 p-0  text-white">
             
             <div className="absolute left-0 top-0">
-                <button className="bg-black p-3 rounded-md  " onClick={handleRotaPrivada}>
-                    Rota de teste privada
+                <button className="bg-black p-3 rounded-md  " onClick={handleLogOutCookie}>
+                    Logout Cookie
                 </button>
-                <button className="bg-black p-3 rounded-md  " onClick={handleRotaCookie}>
-                    Rota de teste Cookie
+
+                <button className="bg-black p-3 rounded-md  " onClick={handleTestPrivate}>
+                    test private
                 </button>
             </div>
 
@@ -90,9 +90,9 @@ export default function Form () {
                 <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] left-0 top-24 -ml-3 bg-gradient-to-r from-violet-600/60 to-violet-900/60 animate-spin-4s"></div>
                 <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] -left-10 mt-[5%] top-32 -ml-3 bg-gradient-to-r from-violet-600/60 to-violet-900/60 animate-spin-5s"></div>
 
-                <Button name='LOGIN' type="submit" onClick={async (e) => await handleForm(e, 'login')}/>
+                <Button name='LOGIN' id="login" type="submit" onClick={handleForm}/>
                 <h1 className="z-10"> No account? Sing up!</h1>
-                <Button name="SING UP" type="submit" onClick={(e) => handleForm(e, 'singUp')}/>
+                <Button name="SING UP" id="singup" type="submit" onClick={handleForm}/>
             </form>
         </div>
     )
