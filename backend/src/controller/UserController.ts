@@ -90,9 +90,10 @@ class UserController {
         try {
             const payload = await req.body.payload as payloadTokenInterface;
 
-            console.log(payload);
+            const list:userInterface[] = await this.userModel.listUsers(payload);
 
-            res.status(200).send({message: "Ussuarios listados com sucesso"});
+
+            res.status(200).send({message: "Ussuarios listados com sucesso", results: list});
         } catch (err) {
             console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});
@@ -110,8 +111,8 @@ class UserController {
             errorsArr.push('Insira uma senha');
         }
 
-        if(data.passwd.length > 10) {
-            errorsArr.push('Senha deve conter no maximo 10 caracteres');
+        if(data.passwd && data.passwd.length < 10) {
+            errorsArr.push('Senha deve conter no minimo 10 caracteres');
         }
 
         if(data.name.length <= 2) {

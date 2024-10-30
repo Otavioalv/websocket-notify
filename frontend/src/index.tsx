@@ -7,6 +7,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './ui/partials/App';
 import Form from './ui/partials/Form';
+import Chat from './ui/partials/Chat';
 
 
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
           {
             path: '/form',
             element: <Form/>
+          },
+          {
+            path: '/chat',
+            element: <Chat/>
           }
         ]
     },

@@ -1,5 +1,5 @@
 import connection from "@/database/connectionPostgres";
-import { userInterface } from "@/interfaces/userInterface";
+import { payloadTokenInterface, userInterface } from "@/interfaces/userInterface";
 import { PoolClient } from "pg";
 
 class UserModel{
@@ -37,7 +37,27 @@ class UserModel{
 
             return result;
         } catch (err) { 
+            client?.release();
             throw new Error("Erro interno no servidor")
+        }
+    }
+
+    public async listUsers(payload: payloadTokenInterface):Promise<userInterface[]> {
+        let client:PoolClient | undefined;
+        try {
+            client = await connection.connect();
+            const SQL = `SELECT name, id_user, at_date FROM user_notify WHERE id_user != $1`;
+            
+            await client.query('BEGIN');
+            const result = (await client.query(SQL, [payload.id])).rows as userInterface[];
+            await client.query('COMMIT');
+            
+            client.release();
+
+            return result;
+        } catch (error) {
+            client?.release();
+            throw new Error("Erro ao listar usuarios");
         }
     }
 }

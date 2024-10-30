@@ -6,15 +6,19 @@ import {FaUser, FaLock, FaLockOpen} from 'react-icons/fa';
 import InputField from "../components/inputs/InputField";
 import Button from "../components/inputs/Button";
 
-import { userDataForm } from "../../data/@types/userData";
+import { userData} from "../../data/@types/userData";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Form () {
 
-    const [formData, setFormData] = useState<userDataForm>({
+    const [formData, setFormData] = useState<userData>({
         name: '',
         passwd: ''
     });
+
+    const navigate = useNavigate();        
+
 
     const handleFormEdit = async (event: ChangeEvent<HTMLInputElement>, name:string) => {
         setFormData(
@@ -28,12 +32,12 @@ export default function Form () {
     const handleForm = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const btt:string = e.currentTarget.id;
-
+        
 
         if(btt === 'login'){
-            await loginUser(formData);
+            await loginUser(formData, navigate);
         }
-        else if(btt === "singUp") {
+        else if(btt === "singup") {
             await createUser(formData);
         }
 
@@ -51,7 +55,7 @@ export default function Form () {
 
 
     return (
-        <div className="bg-slate-900 flex justify-center items-center  w-full h-full m-0 p-0  text-white">
+        <div className="flex justify-center items-center  w-full h-full m-0 p-0  text-white">
             
             <div className="absolute left-0 top-0">
                 <button className="bg-black p-3 rounded-md  " onClick={handleLogOutCookie}>
