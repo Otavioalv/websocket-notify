@@ -1,8 +1,11 @@
 import express, { NextFunction, Request, Response} from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
+import  http from 'http';
+
 import {router} from './routers/router'
 import {routerTest} from './routers/router.test'
+import { initializeSocketIO } from './utils/socketIO';
 
 const app = express();
 
@@ -22,6 +25,7 @@ app.use((err:any, req:Request, res:Response, next: NextFunction) => {
     )
 });
 
+
 app.use('/notify', router);
 app.use('/test', routerTest);
 app.use('/*', (req: Request, res: Response) => {res.status(200).send({message: "router not exists"})});
@@ -29,8 +33,12 @@ app.use('/*', (req: Request, res: Response) => {res.status(200).send({message: "
 
 const PORT:number = 8090;
 const HOST:string = "0.0.0.0";
+const server = http.createServer(app);
 
-app.listen(PORT, HOST, async () => {
+initializeSocketIO(server);
+
+
+server.listen(PORT, HOST, async () => {
     console.log(`Listening in url local: http://127.0.0.1:${PORT} and http://0.0.0.0:${PORT}`);
 });
 

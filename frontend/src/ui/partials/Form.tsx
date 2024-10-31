@@ -14,7 +14,8 @@ export default function Form () {
 
     const [formData, setFormData] = useState<userData>({
         name: '',
-        passwd: ''
+        passwd: '',
+        id_user: 0
     });
 
     const navigate = useNavigate();        

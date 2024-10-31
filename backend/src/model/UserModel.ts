@@ -20,6 +20,7 @@ class UserModel{
             return;
         } catch (err) {
             client?.release();
+            console.log(err);
             throw new Error("Erro interno no servidor");
         }
     }

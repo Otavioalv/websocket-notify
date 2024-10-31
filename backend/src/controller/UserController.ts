@@ -111,8 +111,12 @@ class UserController {
             errorsArr.push('Insira uma senha');
         }
 
-        if(data.passwd && data.passwd.length < 10) {
-            errorsArr.push('Senha deve conter no minimo 10 caracteres');
+        if(data.passwd && data.passwd.length < 8) {
+            errorsArr.push('Senha deve conter no minimo 8 caracteres');
+        }
+
+        if(data.passwd && data.passwd.length > 10) {
+            errorsArr.push('Senha deve conter no maximo 10 caracteres');
         }
 
         if(data.name.length <= 2) {
