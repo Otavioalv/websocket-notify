@@ -2,6 +2,7 @@ import axios, {AxiosError, AxiosResponse} from "axios";
 import { userData } from "../@types/userData";
 import { choseNotify } from "./ToastService";
 import { NavigateFunction } from "react-router-dom";
+import socket from "./SocketIOService";
 
 
 // "http://localhost:8090/"
@@ -33,6 +34,16 @@ export async function loginUser(data: userData, navigate: NavigateFunction):Prom
             headers: {"Content-Type": "application/json"}
         }) as responseAxiosInterface;
         
+
+        /* teste de conexão*/
+        if(response.status >= 200 && response.status <= 299){
+            socket.on('connect', () => {
+                console.log("Conectado");
+            });
+        }
+        /* teste de conexão */
+
+        
         navigate('/chat');
         await choseNotify([response.data.message], response.status);
         
@@ -60,7 +71,9 @@ export async function logoutCookie():Promise<void> {
     try {   
         const url:string = URL_API + "notify/logout-user"
         const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
-        
+
+        socket.emit('logout');
+
         await choseNotify([response.data.message], response.status);
     } catch (error) {
         const err = error as errorAxiosInterface;

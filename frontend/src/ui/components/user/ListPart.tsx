@@ -1,9 +1,9 @@
 import React from "react";
 import { userData } from "../../../data/@types/userData";
 
-export default function ListPart({user, key}: {user: userData, key: number}) {
+export default function ListPart({user}: {user: userData}) {
     return (
-        <li key={key} className="bg-violet-600/5 hover:bg-violet-600/20 cursor-pointer rounded-sm w-full flex items-center gap-4 p-2">
+        <li key={user.id_user} className="bg-violet-600/5 hover:bg-violet-600/20 cursor-pointer rounded-sm w-full flex items-center gap-4 p-2">
             <img 
                 src={"https://robohash.org/" + user.name} 
                 alt={user.name} 

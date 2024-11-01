@@ -2,8 +2,8 @@ import { payloadTokenInterface, userInterface } from '@/interfaces/userInterface
 import { UserModel } from '@/model/UserModel';
 import {CookieOptions, Request, Response} from 'express';
 import { clearTokenCookie, genereteTokenUser, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
-
-
+import { getIO } from '@/utils/socketIO';
+import { Socket } from 'socket.io';
 class UserController {
     private userModel: UserModel = new UserModel();
 
@@ -64,7 +64,6 @@ class UserController {
 
             // Salva nos Cookies
             await setTokenCookie(res, token);
-            
 
             // Futuramente, nao enviar token, fazer a API salvar o token no cookie fazendo com que o cliente nao tenha acesso ao token, tornando o sistema mais seguro
             res.status(200).send({message: "Login realizado com sucesso", token: token});
