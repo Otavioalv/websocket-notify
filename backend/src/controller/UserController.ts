@@ -1,7 +1,7 @@
 import { payloadTokenInterface, userInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
 import {CookieOptions, Request, Response} from 'express';
-import { clearTokenCookie, genereteTokenUser, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
+import { clearTokenCookie, genereteTokenUser, getPayload, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
 import { getIO } from '@/utils/socketIO';
 import { Socket } from 'socket.io';
 class UserController {

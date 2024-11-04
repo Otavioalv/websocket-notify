@@ -1,34 +1,56 @@
-import express from 'express';
+import { Express, Request, Response } from "express";
 import { Server as HttpServer } from "http";
 import { Server, Socket } from "socket.io";
+import { getPayload } from './tokenUtils';
+import { payloadTokenInterface } from '@/interfaces/userInterface';
 
 let io: Server | null = null;
 
-export const initializeSocketIO = async (server: HttpServer) => {
+export const initializeSocketIO = async (server: HttpServer, app: Express) => {
     if(!io){
-        io = new Server(server, {
-            cors: {
-                origin: "http://localhost:3000",
-                credentials: true
-            }
-        });
 
-        io.on('connection', (socket: Socket) => {
-            console.log("Cliente conectado: ", socket.id);
-            console.log("token: ", socket.request.headers.cookie);
+        try {
+            io = new Server(server, {
+                cors: {
+                    origin: "http://localhost:3000",
+                    credentials: true
+                }
+            });
+        
+            io.on('connection', async (socket: Socket) => {
+                console.log("Cliente conectado: ", socket.id);
+    
+                const token = socket.request.headers.cookie?.replace("access_token=", "");
+    
+                const payload:payloadTokenInterface | null = token ? await getPayload(token) : null;   
+    
+                
 
-
-            socket.on('logout', () => {
-                socket.disconnect();
-                console.log("usuario desconectado");
-            })
-
-            socket.on('disconnect', () => {
-                console.log("Cliente desconectado: ", socket.id);
-            })
-        });
+                console.log("token: ", token);
+                console.log("payload: ", payload);
+    
+    
+                // Teste
+                socket.on('logout', () => {
+                    socket.disconnect();
+                    console.log("usuario desconectado");
+                })
+    
+                socket.on('disconnect', () => {
+                    console.log("Cliente desconectado: ", socket.id);
+                })
+            });
+        } catch(err) {
+            console.log("Errororor", err);
+            return app.use((err: any, req: Request, res: Response) => {
+                res.status(500).send(
+                    {
+                        message: "Erro interno no servidor"
+                    }
+                );
+            });
+        }
     }
-
     return io;
 }
 

@@ -35,7 +35,7 @@ const PORT:number = 8090;
 const HOST:string = "0.0.0.0";
 const server = http.createServer(app);
 
-initializeSocketIO(server);
+initializeSocketIO(server, app);
 
 
 server.listen(PORT, HOST, async () => {

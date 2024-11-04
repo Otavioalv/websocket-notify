@@ -1,3 +1,4 @@
+import { Express } from "express"
 import { authJwt } from "@/config"
 import { JwtPayload, sign, verify, VerifyErrors } from "jsonwebtoken"
 import { Response, Request, CookieOptions } from "express"
@@ -30,6 +31,8 @@ export const getPayload = async (token: string):Promise<payloadTokenInterface> =
         return payload;
     } catch (e) {
         const error = e as VerifyErrors;
+
+        console.log("Error", error);
         throw new Error(`${error.name}: ${error.message}`);
     }
 }
