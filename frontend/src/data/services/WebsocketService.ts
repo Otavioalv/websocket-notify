@@ -43,8 +43,8 @@ export async function loginUser(data: userData, navigate: NavigateFunction):Prom
         }
         /* teste de conexão */
 
-        
         navigate('/chat');
+        window.location.reload();
         await choseNotify([response.data.message], response.status);
         
     } catch (error) {

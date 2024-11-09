@@ -8,8 +8,8 @@ let io: Server | null = null;
 
 export const initializeSocketIO = async (server: HttpServer, app: Express) => {
     if(!io){
-
         try {
+            const userSocketMap = new Map<number | string, string>();
             io = new Server(server, {
                 cors: {
                     origin: "http://localhost:3000",
@@ -21,24 +21,30 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                 console.log("Cliente conectado: ", socket.id);
     
                 const token = socket.request.headers.cookie?.replace("access_token=", "");
-    
                 const payload:payloadTokenInterface | null = token ? await getPayload(token) : null;   
-    
                 
+                if(token && payload) {
+                    const userID: number = payload.id;
+                    userSocketMap.set(userID, socket.id);
+                    console.log(userSocketMap);
 
-                console.log("token: ", token);
-                console.log("payload: ", payload);
-    
-    
+
+                    
+
+
+                    socket.on('disconnect', () => {
+                        userSocketMap.delete(userID);
+                        console.log("Cliente desconectado: ", socket.id);
+                    })
+                }
+
                 // Teste
                 socket.on('logout', () => {
                     socket.disconnect();
                     console.log("usuario desconectado");
                 })
     
-                socket.on('disconnect', () => {
-                    console.log("Cliente desconectado: ", socket.id);
-                })
+                
             });
         } catch(err) {
             console.log("Errororor", err);
@@ -89,42 +95,42 @@ messageStore.saveMessage(message);
 
 
 // testar futuramente 
-export class SocketIO {
-    private server:HttpServer;
-    private static io: Server | null;
+// export class SocketIO {
+//     private server:HttpServer;
+//     private static io: Server | null;
 
-    constructor(server: HttpServer) {
-        this.server = server;
-        SocketIO.io = null;
-    }
+//     constructor(server: HttpServer) {
+//         this.server = server;
+//         SocketIO.io = null;
+//     }
 
-    // So precisa de um atributo fixo nao uma clase inteira
-    public async socketInit():Promise<void> {
-        try{
-            if(!SocketIO.io){
-                SocketIO.io = new Server(this.server, {
-                    cors: {
-                        origin: "http://localhost:3000",
-                        methods: ['GET', 'POST']
-                    }
-                });
+//     // So precisa de um atributo fixo nao uma clase inteira
+//     public async socketInit():Promise<void> {
+//         try{
+//             if(!SocketIO.io){
+//                 SocketIO.io = new Server(this.server, {
+//                     cors: {
+//                         origin: "http://localhost:3000",
+//                         methods: ['GET', 'POST']
+//                     }
+//                 });
         
-                SocketIO.io.on('connection', (socket: Socket) => {
-                    console.log("Cliente conectado: ", socket.id);
+//                 SocketIO.io.on('connection', (socket: Socket) => {
+//                     console.log("Cliente conectado: ", socket.id);
         
-                    socket.on('disconnect', () => {
-                        console.log("Cliente desconectado: ", socket.id);
-                    })
-                });
-            }
-        } catch(err) {
-            console.log(err);
-            throw new Error("Erro ao criar conexao com websocket");
-        }
-    }
+//                     socket.on('disconnect', () => {
+//                         console.log("Cliente desconectado: ", socket.id);
+//                     })
+//                 });
+//             }
+//         } catch(err) {
+//             console.log(err);
+//             throw new Error("Erro ao criar conexao com websocket");
+//         }
+//     }
 
-    public async getIO():Promise<Server>{
-        if(!SocketIO.io) throw new Error("Websocket não foi inicializado");
-        return SocketIO.io;
-    }
-}
+//     public async getIO():Promise<Server>{
+//         if(!SocketIO.io) throw new Error("Websocket não foi inicializado");
+//         return SocketIO.io;
+//     }
+// }

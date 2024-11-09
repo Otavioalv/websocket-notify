@@ -22,7 +22,7 @@ export default function ListUsers() {
                     <ul className="w-full p-3 flex flex-col gap-1">
                         {
                             users.map((user, _) => (
-                                <ListPart user={user}/>
+                                <ListPart user={user} key={user.id_user}/>
                             ))
                         }
                     </ul>
