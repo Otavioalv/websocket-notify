@@ -12,7 +12,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
             const userSocketMap = new Map<number | string, string>();
             io = new Server(server, {
                 cors: {
-                    origin: "http://localhost:3000",
+                    origin: ["http://localhost:3000", "http://localhost:8080", "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000"], 
                     credentials: true
                 }
             });
@@ -27,9 +27,6 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                     const userID: number = payload.id;
                     userSocketMap.set(userID, socket.id);
                     console.log(userSocketMap);
-
-
-                    
 
 
                     socket.on('disconnect', () => {

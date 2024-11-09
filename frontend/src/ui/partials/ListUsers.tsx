@@ -3,7 +3,11 @@ import { listUsers } from "../../data/services/WebsocketService";
 import { userData } from "../../data/@types/userData";
 import ListPart from "../components/user/ListPart";
 
-export default function ListUsers() {
+interface ListUsersProps {
+    onClick: (id: number) => void
+}
+
+export default function ListUsers({onClick}: ListUsersProps) {
     const [users, setUsers] = useState<userData[]>([]);
 
     useEffect(() => {
@@ -22,7 +26,7 @@ export default function ListUsers() {
                     <ul className="w-full p-3 flex flex-col gap-1">
                         {
                             users.map((user, _) => (
-                                <ListPart user={user} key={user.id_user}/>
+                                <ListPart user={user} key={user.id_user} onClick={onClick}/>
                             ))
                         }
                     </ul>
