@@ -1,5 +1,5 @@
 import connection from "@/database/connectionPostgres";
-import { payloadTokenInterface, userInterface } from "@/interfaces/userInterface";
+import { messageInterface, payloadTokenInterface, userInterface } from "@/interfaces/userInterface";
 import { PoolClient } from "pg";
 
 class UserModel{
@@ -59,6 +59,28 @@ class UserModel{
         } catch (error) {
             client?.release();
             throw new Error("Erro ao listar usuarios");
+        }
+    }
+
+    public async listMenssages(userId: number): Promise<messageInterface[]>{
+        let client:PoolClient | undefined;
+        try {
+            console.log(userId);
+            client = await connection.connect();
+            const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE from_user = $1";
+
+            await client.query('BEGIN');
+            const result = (await client.query(SQL, [userId])).rows as messageInterface[];
+            await client.query('COMMIT');
+            
+            client.release();
+
+            console.log(result);
+
+            return result;
+        } catch (error) {
+            client?.release();
+            throw new Error("Erro ao listar menssagens");
         }
     }
 }

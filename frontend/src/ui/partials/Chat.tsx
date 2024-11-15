@@ -1,17 +1,20 @@
 import React, {useEffect} from "react";
 import ListUsers from "./ListUsers";
+import { listMensages } from "../../data/services/WebsocketService";
 
 export default function Chat() {
     useEffect(() => {
     }, [])
 
-    const test = (id: number) => {
-        console.log(id);
+    const handlegetUserId = async (id: number) => {
+        console.log("teste", id);
+
+        await listMensages(id);
     }
 
     return (
         <div className="flex h-full">
-            <ListUsers onClick={test}/>
+            <ListUsers onClick={handlegetUserId}/>
             <div className="text-white">
                 chat
             </div>

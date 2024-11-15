@@ -99,6 +99,25 @@ class UserController {
         }
     }
 
+    public async listMenssages(req: Request, res: Response):Promise<void>{
+        try {
+            const {userId} = req.params as unknown as {userId: number|null};
+
+            if(!userId) {
+                res.status(404).send({menssage: "Insira os parametros corretamente"});
+                return;
+            }
+                
+
+            await this.userModel.listMenssages(userId);
+
+            res.status(200).send({message: "menssagens listadas com sucesso", menssages: []});
+        } catch (err) {
+            console.log(err);
+            res.status(500).send({menssage: "Erro interno no servidor"});
+        }
+    } 
+
     private async validateDataCreateUser(data:userInterface): Promise<string[]>{
         const errorsArr: string[] = [];
 

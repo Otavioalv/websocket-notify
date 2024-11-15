@@ -8,7 +8,7 @@ import socket from "./SocketIOService";
 // "http://localhost:8090/"
 // "http://192.168.1.115:8090/"
 // "http://192.168.1.5:8090/"
-const URL_API: string = "http://192.168.1.5:8090/";  // /notify /login-user
+const URL_API: string = "http://localhost:8090/";  // /notify /login-user
 
 
 
@@ -97,6 +97,23 @@ export async function listUsers(): Promise<userData[]>{
         const err = error as errorAxiosInterface;
         await choseNotify([err.response.data.message], err.response.status);
         return [];
+    }
+}
+
+export async function listMensages(userId: number): Promise<void> {
+    try {
+        const url:string = `${URL_API}notify/list-menssages/${userId}`;
+        console.log(url);
+        const response = await axios.post(url, {}, {
+            withCredentials: true,
+        });
+
+        console.log(response);
+
+    } catch(error) {
+        const err = error as errorAxiosInterface;
+        console.log(err);
+        // await choseNotify([err.response.data.message], err.response.status);
     }
 }
 

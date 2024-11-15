@@ -12,7 +12,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
             const userSocketMap = new Map<number | string, string>();
             io = new Server(server, {
                 cors: {
-                    origin: ["http://localhost:3000", "http://localhost:8080", "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000"], 
+                    origin: ["http://localhost:3000",  "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000"], 
                     credentials: true
                 }
             });
@@ -33,6 +33,17 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                         userSocketMap.delete(userID);
                         console.log("Cliente desconectado: ", socket.id);
                     })
+
+                    socket.on("private_messages", (message, to) => {
+                        // const message = {
+                        //     content,
+                        //     from: socket.userID,
+                        //     to,
+                        //     };
+                        //     socket.to(to).to(socket.userID).emit("private message", message);
+                        //     messageStore.saveMessage(message);                         
+                    });
+
                 }
 
                 // Teste
