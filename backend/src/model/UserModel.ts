@@ -7,7 +7,7 @@ class UserModel{
         let client: PoolClient | undefined;
         try {
             client = await connection.connect();
-
+			
             const SQL = `INSERT INTO user_notify(name, passwd) values ($1, $2)`;
 
             const {name, passwd} = data;
@@ -29,13 +29,13 @@ class UserModel{
         let client: PoolClient | undefined;
         try {
             client = await connection.connect();
-            const SQL = `SELECT name, id_user, passwd, at_date FROM user_notify WHERE name = $1`;
+            const SQL = `SELECT trim(name) as name, id_user, trim(passwd) as passwd, at_date FROM user_notify WHERE name = $1`;
 
             await client.query('BEGIN');
             const result: userInterface = (await client.query(SQL, [name])).rows[0] ?? {};
             await client.query('COMMIT');
             client.release();
-
+			
             return result;
         } catch (err) { 
             client?.release();
@@ -47,7 +47,7 @@ class UserModel{
         let client:PoolClient | undefined;
         try {
             client = await connection.connect();
-            const SQL = `SELECT name, id_user, at_date FROM user_notify WHERE id_user != $1`;
+            const SQL = `SELECT trim(name) as name, id_user, at_date FROM user_notify WHERE id_user != $1`;
             
             await client.query('BEGIN');
             const result = (await client.query(SQL, [payload.id])).rows as userInterface[];
@@ -66,7 +66,8 @@ class UserModel{
         let client:PoolClient | undefined;
         try {
             console.log(userId);
-            client = await connection.connect();
+            
+			client = await connection.connect();
             const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE from_user = $1";
 
             await client.query('BEGIN');

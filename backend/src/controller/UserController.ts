@@ -1,4 +1,4 @@
-import { payloadTokenInterface, userInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, userInterface, messageInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
 import {CookieOptions, Request, Response} from 'express';
 import { clearTokenCookie, genereteTokenUser, getPayload, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
@@ -10,7 +10,10 @@ class UserController {
     public async createUser(req: Request, res: Response): Promise<void>{
         try {
             const data:userInterface = await req.body;
-
+			
+			data.name = data.name.trim();
+			data.passwd = data.passwd.trim();
+			
             const errorsData:string[] = await this.validateDataCreateUser(data);
 
             if(errorsData.length) {
@@ -38,8 +41,11 @@ class UserController {
     public async loginUser(req: Request, res: Response): Promise<void> {
         try{
             const data: userInterface = await req.body;
-            
-
+			
+				
+			data.name = data.name.trim();
+			data.passwd = data.passwd.trim();
+			
             if(!data.name || !data.passwd) {
                 res.status(400).send({message: "Insira os parametros corretamente"});
                 return;
@@ -54,6 +60,7 @@ class UserController {
             }
 
             // Verificar se senha esta correta
+			
             if(data.passwd !== user.passwd){
                 res.status(401).send({message: "Senha incorreta"});
                 return;
@@ -109,9 +116,9 @@ class UserController {
             }
                 
 
-            await this.userModel.listMenssages(userId);
+            const listMessagesUser:messageInterface[] = await this.userModel.listMenssages(userId);
 
-            res.status(200).send({message: "menssagens listadas com sucesso", menssages: []});
+            res.status(200).send({message: "menssagens listadas com sucesso", results: listMessagesUser});
         } catch (err) {
             console.log(err);
             res.status(500).send({menssage: "Erro interno no servidor"});

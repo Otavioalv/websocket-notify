@@ -1,5 +1,5 @@
 import axios, {AxiosError, AxiosResponse} from "axios";
-import { userData } from "../@types/userData";
+import { userData, messageInterface } from "../@types/userData";
 import { choseNotify } from "./ToastService";
 import { NavigateFunction } from "react-router-dom";
 import socket from "./SocketIOService";
@@ -17,7 +17,7 @@ interface responseAxiosInterface extends AxiosResponse{
         message: string,
         errors?: string[],
         token?: string
-        results?: any
+        results?: any,
     }
 }
 
@@ -87,7 +87,7 @@ export async function listUsers(): Promise<userData[]>{
         const url:string = URL_API + "notify/list-users"
         const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
 
-        console.log(response.data.results);
+        // console.log(response.data);
         await choseNotify([response.data.message], response.status);
 
         const list: userData[] = response.data.results;
@@ -100,19 +100,23 @@ export async function listUsers(): Promise<userData[]>{
     }
 }
 
-export async function listMensages(userId: number): Promise<void> {
+export async function listMensagesService(userId: number): Promise<messageInterface[]> {
     try {
         const url:string = `${URL_API}notify/list-menssages/${userId}`;
-        console.log(url);
+        
         const response = await axios.post(url, {}, {
             withCredentials: true,
-        });
+        }) as responseAxiosInterface;
 
-        console.log(response);
+        // console.log(response.data);
+		const list:messageInterface[] = response.data.results;
+		
+		return list;
 
     } catch(error) {
         const err = error as errorAxiosInterface;
         console.log(err);
+		return [];
         // await choseNotify([err.response.data.message], err.response.status);
     }
 }

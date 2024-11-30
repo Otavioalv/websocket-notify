@@ -1,23 +1,25 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import {messageInterface} from "../../data/@types/userData";
 import ListUsers from "./ListUsers";
-import { listMensages } from "../../data/services/WebsocketService";
+import Message from "./Message";
+import { listMensagesService } from "../../data/services/WebsocketService";
 
 export default function Chat() {
     useEffect(() => {
     }, [])
+	
+	const [listMsg, setListMessages] = useState<messageInterface[]>([]);
 
     const handlegetUserId = async (id: number) => {
-        console.log("teste", id);
-
-        await listMensages(id);
+        const result:messageInterface[] = await listMensagesService(id);
+		setListMessages(result);
+		console.log(listMsg);
     }
-
     return (
         <div className="flex h-full">
             <ListUsers onClick={handlegetUserId}/>
-            <div className="text-white">
-                chat
-            </div>
+            
+			<Message listMessages={listMsg}/>
         </div>
     )
 }

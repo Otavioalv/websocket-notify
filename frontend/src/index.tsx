@@ -10,7 +10,6 @@ import Form from './ui/partials/Form';
 import Chat from './ui/partials/Chat';
 
 
-
 const router = createBrowserRouter([
     {
         path: "/",
