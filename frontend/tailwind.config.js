@@ -9,6 +9,9 @@ module.exports = {
         'spin-3s': 'spin 3s linear infinite',
         'spin-4s': 'spin 4s linear infinite',
         'spin-5s': 'spin 5s linear infinite'
+      },
+	  boxShadow: {
+        'shadow-outline': '10px 35px 60px #000000',
       }
     },
   },
