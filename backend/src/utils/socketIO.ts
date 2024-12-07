@@ -2,7 +2,7 @@ import { Express, Request, Response } from "express";
 import { Server as HttpServer } from "http";
 import { Server, Socket } from "socket.io";
 import { getPayload } from './tokenUtils';
-import { payloadTokenInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, messageInterface } from '@/interfaces/userInterface';
 
 let io: Server | null = null;
 
@@ -33,9 +33,24 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                         userSocketMap.delete(userID);
                         console.log("Cliente desconectado: ", socket.id);
                     })
+					
+					// Fazer futuramente
+					socket.on("list_messages", () => {
+						console.log("Menssagens listadas");
+					});
 
-                    socket.on("private_messages", (message, to) => {
-                        // const message = {
+                    socket.on("create_message", (msg:string, toUser: number) => {
+                        
+						if(toUser) {
+							console.log(msg, toUser);
+							return;
+						}
+						
+						console.log("nao faz nada");
+						
+						// mandar a menssagem unicamente
+						
+						// const message = {
                         //     content,
                         //     from: socket.userID,
                         //     to,

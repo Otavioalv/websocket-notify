@@ -34,6 +34,7 @@ router.post('/list-menssages/:userId', authenticatedRouter, async(req: Request, 
 })
 
 
+
 router.post('/authenticate-test',  authenticatedRouter, async(req: Request, res: Response) => {
     res.status(200).send({message: "Rota acessivel coockie set",});
 });

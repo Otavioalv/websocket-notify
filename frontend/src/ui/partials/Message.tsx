@@ -7,22 +7,19 @@ interface MessageProps {
 }
 
 export default function Message({listMessages}:MessageProps) {
+			
 	
 	return (
-		<div className="text-white w-full">
+		<div className="text-white w-full h-full flex flex-col py-2">
 			{listMessages.length ? (
 				<div>
-					Mostrar menssagem
+					menssagens existe
 				</div>
 			) : (
-				<div className="w-full h-full flex flex-col py-2">
-					<div className="h-full">
-						menssagens aqui
-					</div>
-					
-					<InputMessageText/>
+				<div className="h-full">
+					Inicie uma conversa
 				</div>
-			)}
+			)}				
 		</div>
 	)
 }

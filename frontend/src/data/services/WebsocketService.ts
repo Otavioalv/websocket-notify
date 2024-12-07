@@ -122,6 +122,20 @@ export async function listMensagesService(userId: number): Promise<messageInterf
 }
 
 
+export async function sendMessageService(msg:string, toUser:number): Promise<void> {
+	try {
+		
+		console.log(msg, toUser);
+		
+		socket.emit('create_message', msg, toUser);
+	} catch(error) {
+		const err = error as errorAxiosInterface;
+		console.log(err);
+		// await choseNotify([err.response.data.message], err.response.status);
+		console.log(err);
+	}
+}
+
 
 export async function testPrivate() {
     try {

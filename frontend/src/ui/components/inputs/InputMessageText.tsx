@@ -1,17 +1,41 @@
-import React from "react";
+import React, {useState, ChangeEvent, KeyboardEvent} from "react";
+import { GoPaperAirplane } from "react-icons/go";
 
-export default function InputMessageText() {
+interface InputMessageTextProps {
+	sendMsg: (msg: string) => Promise<void>
+}
+
+
+export default function InputMessageText({sendMsg}:InputMessageTextProps) {
+	const [message, setMessage]  = useState<string>("");
+	
+	const handleMessage = async (e:ChangeEvent<HTMLInputElement>):Promise<void> => {
+		const msg: string = e.target.value;
+		if(msg.length)
+			setMessage(msg);
+	}
+	
+	const handlekeyDownIpt = async (e: KeyboardEvent<HTMLInputElement>) => {
+		if(e.key === "Enter") {
+			await sendMsg(message);
+		}
+	}
+		
+	
 	return (
-		<div className="bg-trasparent h-20 m-0 p-4 flex gap-4">
+		<div className="bg-trasparent h-20 m-0 p-4 flex gap-4 text-slate-950">
 			<input 
 				type="text" 
-				className="w-full h-full rounded-md text-black px-6 border border-violet-400 outline-none shadow-outline"
+				className="w-full h-full rounded-md px-6 border border-violet-600 outline-none shadow-outline-sm focus:shadow-outline-md"
 				placeholder="Message..."
+				onChange={handleMessage}
+				onKeyDown={handlekeyDownIpt}
 			/>
 			<button 
-				className="text-black h-full bg-white px-3 rounded-md cursor-pointer"
+				className="h-full bg-violet-500 hover:bg-violet-600 active:bg-violet-700 p-3 rounded-md cursor-pointer shadow-outline-sm hover:shadow-outline-md"
+				onClick={async () => await sendMsg(message)}
 			>
-				SUBMIT
+				<GoPaperAirplane className="text-white w-5 h-5"/>
 			</button>
 		</div>
 	)

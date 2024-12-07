@@ -11,7 +11,8 @@ module.exports = {
         'spin-5s': 'spin 5s linear infinite'
       },
 	  boxShadow: {
-        'shadow-outline': '10px 35px 60px #000000',
+        'outline-sm': '0px 0px 15px -1px #6d28d9',
+		'outline-md': '0px 0px 25px -1px #6d28d9'
       }
     },
   },

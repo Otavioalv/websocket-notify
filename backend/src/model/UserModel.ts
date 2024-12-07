@@ -62,16 +62,15 @@ class UserModel{
         }
     }
 
-    public async listMenssages(userId: number): Promise<messageInterface[]>{
+    public async listMenssages(from:number, to:number): Promise<messageInterface[]>{
         let client:PoolClient | undefined;
         try {
-            console.log(userId);
             
 			client = await connection.connect();
-            const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE from_user = $1";
+            const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE from_user = $1 and to_user = $2";
 
             await client.query('BEGIN');
-            const result = (await client.query(SQL, [userId])).rows as messageInterface[];
+            const result = (await client.query(SQL, [from, to])).rows as messageInterface[];
             await client.query('COMMIT');
             
             client.release();

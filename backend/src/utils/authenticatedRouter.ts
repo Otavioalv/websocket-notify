@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import { getPayload } from "./tokenUtils";
+import { getPayload, getTokenCookie } from "./tokenUtils";
 import { payloadTokenInterface } from "@/interfaces/userInterface";
 
 async function authenticatedRouter (req: Request, res: Response, next: NextFunction) {
     try {
-        const token = await req.cookies.access_token;
-
+        const token = await getTokenCookie(req);
+	
         // Verifica se foi fornecido o token
         if(!token || !token.replace("Bearer ", "")) {
             console.log("Rota inavessivel");

@@ -53,12 +53,13 @@ export const setTokenCookie = async (res: Response, token: string) => {
     }
 }
 
-export const getTokenCookie = async (req: Request) => {
+export const getTokenCookie = async (req: Request):Promise<string> => {
     try {
-        const cookies = await req.cookies.access_token;
+        const token = await req.cookies.access_token;
 
-        console.log(cookies);
+        return token;
     } catch(e) {
+		console.log(e);
         throw new Error("Erro ao recuperar cookie");
     }
 }

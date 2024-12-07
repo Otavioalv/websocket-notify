@@ -109,14 +109,17 @@ class UserController {
     public async listMenssages(req: Request, res: Response):Promise<void>{
         try {
             const {userId} = req.params as unknown as {userId: number|null};
+			const token:string = await getTokenCookie(req);
+			const payload:payloadTokenInterface = await getPayload(token);
+			
 
             if(!userId) {
                 res.status(404).send({menssage: "Insira os parametros corretamente"});
                 return;
             }
                 
-
-            const listMessagesUser:messageInterface[] = await this.userModel.listMenssages(userId);
+	
+            const listMessagesUser:messageInterface[] = await this.userModel.listMenssages(payload.id, userId);
 
             res.status(200).send({message: "menssagens listadas com sucesso", results: listMessagesUser});
         } catch (err) {
