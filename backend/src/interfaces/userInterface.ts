@@ -12,10 +12,13 @@ export interface payloadTokenInterface extends JwtPayload{
     name: string
 }
 
-export interface messageInterface {
-    id_messages: number,
-    message: string,
+export interface basicMessageInterface {
+	message: string,
     from_user: number,
-    to_user: number, 
+    to_user: number
+}
+
+export interface messageInterface extends basicMessageInterface{
+    id_messages: number,
     at_date: Date
 }

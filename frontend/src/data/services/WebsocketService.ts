@@ -125,7 +125,7 @@ export async function listMensagesService(userId: number): Promise<messageInterf
 export async function sendMessageService(msg:string, toUser:number): Promise<void> {
 	try {
 		
-		console.log(msg, toUser);
+		console.log("message service: ", msg, toUser);
 		
 		socket.emit('create_message', msg, toUser);
 	} catch(error) {

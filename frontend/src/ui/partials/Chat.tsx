@@ -4,16 +4,15 @@ import ListUsers from "./ListUsers";
 import Message from "./Message";
 import InputMessageText from "../components/inputs/InputMessageText";
 import { listMensagesService, sendMessageService } from "../../data/services/WebsocketService";
+import socket from "../../data/services/SocketIOService";
 
 export default function Chat() {
-    useEffect(() => {
-    }, [])
 	
 	const [listMsg, setListMessages] = useState<messageInterface[]>([]);
 	const [toUser, setToUser] = useState<number>(0);
 	
 
-    const handlegetUserId = async (id: number):Promise<void> => {
+    const handleGetUserId = async (id: number):Promise<void> => {
         const result:messageInterface[] = await listMensagesService(id);
 		setListMessages(result);
 		setToUser(id);
@@ -24,13 +23,33 @@ export default function Chat() {
 		await sendMessageService(msg, toUser);
 	}
 	
+	useEffect(() => {
+		socket.on("message_from", (message: messageInterface) => {
+			setListMessages([...listMsg, message]);
+			console.log(listMsg);
+		});
+		
+		return () => {
+			socket.off("message_from");
+		}
+	}, [listMsg]);
+	
     return (
         <div className="flex h-full">
-            <ListUsers onClick={handlegetUserId}/>
+            <ListUsers onClick={handleGetUserId}/>
             
-			<div className="w-full h-full flex flex-col">
-				<Message listMessages={listMsg}/>
+			<div className="w-full h-full flex flex-col relative">
 				<InputMessageText sendMsg={handleSendMessage}/>
+				{toUser ? (
+					<>
+						<Message listMessages={listMsg} toUser={toUser}/>
+						
+					</>
+				) : (
+					<div className="text-white">
+						começe escolhendo um usuario para enviar menssagem
+					</div>
+				)}
 			</div>		
         </div>
     )

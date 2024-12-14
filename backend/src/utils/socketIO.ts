@@ -2,14 +2,16 @@ import { Express, Request, Response } from "express";
 import { Server as HttpServer } from "http";
 import { Server, Socket } from "socket.io";
 import { getPayload } from './tokenUtils';
-import { payloadTokenInterface, messageInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, messageInterface, basicMessageInterface } from '@/interfaces/userInterface';
 
 let io: Server | null = null;
 
 export const initializeSocketIO = async (server: HttpServer, app: Express) => {
     if(!io){
         try {
-            const userSocketMap = new Map<number | string, string>();
+            // Cria um MAP da lista de usuarios conectados
+			const userSocketMap = new Map<number | string, string>();
+			
             io = new Server(server, {
                 cors: {
                     origin: ["http://localhost:3000",  "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000"], 
@@ -25,6 +27,8 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                 
                 if(token && payload) {
                     const userID: number = payload.id;
+					
+					// Adiciona o usuario ao map, atribui o id do mesmo que e fixo ao id do socket io que e variavel
                     userSocketMap.set(userID, socket.id);
                     console.log(userSocketMap);
 
@@ -42,21 +46,28 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                     socket.on("create_message", (msg:string, toUser: number) => {
                         
 						if(toUser) {
-							console.log(msg, toUser);
+							const message:basicMessageInterface = {
+								message: msg,
+								from_user: userID,
+								to_user: toUser
+							};
+								
+							// console.log(message);
+							// console.log("socket id TO: ", userSocketMap.get(message.to_user));
+							// console.log("socket id FROM: ", userSocketMap.get(message.from_user));
+							
+							const toUserSocketID = userSocketMap.get(message.to_user);
+							const fromUserSocketID = userSocketMap.get(message.from_user);
+								
+							// mandar menssagem ao usuario (individual)
+							io.to(toUserSocketID).to(fromUserSocketID).emit("message_from", message);
+							
+							// salvar menssagem no banco de dados
+							
 							return;
 						}
 						
 						console.log("nao faz nada");
-						
-						// mandar a menssagem unicamente
-						
-						// const message = {
-                        //     content,
-                        //     from: socket.userID,
-                        //     to,
-                        //     };
-                        //     socket.to(to).to(socket.userID).emit("private message", message);
-                        //     messageStore.saveMessage(message);                         
                     });
 
                 }
