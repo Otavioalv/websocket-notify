@@ -42,7 +42,8 @@ export default function InputField({dataInfo}:  {dataInfo: textFieldProps}) {
                 placeholder={dataInfo.name}
                 onChange={dataInfo.onChange}
                 value={dataInfo.value}
-                className="focus:outline-none w-full bg-transparent pl-4"    
+                className="focus:outline-none w-full bg-transparent pl-4"
+                autoComplete={dataInfo.type === "password" ? "current-password" : ""}
             />
 
         </div>

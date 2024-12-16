@@ -25,7 +25,7 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
 		
 	
 	return (
-		<div className="bg-trasparent h-20 w-full  top-lvg bg-red-400  m-0 p-4 flex gap-4 text-slate-950 absolute">
+		<div className="bg-trasparent h-20 w-4/5 bottom-4 m-0 p-4 flex gap-4 text-slate-950 fixed">
 			<input 
 				type="text" 
 				className="w-full h-full rounded-md px-6 border border-violet-600 outline-none shadow-outline-sm focus:shadow-outline-md"

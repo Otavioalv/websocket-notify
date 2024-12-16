@@ -39,7 +39,6 @@ export default function Chat() {
             <ListUsers onClick={handleGetUserId}/>
             
 			<div className="w-full h-full flex flex-col relative">
-				<InputMessageText sendMsg={handleSendMessage}/>
 				{toUser ? (
 					<>
 						<Message listMessages={listMsg} toUser={toUser}/>
@@ -50,6 +49,8 @@ export default function Chat() {
 						começe escolhendo um usuario para enviar menssagem
 					</div>
 				)}
+				
+				<InputMessageText sendMsg={handleSendMessage}/>
 			</div>		
         </div>
     )
