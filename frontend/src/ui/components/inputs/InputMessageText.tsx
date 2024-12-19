@@ -11,9 +11,7 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
 	
 	const handleMessage = async (e:ChangeEvent<HTMLInputElement>):Promise<void> => {
 		const msg: string = e.target.value;
-		if(msg.length) {
-			setMessage(msg);
-		}
+		setMessage(msg);
 	}
 	
 	const handlekeyDownIpt = async (e: KeyboardEvent<HTMLInputElement>) => {

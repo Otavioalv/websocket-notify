@@ -12,7 +12,7 @@ class UserController {
             const data:userInterface = await req.body;
 			
 			data.name = data.name.trim();
-			data.passwd = data.passwd.trim();
+			data.passwd = data.passwd?.trim();
 			
             const errorsData:string[] = await this.validateDataCreateUser(data);
 
@@ -44,7 +44,7 @@ class UserController {
 			
 				
 			data.name = data.name.trim();
-			data.passwd = data.passwd.trim();
+			data.passwd = data.passwd?.trim();
 			
             if(!data.name || !data.passwd) {
                 res.status(400).send({message: "Insira os parametros corretamente"});

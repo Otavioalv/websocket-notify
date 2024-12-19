@@ -45,22 +45,29 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 
                     socket.on("create_message", (msg:string, toUser: number) => {
                         
-						if(toUser) {
+						if(toUser){
 							const message:basicMessageInterface = {
 								message: msg,
 								from_user: userID,
 								to_user: toUser
 							};
-								
+                            console.log(message);
 							// console.log(message);
 							// console.log("socket id TO: ", userSocketMap.get(message.to_user));
 							// console.log("socket id FROM: ", userSocketMap.get(message.from_user));
 							
-							const toUserSocketID = userSocketMap.get(message.to_user);
-							const fromUserSocketID = userSocketMap.get(message.from_user);
-								
-							// mandar menssagem ao usuario (individual)
-							io.to(toUserSocketID).to(fromUserSocketID).emit("message_from", message);
+                            
+							const toUserSocketID:string = userSocketMap.get(message.to_user) ?? "";
+							const fromUserSocketID:string = userSocketMap.get(message.from_user) ?? "";
+
+                            // So o from e necessario, pois ele que vai enviar, se o to nao estiver online, ele nao vai estar na lista
+                            // entao so vai salvar a menssagem no banco de dados
+                            if(fromUserSocketID){
+                                // mandar menssagem ao usuario (individual)
+                                console.log(toUserSocketID, fromUserSocketID);
+                                io?.to(toUserSocketID).to(fromUserSocketID).emit("message_from", message);
+							}
+
 							
 							// salvar menssagem no banco de dados
 							

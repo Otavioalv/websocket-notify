@@ -79,6 +79,7 @@ class UserModel{
 
             return result;
         } catch (error) {
+            console.log(error);
             client?.release();
             throw new Error("Erro ao listar menssagens");
         }

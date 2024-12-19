@@ -40,7 +40,7 @@ export default function Chat() {
             
 			<div className="w-full h-full flex flex-col relative">
 				{toUser ? (
-					<>
+					<>	
 						<Message listMessages={listMsg} toUser={toUser}/>
 						
 					</>
