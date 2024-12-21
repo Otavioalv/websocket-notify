@@ -8,7 +8,7 @@ import socket from "./SocketIOService";
 // "http://localhost:8090/"
 // "http://192.168.1.115:8090/"
 // "http://192.168.1.5:8090/"
-const URL_API: string = "http://192.168.1.115:8090/";  // /notify /login-user
+const URL_API: string = "http://localhost:8090/";  // /notify /login-user
 
 
 
@@ -124,8 +124,6 @@ export async function listMensagesService(userId: number): Promise<messageInterf
 
 export async function sendMessageService(msg:string, toUser:number): Promise<void> {
 	try {
-		
-		console.log("message service: ", msg, toUser);
 		
 		socket.emit('create_message', msg, toUser);
 	} catch(error) {

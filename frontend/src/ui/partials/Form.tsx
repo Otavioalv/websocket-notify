@@ -56,7 +56,7 @@ export default function Form () {
 
 
     return (
-        <div className="flex justify-center items-center  w-full h-full m-0 p-0  text-white">
+        <div className="flex justify-center items-center  w-full h-full min-h-lvh m-0 p-0  text-white">
             
             <div className="absolute left-0 top-0">
                 <button className="bg-black p-3 rounded-md  " onClick={handleLogOutCookie}>

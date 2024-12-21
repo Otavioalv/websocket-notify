@@ -20,7 +20,8 @@ export default function Chat() {
     }
 		
 	const handleSendMessage = async (msg:string):Promise<void> => {
-		await sendMessageService(msg, toUser);
+		if(msg.length)
+			await sendMessageService(msg, toUser);
 	}
 	
 	useEffect(() => {
@@ -35,7 +36,7 @@ export default function Chat() {
 	}, [listMsg]);
 	
     return (
-        <div className="flex h-full">
+        <div className="flex h-full min-h-lvh">
             <ListUsers onClick={handleGetUserId}/>
             
 			<div className="w-full h-full flex flex-col relative">

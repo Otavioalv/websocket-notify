@@ -14,6 +14,10 @@ const routes:RouteObject[] = [
       path: "/",
       element: <App/>,
       children: [
+        { 
+          index: true, // define form como padrao
+          element: <Form/>
+        },
         {
           path: '/form',
           element: <Form/>
