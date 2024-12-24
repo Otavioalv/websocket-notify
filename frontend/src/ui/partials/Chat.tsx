@@ -36,22 +36,20 @@ export default function Chat() {
 	}, [listMsg]);
 	
     return (
-        <div className="flex h-full min-h-lvh">
+        <div className="flex h-full min-h-lvh max-h-lvh">
             <ListUsers onClick={handleGetUserId}/>
             
-			<div className="w-full h-full flex flex-col relative">
+			<div className="w-full min-h-full flex flex-col relative">
 				{toUser ? (
 					<>	
 						<Message listMessages={listMsg} toUser={toUser}/>
-						
+						<InputMessageText sendMsg={handleSendMessage}/>
 					</>
 				) : (
 					<div className="text-white">
 						começe escolhendo um usuario para enviar menssagem
 					</div>
 				)}
-				
-				<InputMessageText sendMsg={handleSendMessage}/>
 			</div>		
         </div>
     )

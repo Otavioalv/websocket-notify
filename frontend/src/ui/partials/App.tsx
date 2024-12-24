@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import '../styles/App.css';
 
 import { Outlet } from 'react-router-dom';
 import Container from '../components/Container';

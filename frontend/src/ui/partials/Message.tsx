@@ -10,7 +10,7 @@ export default function Message({listMessages, toUser}:MessageProps) {
 	
 	
 	return (
-		<div className="text-white w-full h-full flex flex-col py-2">
+		<div className="text-white w-full max-h-full h-full flex flex-col py-2 overflow-auto">
 			{listMessages.length ? (
 				<ul className="flex flex-col gap-3">
 					{
