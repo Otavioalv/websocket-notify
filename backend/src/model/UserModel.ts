@@ -1,5 +1,5 @@
 import connection from "@/database/connectionPostgres";
-import { messageInterface, payloadTokenInterface, userInterface } from "@/interfaces/userInterface";
+import { basicMessageInterface, messageInterface, payloadTokenInterface, userInterface } from "@/interfaces/userInterface";
 import { PoolClient } from "pg";
 
 class UserModel{
@@ -65,12 +65,13 @@ class UserModel{
     public async listMenssages(from:number, to:number): Promise<messageInterface[]>{
         let client:PoolClient | undefined;
         try {
+            console.log(from, to);
             
 			client = await connection.connect();
-            const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE from_user = $1 and to_user = $2";
+            const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE (from_user = $1 and to_user = $2) or (from_user = $3 and to_user = $4)";
 
             await client.query('BEGIN');
-            const result = (await client.query(SQL, [from, to])).rows as messageInterface[];
+            const result = (await client.query(SQL, [from, to, to, from])).rows as messageInterface[];
             await client.query('COMMIT');
             
             client.release();
@@ -82,6 +83,26 @@ class UserModel{
             console.log(error);
             client?.release();
             throw new Error("Erro ao listar menssagens");
+        }
+    }
+
+    public async saveMessage(messageData: basicMessageInterface):Promise<void>{
+        let client:PoolClient | undefined;
+        try {
+            client = await connection.connect();
+            
+
+            const SQL:string = "INSERT INTO messages (message, from_user, to_user) VALUES ($1, $2, $3);";
+            
+            await client.query("BEGIN");
+            await client.query(SQL, [messageData.message, messageData.from_user, messageData.to_user]);
+            await client.query("COMMIT");
+
+            return;
+        } catch (error) {
+            console.log(error);
+            client?.release();
+            throw new Error("Erro ao salvar menssagem");
         }
     }
 }

@@ -12,11 +12,11 @@ export default function Chat() {
 	const [toUser, setToUser] = useState<number>(0);
 	
 
-    const handleGetUserId = async (id: number):Promise<void> => {
+    const listMessages = async (id: number):Promise<void> => {
         const result:messageInterface[] = await listMensagesService(id);
+		console.log(result, id);
 		setListMessages(result);
 		setToUser(id);
-		console.log(listMsg, toUser);
     }
 		
 	const handleSendMessage = async (msg:string):Promise<void> => {
@@ -26,18 +26,18 @@ export default function Chat() {
 	
 	useEffect(() => {
 		socket.on("message_from", (message: messageInterface) => {
-			setListMessages([...listMsg, message]);
-			console.log(listMsg);
+			if(toUser === message.to_user)
+				setListMessages([...listMsg, message]);
 		});
 		
 		return () => {
 			socket.off("message_from");
 		}
-	}, [listMsg]);
+	}, [listMsg, toUser]);
 	
     return (
         <div className="flex h-full min-h-lvh max-h-lvh">
-            <ListUsers onClick={handleGetUserId}/>
+            <ListUsers onClick={listMessages}/>
             
 			<div className="w-full min-h-full flex flex-col relative">
 				{toUser ? (

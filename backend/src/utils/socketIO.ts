@@ -2,9 +2,12 @@ import { Express, Request, Response } from "express";
 import { Server as HttpServer } from "http";
 import { Server, Socket } from "socket.io";
 import { getPayload } from './tokenUtils';
-import { payloadTokenInterface, messageInterface, basicMessageInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, basicMessageInterface } from '@/interfaces/userInterface';
+import { UserModel } from "@/model/UserModel";
 
 let io: Server | null = null;
+const userModel: UserModel = new UserModel();
+
 
 export const initializeSocketIO = async (server: HttpServer, app: Express) => {
     if(!io){
@@ -31,6 +34,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 					
 					// Adiciona o usuario ao map, atribui o id do mesmo que e fixo ao id do socket io que e variavel
                     userSocketMap.set(userID, socket.id);
+                    
                     console.log(userSocketMap);
 
 
@@ -44,7 +48,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 						console.log("Menssagens listadas");
 					});
 
-                    socket.on("create_message", (msg:string, toUser: number) => {
+                    socket.on("create_message", async (msg:string, toUser: number) => {
                         
 						if(toUser && io){
 							const message:basicMessageInterface = {
@@ -72,11 +76,13 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                                 // mandar menssagem ao usuario (individual)
                                 console.log(toUserSocketID, fromUserSocketID);
                                 io?.to(toUserSocketID).to(fromUserSocketID).emit("message_from", message);
+
+                                // salvar menssagem no banco de dados
+                                await userModel.saveMessage(message);
+
                                 return;
 							}
-							// salvar menssagem no banco de dados
 						}
-						console.log("nao faz nada");
                     });
                 }
                 // Teste
@@ -88,6 +94,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                 
             });
         } catch(err) {
+            console.log(err);
             return app.use((err: any, req: Request, res: Response) => {
                 res.status(500).send(
                     {

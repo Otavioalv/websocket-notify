@@ -7,8 +7,6 @@ interface MessageProps {
 }
 
 export default function Message({listMessages, toUser}:MessageProps) {
-	
-	
 	return (
 		<div className="text-white w-full max-h-full h-full flex flex-col py-2 overflow-auto">
 			{listMessages.length ? (
