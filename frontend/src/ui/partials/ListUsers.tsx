@@ -14,6 +14,8 @@ export default function ListUsers({onClick}: ListUsersProps) {
         const fetchUsers = async () => {
             const usersList:userData[] = await listUsers();
             setUsers(usersList);
+
+            console.log(usersList)
         }
 
         fetchUsers();

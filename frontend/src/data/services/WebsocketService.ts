@@ -8,7 +8,8 @@ import socket from "./SocketIOService";
 // "http://localhost:8090/"
 // "http://192.168.1.115:8090/"
 // "http://192.168.1.5:8090/"
-const URL_API: string = "http://localhost:8090/";  // /notify /login-user
+// "http://192.168.1.4:8090/"
+const URL_API: string = "http://192.168.1.4:8090/";  // /notify /login-user
 
 
 
@@ -91,7 +92,6 @@ export async function listUsers(): Promise<userData[]>{
         await choseNotify([response.data.message], response.status);
 
         const list: userData[] = response.data.results;
-
         return list;
     } catch (error) {
         const err = error as errorAxiosInterface;

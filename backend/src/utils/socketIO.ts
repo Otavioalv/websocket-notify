@@ -17,7 +17,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 			
             io = new Server(server, {
                 cors: {
-                    origin: ["http://localhost:3000",  "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000"], 
+                    origin: ["http://localhost:3000",  "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000", "http://192.168.1.4:3000"], 
                     credentials: true
                 }
             });
@@ -74,7 +74,10 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                             // entao so vai salvar a menssagem no banco de dados
                             if(fromUserSocketID){
                                 // mandar menssagem ao usuario (individual)
+
+                                // Criar uma sala para somente 2 usuarios
                                 console.log(toUserSocketID, fromUserSocketID);
+                                
                                 io?.to(toUserSocketID).to(fromUserSocketID).emit("message_from", message);
 
                                 // salvar menssagem no banco de dados
