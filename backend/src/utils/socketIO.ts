@@ -54,7 +54,8 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 							const message:basicMessageInterface = {
 								message: msg,
 								from_user: userID,
-								to_user: toUser
+								to_user: toUser,
+                                at_date: new Date()
 							};
 							// console.log(message);
 							// console.log("socket id TO: ", userSocketMap.get(message.to_user));

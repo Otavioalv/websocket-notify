@@ -2,12 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
+/* * {
   scrollbar-width: thin; 
   scrollbar-color: #8b5cf6 white; 
+} */
+
+
+::-webkit-scrollbar {
+  width: 3px;
+  background: white;
 }
-
-
+::-webkit-scrollbar-thumb {
+  background: #8b5cf6;
+  border-radius: 10px;
+  cursor: pointer;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

@@ -14,7 +14,6 @@ export default function Chat() {
 
     const listMessages = async (id: number):Promise<void> => {
         const result:messageInterface[] = await listMensagesService(id);
-		console.log(result, id);
 		setListMessages(result);
 		setToUser(id);
     }
@@ -26,9 +25,7 @@ export default function Chat() {
 	
 	useEffect(() => {
 		socket.on("message_from", (message: messageInterface) => {
-			console.log("TOUSER: ", toUser)
-			console.log(message);
-			if(toUser === message.to_user)
+			if(toUser === message.to_user || toUser === message.from_user)
 				setListMessages([...listMsg, message]);
 		});
 		

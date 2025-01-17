@@ -92,10 +92,10 @@ class UserModel{
             client = await connection.connect();
             
 
-            const SQL:string = "INSERT INTO messages (message, from_user, to_user) VALUES ($1, $2, $3);";
+            const SQL:string = "INSERT INTO messages (message, from_user, to_user, at_date) VALUES ($1, $2, $3, $4);";
             
             await client.query("BEGIN");
-            await client.query(SQL, [messageData.message, messageData.from_user, messageData.to_user]);
+            await client.query(SQL, [messageData.message, messageData.from_user, messageData.to_user, messageData.at_date]);
             await client.query("COMMIT");
 
             return;
