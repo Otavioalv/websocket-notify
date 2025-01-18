@@ -128,6 +128,32 @@ class UserController {
         }
     } 
 
+    public async uploadPicture(req: Request, res: Response): Promise<void>{
+        try{
+            const image  = req.file as Express.Multer.File;
+
+            const token:string = await getTokenCookie(req);
+            const payload:payloadTokenInterface = await getPayload(token);
+            
+            const {id} = payload;
+
+            if(!image.originalname || !image.mimetype ||  !image.buffer) {
+                res.status(404).send({message: "Insira uma imagem"});
+                return;
+            }
+
+            const description: string = `Picture from User ID - ${id}`;
+
+            
+            await this.userModel.uploadPicture(image, id, description);
+
+            res.status(201).send({message: "Imagem salva com sucesso"})
+        } catch(err) {
+            console.log(err)
+            res.status(500).send({message: "Erro interno no servidor"})
+        }
+    }
+
     private async validateDataCreateUser(data:userInterface): Promise<string[]>{
         const errorsArr: string[] = [];
 

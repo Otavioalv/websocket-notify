@@ -98,11 +98,36 @@ class UserModel{
             await client.query(SQL, [messageData.message, messageData.from_user, messageData.to_user, messageData.at_date]);
             await client.query("COMMIT");
 
+            client.release(); // Teste
+
             return;
         } catch (error) {
             console.log(error);
             client?.release();
             throw new Error("Erro ao salvar menssagem");
+        }
+    }
+
+    public async uploadPicture(image: Express.Multer.File, id_user: number, description: string): Promise<void> {
+        let client:PoolClient | undefined
+        try {
+            client = await connection.connect();
+
+            // se existe uma imagem ja com o id do usuario, substituir
+            const {originalname, mimetype, buffer} = image;
+            const SQL:string = `INSERT INTO pictures (name, type, data, description, id_user) VALUES ($1, $2, $3, $4, $5);`;
+
+            await client.query("BEGIN");
+            await client.query(SQL, [originalname, mimetype, buffer, description, id_user]);
+            await client.query("COMMIT");
+
+            client.release();
+
+            return;
+        } catch (err) {
+            console.log(err);
+            client?.release();
+            throw new Error("Erro ao salvar imagem no banco de dados");
         }
     }
 }

@@ -46,7 +46,6 @@ export default function Form () {
     } 
     
     const handleLogOutCookie = async() => {
-        console.log("Botao cookir");
         await logoutCookie();
     }
 

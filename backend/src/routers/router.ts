@@ -1,6 +1,6 @@
 import express, {Request, Response} from 'express';
 import {authenticatedRouter} from "@/utils/authenticatedRouter";
-import jwt from 'jsonwebtoken';
+import multer from  'multer'; 
 
 import { UserController } from '@/controller/UserController';
 
@@ -36,6 +36,16 @@ router.post('/list-menssages/:userId', authenticatedRouter, async(req: Request, 
 router.post('/authenticate-test',  authenticatedRouter, async(req: Request, res: Response) => {
     res.status(200).send({message: "Rota acessivel coockie set",});
 });
+
+
+
+
+const storage = multer.memoryStorage();
+const upload = multer({storage});
+router.post('/upload-picture', authenticatedRouter, upload.single('image'), async(req: Request, res: Response) => {
+    await new UserController().uploadPicture(req, res);
+})
+
 
 
 export {router};

@@ -121,10 +121,8 @@ export async function listMensagesService(userId: number): Promise<messageInterf
     }
 }
 
-
 export async function sendMessageService(msg:string, toUser:number): Promise<void> {
 	try {
-		
 		socket.emit('create_message', msg, toUser);
 	} catch(error) {
 		const err = error as errorAxiosInterface;
@@ -132,6 +130,34 @@ export async function sendMessageService(msg:string, toUser:number): Promise<voi
 		// await choseNotify([err.response.data.message], err.response.status);
 		console.log(err);
 	}
+}
+
+export async function uploadMessageService(fileImage: File | null): Promise<void>{
+    try {
+        const url:string = `${URL_API}notify/upload-picture`;
+        
+        if(!fileImage) {
+            await choseNotify(["Insira uma imagem"], 400);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', fileImage);
+
+        const response = await axios.post(url, formData,  {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }) as responseAxiosInterface;    
+
+        
+        await choseNotify([response.data.message], response.status);
+    } catch(error) {
+        const err = error as errorAxiosInterface;
+        console.log(err);
+        await choseNotify([err.response.data.message], err.response.status);
+    }
 }
 
 

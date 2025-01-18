@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider, RouteObject} from 'react-router-do
 import App from './ui/partials/App';
 import Form from './ui/partials/Form';
 import Chat from './ui/partials/Chat';
+import InsertImage from './ui/partials/InsertImage';
 
 const routes:RouteObject[] = [
   {
@@ -21,6 +22,10 @@ const routes:RouteObject[] = [
         {
           path: '/form',
           element: <Form/>
+        },
+        {
+          path: '/insert-image',
+          element: <InsertImage/>
         },
         {
           path: '/chat',

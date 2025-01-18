@@ -28,6 +28,7 @@ export default function Message({listMessages, toUser}:MessageProps) {
 									${toUser === msg.to_user ? "justify-end": "justify-start"}
 								`}
 							>
+
 								<div className={`
 										bg-white
 										text-black
@@ -38,7 +39,7 @@ export default function Message({listMessages, toUser}:MessageProps) {
 										px-3 
 										py-1 
 										rounded-md 
-										${toUser === msg.to_user ? "rounded-bl-none": "rounded-br-none"}	
+										${toUser === msg.to_user ? "rounded-br-none": "rounded-bl-none"}	
 									`}
 								>
 									<p
