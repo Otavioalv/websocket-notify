@@ -113,9 +113,19 @@ class UserModel{
         try {
             client = await connection.connect();
 
-            // se existe uma imagem ja com o id do usuario, substituir
+            // id_user e chave unica, se de conflito, ele faz o proximo comando que e o update dele
             const {originalname, mimetype, buffer} = image;
-            const SQL:string = `INSERT INTO pictures (name, type, data, description, id_user) VALUES ($1, $2, $3, $4, $5);`;
+            const SQL:string = `
+                INSERT INTO pictures (name, type, data, description, id_user) 
+                VALUES ($1, $2, $3, $4, $5)
+                ON CONFLICT (id_user)
+                DO UPDATE SET
+                    name = EXCLUDED.name,
+                    type = EXCLUDED.type,
+                    data = EXCLUDED.data,
+                    description = EXCLUDED.description,
+                    created_at = CURRENT_TIMESTAMP
+                ;`;
 
             await client.query("BEGIN");
             await client.query(SQL, [originalname, mimetype, buffer, description, id_user]);

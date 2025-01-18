@@ -151,7 +151,6 @@ export async function uploadMessageService(fileImage: File | null): Promise<void
             }
         }) as responseAxiosInterface;    
 
-        
         await choseNotify([response.data.message], response.status);
     } catch(error) {
         const err = error as errorAxiosInterface;

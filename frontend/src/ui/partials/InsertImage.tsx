@@ -17,7 +17,7 @@ export default function InsertImage() {
         <div className='text-white'>
             <p>insira uma imagem</p>
 
-            <input type="file" accept='image/' onChange={handleFileChange}/>
+            <input type="file" accept='.png, .jpeg, .jpg' onChange={handleFileChange}/>
             
             <button onClick={handleUpload}>Upload</button>
         </div>
