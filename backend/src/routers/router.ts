@@ -43,7 +43,7 @@ router.post('/authenticate-test',  authenticatedRouter, async(req: Request, res:
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './picturesWb'); 
+        cb(null, './src/picturesWb'); 
     }, 
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);

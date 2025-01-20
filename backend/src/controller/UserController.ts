@@ -131,7 +131,7 @@ class UserController {
         try{
             const image  = req.file as Express.Multer.File;
 
-            if(!image || !image.originalname || !image.filename) {
+            if(!image) {
                 res.status(404).send({message: "Insira uma imagem"});
                 return;
             }
@@ -140,7 +140,6 @@ class UserController {
             const {id} = req.body.payload as payloadTokenInterface;
             const description: string = `Picture from User ID - ${id}`;
             const imageUrl:string = `/picturesWb/${image.filename}`;
-            const imagePath:string = path.join(__dirname, '..', 'picturesWb')
 
             const dataImage:pictureInterface = {
                 id_user: id,
@@ -151,20 +150,7 @@ class UserController {
                 id_picture: 0, // preenchimento irrelevante
             };
 
-
-            // separar logica
-            const pictureUser = await this.userModel.getPictureFromUser(dataImage.id_user);
-
-            if(!pictureUser.length) {
-                const oldImgUrl = pictureUser[0].url_img;
-                const oldImagePath = path.join(imagePath, path.basename(oldImgUrl));
-
-                unlink(oldImagePath, (err) => {
-                    if(err){
-                        return;
-                    }
-                });
-            } 
+            await this.verifyIfPictureExists(dataImage.id_user);
 
             await this.userModel.uploadPicture(dataImage);
 
@@ -172,6 +158,28 @@ class UserController {
         } catch(err) {
             console.log(err)
             res.status(500).send({message: "Erro interno no servidor"})
+        }
+    }
+
+    private async verifyIfPictureExists(id_user: number): Promise<void>{
+        try {
+            const imagePath:string = path.join(__dirname, '..', 'picturesWb')
+            const pictureUser = await this.userModel.getPictureFromUser(id_user);
+
+            if(pictureUser.length) {
+                const oldImgUrl:string = pictureUser[0].url_img;
+                const oldImagePath = path.join(imagePath, path.basename(oldImgUrl));
+
+
+                unlink(oldImagePath, (err) => {
+                    if(err){
+                        console.log(err);
+                        throw err
+                    }
+                });
+            } 
+        } catch (err) {
+            throw err
         }
     }
 

@@ -47,7 +47,23 @@ class UserModel{
         let client:PoolClient | undefined;
         try {
             client = await connection.connect();
-            const SQL = `SELECT trim(name) as name, id_user, at_date FROM user_notify WHERE id_user != $1`;
+            // const SQL = `SELECT trim(name) as name, id_user, at_date FROM user_notify WHERE id_user != $1`;
+            
+            // mudar tipo de retorno, alterar logica frontend
+            const SQL = `
+                SELECT 
+                    trim(un.name) as user_name, 
+                    un.id_user as user_id, 
+                    un.at_date as user_at_date,
+                    pi.name as picture_name,
+                    pi.url_img as url_img,
+                    pi.description as picture_description,
+                    pi.created_at as picture_create_at
+                FROM user_notify as un
+                LEFT JOIN pictures as pi
+                on un.id_user = pi.id_user
+                WHERE un.id_user != $1;
+            `;
             
             await client.query('BEGIN');
             const result = (await client.query(SQL, [payload.id])).rows as userInterface[];
@@ -132,7 +148,6 @@ class UserModel{
             await client.query("COMMIT");
 
             client.release();
-
             return;
         } catch (err) {
             console.log(err);
@@ -155,6 +170,7 @@ class UserModel{
 
             client.release();
 
+            console.log(result);
             return result;
         } catch (err) {
             console.log(err);
