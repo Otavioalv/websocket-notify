@@ -36,16 +36,14 @@ export async function loginUser(data: userData, navigate: NavigateFunction):Prom
             headers: {"Content-Type": "application/json"}
         }) as responseAxiosInterface;
         
-
-        /* teste de conexão*/
+        
         if(response.status >= 200 && response.status <= 299){
             socket.on('connect', () => {
                 console.log("Conectado");
             });
         }
-        /* teste de conexão */
-
-        navigate('/chat');
+        
+        navigate('/insert-image');
         window.location.reload();
         await choseNotify([response.data.message], response.status);
         
@@ -108,16 +106,15 @@ export async function listMensagesService(userId: number): Promise<messageInterf
             withCredentials: true,
         }) as responseAxiosInterface;
 
-        // console.log(response.data);
 		const list:messageInterface[] = response.data.results;
         
 		return list;
-
     } catch(error) {
         const err = error as errorAxiosInterface;
         console.log(err);
-		return [];
-        // await choseNotify([err.response.data.message], err.response.status);
+        await choseNotify([err.response.data.message], err.response.status);
+		
+        return [];
     }
 }
 
@@ -127,12 +124,10 @@ export async function sendMessageService(msg:string, toUser:number): Promise<voi
 	} catch(error) {
 		const err = error as errorAxiosInterface;
 		console.log(err);
-		// await choseNotify([err.response.data.message], err.response.status);
-		console.log(err);
 	}
 }
 
-export async function uploadMessageService(fileImage: File | null): Promise<void>{
+export async function uploadImageService(fileImage: File | null, navigate: NavigateFunction): Promise<void>{
     try {
         const url:string = `${URL_API}notify/upload-picture`;
         
@@ -150,6 +145,9 @@ export async function uploadMessageService(fileImage: File | null): Promise<void
                 'Content-Type': 'multipart/form-data',
             }
         }) as responseAxiosInterface;    
+
+        navigate('/chat');
+        window.location.reload();
 
         await choseNotify([response.data.message], response.status);
     } catch(error) {

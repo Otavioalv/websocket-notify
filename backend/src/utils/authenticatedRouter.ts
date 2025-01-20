@@ -15,8 +15,8 @@ async function authenticatedRouter (req: Request, res: Response, next: NextFunct
         // Pega payload
         const payload:payloadTokenInterface = await getPayload(token.replace("Bearer ", ""));
         
+        // Criar um chave payload para ser usada globalmente sem a necessidade de extrair o token e depois gerar o payload
         req.body.payload = payload;
-
         return next();   
     } catch (e) {
         const error = e as Error;

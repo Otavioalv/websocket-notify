@@ -1,8 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
-import { uploadMessageService } from '../../data/services/WebsocketService';
+import { uploadImageService } from '../../data/services/WebsocketService';
+import { useNavigate } from 'react-router-dom';
 
 export default function InsertImage() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const navigate = useNavigate();
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;
@@ -10,7 +12,7 @@ export default function InsertImage() {
     }
 
     const handleUpload = async () => {
-        await uploadMessageService(selectedFile);
+        await uploadImageService(selectedFile, navigate);
     }
 
     return (

@@ -22,3 +22,12 @@ export interface basicMessageInterface {
 export interface messageInterface extends basicMessageInterface{
     id_messages: number
 }
+
+export interface pictureInterface {
+    id_picture: number;
+    id_user: number;
+    name: string;
+    url_img: string,
+    description: string;
+    created_at: Date
+}

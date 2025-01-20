@@ -1,6 +1,7 @@
 import express, {Request, Response} from 'express';
 import {authenticatedRouter} from "@/utils/authenticatedRouter";
 import multer from  'multer'; 
+import path from 'path';
 
 import { UserController } from '@/controller/UserController';
 
@@ -33,19 +34,28 @@ router.post('/list-menssages/:userId', authenticatedRouter, async(req: Request, 
     await new UserController().listMenssages(req, res);
 });
 
+// router.post('/save-picture', authenticatedRouter, async);
+
 router.post('/authenticate-test',  authenticatedRouter, async(req: Request, res: Response) => {
     res.status(200).send({message: "Rota acessivel coockie set",});
 });
 
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './picturesWb'); 
+    }, 
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const fileExtension = path.extname(file.originalname);
+        cb(null, `${file.fieldname}-${uniqueSuffix}${fileExtension}`);
+    },
+});
 
-
-const storage = multer.memoryStorage();
 const upload = multer({storage});
-router.post('/upload-picture', authenticatedRouter, upload.single('image'), async(req: Request, res: Response) => {
+// função upload.single('image') -> zera o REQUEST
+router.post('/upload-picture',  upload.single('image'), authenticatedRouter, async(req: Request, res: Response) => {
     await new UserController().uploadPicture(req, res);
 })
-
-
 
 export {router};

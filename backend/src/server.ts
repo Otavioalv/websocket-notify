@@ -6,6 +6,7 @@ import  http from 'http';
 import {router} from './routers/router'
 import {routerTest} from './routers/router.test'
 import { initializeSocketIO } from './utils/socketIO';
+import path from 'path';
 
 const app = express();
 
@@ -16,6 +17,8 @@ app.use(cors({
     credentials: true
 }));
 
+
+app.use('/picturesWb', express.static(path.join(__dirname, 'picturesWb')));
 
 app.use((err:any, req:Request, res:Response, next: NextFunction) => {
     res.status(404).send(

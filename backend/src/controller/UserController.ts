@@ -1,9 +1,10 @@
-import { payloadTokenInterface, userInterface, messageInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, userInterface, messageInterface, pictureInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
-import {CookieOptions, Request, Response} from 'express';
-import { clearTokenCookie, genereteTokenUser, getPayload, getTokenCookie, setTokenCookie } from '@/utils/tokenUtils';
-import { getIO } from '@/utils/socketIO';
-import { Socket } from 'socket.io';
+import {Request, Response} from 'express';
+import { clearTokenCookie, genereteTokenUser, setTokenCookie } from '@/utils/tokenUtils';
+import path from 'path';
+import fs, { unlink, rm } from 'fs';
+
 class UserController {
     private userModel: UserModel = new UserModel();
 
@@ -109,10 +110,8 @@ class UserController {
     public async listMenssages(req: Request, res: Response):Promise<void>{
         try {
             const {userId} = req.params as unknown as {userId: number|null};
-			const token:string = await getTokenCookie(req);
-			const payload:payloadTokenInterface = await getPayload(token);
-			
-
+			const payload:payloadTokenInterface = req.body.payload as payloadTokenInterface;
+            
             if(!userId) {
                 res.status(404).send({menssage: "Insira os parametros corretamente"});
                 return;
@@ -132,20 +131,42 @@ class UserController {
         try{
             const image  = req.file as Express.Multer.File;
 
-            const token:string = await getTokenCookie(req);
-            const payload:payloadTokenInterface = await getPayload(token);
-            
-            const {id} = payload;
-
-            if(!image.originalname || !image.mimetype ||  !image.buffer) {
+            if(!image || !image.originalname || !image.filename) {
                 res.status(404).send({message: "Insira uma imagem"});
                 return;
             }
 
-            const description: string = `Picture from User ID - ${id}`;
 
-            
-            await this.userModel.uploadPicture(image, id, description);
+            const {id} = req.body.payload as payloadTokenInterface;
+            const description: string = `Picture from User ID - ${id}`;
+            const imageUrl:string = `/picturesWb/${image.filename}`;
+            const imagePath:string = path.join(__dirname, '..', 'picturesWb')
+
+            const dataImage:pictureInterface = {
+                id_user: id,
+                name: image.filename,
+                url_img: imageUrl,
+                description: description,
+                created_at: new Date(), // preenchimento irrelevante
+                id_picture: 0, // preenchimento irrelevante
+            };
+
+
+            // separar logica
+            const pictureUser = await this.userModel.getPictureFromUser(dataImage.id_user);
+
+            if(!pictureUser.length) {
+                const oldImgUrl = pictureUser[0].url_img;
+                const oldImagePath = path.join(imagePath, path.basename(oldImgUrl));
+
+                unlink(oldImagePath, (err) => {
+                    if(err){
+                        return;
+                    }
+                });
+            } 
+
+            await this.userModel.uploadPicture(dataImage);
 
             res.status(201).send({message: "Imagem salva com sucesso"})
         } catch(err) {

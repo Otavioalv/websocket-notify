@@ -1,5 +1,5 @@
 import connection from "@/database/connectionPostgres";
-import { basicMessageInterface, messageInterface, payloadTokenInterface, userInterface } from "@/interfaces/userInterface";
+import { basicMessageInterface, messageInterface, payloadTokenInterface, pictureInterface, userInterface } from "@/interfaces/userInterface";
 import { PoolClient } from "pg";
 
 class UserModel{
@@ -108,27 +108,27 @@ class UserModel{
         }
     }
 
-    public async uploadPicture(image: Express.Multer.File, id_user: number, description: string): Promise<void> {
+    public async uploadPicture(image: pictureInterface): Promise<void> {
         let client:PoolClient | undefined
         try {
             client = await connection.connect();
 
             // id_user e chave unica, se de conflito, ele faz o proximo comando que e o update dele
-            const {originalname, mimetype, buffer} = image;
+            const {name, url_img, description, id_user} = image;
+
             const SQL:string = `
-                INSERT INTO pictures (name, type, data, description, id_user) 
-                VALUES ($1, $2, $3, $4, $5)
+                INSERT INTO pictures (name, url_img, description, id_user) 
+                VALUES ($1, $2, $3, $4)
                 ON CONFLICT (id_user)
                 DO UPDATE SET
                     name = EXCLUDED.name,
-                    type = EXCLUDED.type,
-                    data = EXCLUDED.data,
+                    url_img = EXCLUDED.url_img,
                     description = EXCLUDED.description,
                     created_at = CURRENT_TIMESTAMP
                 ;`;
 
             await client.query("BEGIN");
-            await client.query(SQL, [originalname, mimetype, buffer, description, id_user]);
+            await client.query(SQL, [name, url_img, description, id_user]);
             await client.query("COMMIT");
 
             client.release();
@@ -139,6 +139,30 @@ class UserModel{
             client?.release();
             throw new Error("Erro ao salvar imagem no banco de dados");
         }
+    }
+
+    public async getPictureFromUser(id_user: number): Promise<pictureInterface[]> {
+        let client: PoolClient | undefined;
+        try {
+            client = await connection.connect();
+
+            const SQL: string = "SELECT id_picture, id_user, name, url_img, description, created_at FROM pictures WHERE id_user = $1;"
+
+            await client.query("BEGIN")
+            const result = (await client.query(SQL, [id_user])).rows as pictureInterface[] ;
+            await client.query("COMMIT")
+
+
+            client.release();
+
+            return result;
+        } catch (err) {
+            console.log(err);
+            client?.release();
+            throw new Error("Erro ao verificar imagem");
+            
+        }
+
     }
 }
 

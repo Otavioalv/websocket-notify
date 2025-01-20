@@ -5,6 +5,7 @@ export interface userData {
     passwd: string
     id_user: number,
 	at_date?: Date
+    // Criar um valor do tipo Blob/Arquivo img
 }
 
 export interface messageInterface {
