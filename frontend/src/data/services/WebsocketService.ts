@@ -1,5 +1,5 @@
 import axios, {AxiosError, AxiosResponse} from "axios";
-import { userData, messageInterface } from "../@types/userData";
+import { userData, messageInterface, userPictureInterface } from "../@types/userData";
 import { choseNotify } from "./ToastService";
 import { NavigateFunction } from "react-router-dom";
 import socket from "./SocketIOService";
@@ -81,15 +81,15 @@ export async function logoutCookie():Promise<void> {
     }
 }
 
-export async function listUsers(): Promise<userData[]>{
+export async function listUsers(): Promise<userPictureInterface[]>{
     try {
         const url:string = URL_API + "notify/list-users"
         const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
-
+        console.log(response.data.results);
         // console.log(response.data);
         await choseNotify([response.data.message], response.status);
 
-        const list: userData[] = response.data.results;
+        const list: userPictureInterface[] = response.data.results;
         return list;
     } catch (error) {
         const err = error as errorAxiosInterface;

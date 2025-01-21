@@ -25,19 +25,12 @@ router.post('/logout-user', async(req: Request, res: Response) => {
     await new UserController().logoutUser(req, res);
 });
 
-
 router.post('/list-users', authenticatedRouter, async(req: Request, res: Response) => {
     await new UserController().listUsers(req, res);
 });
 
 router.post('/list-menssages/:userId', authenticatedRouter, async(req: Request, res: Response) => {
     await new UserController().listMenssages(req, res);
-});
-
-// router.post('/save-picture', authenticatedRouter, async);
-
-router.post('/authenticate-test',  authenticatedRouter, async(req: Request, res: Response) => {
-    res.status(200).send({message: "Rota acessivel coockie set",});
 });
 
 
@@ -48,6 +41,7 @@ const storage = multer.diskStorage({
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         const fileExtension = path.extname(file.originalname);
+        
         cb(null, `${file.fieldname}-${uniqueSuffix}${fileExtension}`);
     },
 });

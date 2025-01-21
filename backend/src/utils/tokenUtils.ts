@@ -15,8 +15,7 @@ export const genereteTokenUser = async (user: userInterface):Promise<string> => 
         }
 
         const token:string = sign(payload, authJwt.secret);
-        
-        console.log(token, payload);
+  
         return token;
     } catch (e) {
         throw new Error("Erro ao gerar token");

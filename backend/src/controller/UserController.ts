@@ -1,4 +1,4 @@
-import { payloadTokenInterface, userInterface, messageInterface, pictureInterface } from '@/interfaces/userInterface';
+import { payloadTokenInterface, userInterface, messageInterface, pictureInterface, userPictureInterface } from '@/interfaces/userInterface';
 import { UserModel } from '@/model/UserModel';
 import {Request, Response} from 'express';
 import { clearTokenCookie, genereteTokenUser, setTokenCookie } from '@/utils/tokenUtils';
@@ -47,21 +47,27 @@ class UserController {
 			data.name = data.name.trim();
 			data.passwd = data.passwd?.trim();
 			
-            if(!data.name || !data.passwd) {
-                res.status(400).send({message: "Insira os parametros corretamente"});
+            const errorsData:string[] = await this.validateDataCreateUser(data);
+
+            if(errorsData.length) {
+                res.status(401).send({message: "Insira os parametros corretamente", errors: errorsData});
                 return;
             }
 
+            // if(!data.name || !data.passwd) {
+            //     res.status(400).send({message: "Insira os parametros corretamente"});
+            //     return;
+            // }
+
             
             // Verificar se usuario existe
-            const user = await this.userModel.findUserByName(data.name);
+            const user:userInterface = await this.userModel.findUserByName(data.name);
             if(!user.name) {
                 res.status(401).send({message: "Usuario não existe"});
                 return;
             }
 
             // Verificar se senha esta correta
-			
             if(data.passwd !== user.passwd){
                 res.status(401).send({message: "Senha incorreta"});
                 return;
@@ -73,8 +79,7 @@ class UserController {
             // Salva nos Cookies
             await setTokenCookie(res, token);
 
-            // Futuramente, nao enviar token, fazer a API salvar o token no cookie fazendo com que o cliente nao tenha acesso ao token, tornando o sistema mais seguro
-            res.status(200).send({message: "Login realizado com sucesso", token: token});
+            res.status(200).send({message: "Login realizado com sucesso"});
         } catch(err) {
             console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});
@@ -97,10 +102,9 @@ class UserController {
         try {
             const payload = await req.body.payload as payloadTokenInterface;
 
-            const list:userInterface[] = await this.userModel.listUsers(payload);
+            const list:userPictureInterface[] = await this.userModel.listUsers(payload);
 
-
-            res.status(200).send({message: "Ussuarios listados com sucesso", results: list});
+            res.status(200).send({message: "Usuarios listados com sucesso", results: list});
         } catch (err) {
             console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});
@@ -139,14 +143,14 @@ class UserController {
 
             const {id} = req.body.payload as payloadTokenInterface;
             const description: string = `Picture from User ID - ${id}`;
-            const imageUrl:string = `/picturesWb/${image.filename}`;
+            const imageUrl:string = `/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
 
             const dataImage:pictureInterface = {
                 id_user: id,
-                name: image.filename,
+                picture_name: image.filename,
                 url_img: imageUrl,
-                description: description,
-                created_at: new Date(), // preenchimento irrelevante
+                picture_description: description,
+                picture_created_at: new Date(), // preenchimento irrelevante
                 id_picture: 0, // preenchimento irrelevante
             };
 
@@ -170,7 +174,7 @@ class UserController {
                 const oldImgUrl:string = pictureUser[0].url_img;
                 const oldImagePath = path.join(imagePath, path.basename(oldImgUrl));
 
-
+                // Deleta a imagem
                 unlink(oldImagePath, (err) => {
                     if(err){
                         console.log(err);

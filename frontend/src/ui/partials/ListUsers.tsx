@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { listUsers } from "../../data/services/WebsocketService";
-import { userData } from "../../data/@types/userData";
+import { userData, userPictureInterface } from "../../data/@types/userData";
 import ListPart from "../components/user/ListPart";
 
 interface ListUsersProps {
@@ -8,11 +8,13 @@ interface ListUsersProps {
 }
 
 export default function ListUsers({onClick}: ListUsersProps) {
-    const [users, setUsers] = useState<userData[]>([]);
+    const [users, setUsers] = useState<userPictureInterface[]>([]);
 
     useEffect(() => {
         const fetchUsers = async () => {
-            const usersList:userData[] = await listUsers();
+            const usersList:userPictureInterface[] = await listUsers();
+
+            console.log("LISTUSER:::: >>>> ", usersList);
             setUsers(usersList);
         }
 
@@ -25,7 +27,7 @@ export default function ListUsers({onClick}: ListUsersProps) {
                 <div className="h-full w-full">
                     <ul className="w-full p-3 flex flex-col gap-1">
                         {
-                            users.map((user, _) => (
+                            users.map((user:userPictureInterface, _) => (
                                 <ListPart user={user} key={user.id_user} onClick={onClick}/>
                             ))
                         }

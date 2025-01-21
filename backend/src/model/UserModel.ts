@@ -1,5 +1,5 @@
 import connection from "@/database/connectionPostgres";
-import { basicMessageInterface, messageInterface, payloadTokenInterface, pictureInterface, userInterface } from "@/interfaces/userInterface";
+import { basicMessageInterface, messageInterface, payloadTokenInterface, pictureInterface, userInterface, userPictureInterface } from "@/interfaces/userInterface";
 import { PoolClient } from "pg";
 
 class UserModel{
@@ -11,10 +11,9 @@ class UserModel{
             const SQL = `INSERT INTO user_notify(name, passwd) values ($1, $2)`;
 
             const {name, passwd} = data;
-            const values:any[] = [name, passwd];
 
             await client.query('BEGIN');
-            await client.query(SQL, values);
+            await client.query(SQL, [name, passwd]);
             await client.query('COMMIT');
 
             return;
@@ -43,22 +42,20 @@ class UserModel{
         }
     }
 
-    public async listUsers(payload: payloadTokenInterface):Promise<userInterface[]> {
+    public async listUsers(payload: payloadTokenInterface):Promise<userPictureInterface[]> {
         let client:PoolClient | undefined;
         try {
             client = await connection.connect();
-            // const SQL = `SELECT trim(name) as name, id_user, at_date FROM user_notify WHERE id_user != $1`;
-            
-            // mudar tipo de retorno, alterar logica frontend
+
             const SQL = `
                 SELECT 
-                    trim(un.name) as user_name, 
-                    un.id_user as user_id, 
-                    un.at_date as user_at_date,
+                    trim(un.name) as name, 
+                    un.id_user as id_user, 
+                    un.at_date as at_date,
                     pi.name as picture_name,
                     pi.url_img as url_img,
                     pi.description as picture_description,
-                    pi.created_at as picture_create_at
+                    pi.created_at as picture_created_at
                 FROM user_notify as un
                 LEFT JOIN pictures as pi
                 on un.id_user = pi.id_user
@@ -66,9 +63,9 @@ class UserModel{
             `;
             
             await client.query('BEGIN');
-            const result = (await client.query(SQL, [payload.id])).rows as userInterface[];
+            const result = (await client.query(SQL, [payload.id])).rows as userPictureInterface[];
             await client.query('COMMIT');
-            
+
             client.release();
 
             return result;
@@ -81,7 +78,6 @@ class UserModel{
     public async listMenssages(from:number, to:number): Promise<messageInterface[]>{
         let client:PoolClient | undefined;
         try {
-            console.log(from, to);
             
 			client = await connection.connect();
             const SQL:string = "SELECT id_messages, message, from_user, to_user, at_date from messages WHERE (from_user = $1 and to_user = $2) or (from_user = $3 and to_user = $4)";
@@ -91,8 +87,6 @@ class UserModel{
             await client.query('COMMIT');
             
             client.release();
-
-            console.log(result);
 
             return result;
         } catch (error) {
@@ -129,9 +123,10 @@ class UserModel{
         try {
             client = await connection.connect();
 
-            // id_user e chave unica, se de conflito, ele faz o proximo comando que e o update dele
-            const {name, url_img, description, id_user} = image;
-
+            
+            const {picture_name, url_img, picture_description, id_user} = image;
+            
+            // id_user e chave unica, se de conflito, ele faz o proximo comando que e o update
             const SQL:string = `
                 INSERT INTO pictures (name, url_img, description, id_user) 
                 VALUES ($1, $2, $3, $4)
@@ -142,9 +137,9 @@ class UserModel{
                     description = EXCLUDED.description,
                     created_at = CURRENT_TIMESTAMP
                 ;`;
-
+            
             await client.query("BEGIN");
-            await client.query(SQL, [name, url_img, description, id_user]);
+            await client.query(SQL, [picture_name, url_img, picture_description, id_user]);
             await client.query("COMMIT");
 
             client.release();
@@ -167,10 +162,7 @@ class UserModel{
             const result = (await client.query(SQL, [id_user])).rows as pictureInterface[] ;
             await client.query("COMMIT")
 
-
             client.release();
-
-            console.log(result);
             return result;
         } catch (err) {
             console.log(err);
