@@ -4,6 +4,8 @@ import {Request, Response} from 'express';
 import { clearTokenCookie, genereteTokenUser, setTokenCookie } from '@/utils/tokenUtils';
 import path from 'path';
 import fs, { unlink, rm } from 'fs';
+import os from 'os';
+import { configAPI } from '@/config';
 
 class UserController {
     private userModel: UserModel = new UserModel();
@@ -140,10 +142,9 @@ class UserController {
                 return;
             }
 
-
             const {id} = req.body.payload as payloadTokenInterface;
             const description: string = `Picture from User ID - ${id}`;
-            const imageUrl:string = `/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
+            const imageUrl:string = `${configAPI.freeAddCmplt}/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
 
             const dataImage:pictureInterface = {
                 id_user: id,

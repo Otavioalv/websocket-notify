@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import {textFieldProps } from "../../../data/@types/inputs";
 
 
-// {dataInfo, ...rest}:  {dataInfo: textFieldPropsTest}
 export default function InputField({dataInfo}:  {dataInfo: textFieldProps}) {
     const [showPasswd, setShowPasswd] = useState<boolean>(false);
 
@@ -11,7 +10,7 @@ export default function InputField({dataInfo}:  {dataInfo: textFieldProps}) {
     }
     
     return (
-        <div className="w-full border-2 flex focus-within:border-violet-500 border-violet-800/60 rounded-lg z-10">
+        <div className="w-full border-2 flex focus-within:border-violet-500 border-white/10 rounded-lg z-10 bg-violet-600/30 backdrop-blur">
             
 
             {dataInfo.type === 'password' ? (

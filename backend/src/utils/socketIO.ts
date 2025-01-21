@@ -12,7 +12,8 @@ const userModel: UserModel = new UserModel();
 export const initializeSocketIO = async (server: HttpServer, app: Express) => {
     if(!io){
         try {
-            // Cria um MAP da lista de usuarios conectados
+            // Cria um MAP da lista de usuarios conectados 
+            // fazer o usuario ter uma lista de ids, fazendo com que ele se conecte em varios dispositivos
 			const userSocketMap = new Map<number | string, string>();
 			
             io = new Server(server, {

@@ -15,12 +15,14 @@ export default function ListPart({user, onClick}: ListPartProps) {
             className="bg-violet-600/5 hover:bg-violet-600/20 cursor-pointer rounded-sm w-full flex items-center gap-4 p-2"
             onClick={() => onClick(user.id_user)}
         >
-            <img 
-                src={`${url}${user.url_img}`} 
-                alt={user.name} 
-                className="w-12 h-12 bg-white rounded-full"
-                
-            />
+            <div className="min-w-12 min-h-12 relative overflow-hidden rounded-full">
+                <img 
+                    src={`${user.url_img}`} 
+                    alt={user.name} 
+                    className=" bg-white absolute min-w-full min-h-full"
+                    
+                />
+            </div>
             <h3>{user.name}</h3>
         </li>
     )
