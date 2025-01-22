@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { listUsers } from "../../data/services/WebsocketService";
-import { userData, userPictureInterface } from "../../data/@types/userData";
+import { userPictureInterface } from "../../data/@types/userData";
 import ListPart from "../components/user/ListPart";
 
 interface ListUsersProps {
@@ -22,7 +22,7 @@ export default function ListUsers({onClick}: ListUsersProps) {
     }, []);
 
     return (
-        <div className="w-1/4 text-white">
+        <div className="md:w-1/4 w-full text-white">
             {users.length ? (
                 <div className="h-full w-full">
                     <ul className="w-full p-3 flex flex-col gap-1">

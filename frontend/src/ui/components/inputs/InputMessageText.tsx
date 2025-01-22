@@ -14,13 +14,16 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
 		setMessage(msg);
 	}
 	
-	const handlekeyDownIpt = async (e: KeyboardEvent<HTMLInputElement>) => {
+	const handleSendMessage = async ():Promise<void> => {
+		await sendMsg(message);
+		setMessage("");
+	}
+
+	const handlekeyDownIpt = async (e: KeyboardEvent<HTMLInputElement>):Promise<void> => {
 		if(e.key === "Enter") {
-			await sendMsg(message);
-			setMessage("");
+			await handleSendMessage();
 		}
 	}
-		
 	
 	return (
 		// bg-trasparent h-20 w-4/5 bottom-4 m-0 p-4 flex gap-4 text-slate-950 fixed
@@ -35,7 +38,7 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
 			/>
 			<button 
 				className="h-full bg-violet-500 hover:bg-violet-600 active:bg-violet-700 p-3 rounded-md cursor-pointer shadow-outline-sm hover:shadow-outline-md"
-				onClick={async () => {await sendMsg(message)}}
+				onClick={async () => {await handleSendMessage()}}
 			>
 				<GoPaperAirplane className="text-white w-5 h-5"/>
 			</button>
