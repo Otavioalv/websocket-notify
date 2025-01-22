@@ -14,7 +14,6 @@ export default function Chat() {
 	const [listMsg, setListMessages] = useState<messageInterface[]>([]);
 	const [toUser, setToUser] = useState<number>(0);
 	const windowSize = useWindowSize();
-	
 
     const listMessages = async (id: number):Promise<void> => {
         const result:messageInterface[] = await listMensagesService(id);
@@ -39,23 +38,24 @@ export default function Chat() {
 	}, [listMsg, toUser, windowSize]);
 	
     return (
-        <div className="flex h-full min-h-lvh max-h-lvh">
+        <div className="flex h-lvh">
             <ListUsers onClick={listMessages}/>
             
-			{(windowSize.width > 768 || toUser) && (
-				<div className="w-full max-h-full flex flex-col absolute bg-slate-950 md:relative md:bg-transparent ">
+			{(windowSize.width > 768 || toUser) ? (
+				// div abaixo e a sessao de menssagem, editar pra deixar ersponsivo
+				<div className="w-full  md:h-lvh h-full flex flex-col justify-between absolute bg-slate-950 md:relative md:bg-transparent ">
 					{toUser ? (
 						<>	
-							<Message listMessages={listMsg} toUser={toUser}/>
+							<Message listMessages={listMsg} toUserState={[toUser, setToUser]}/>
 							<InputMessageText sendMsg={handleSendMessage}/>
 						</>
 					) : (
-						<div className="text-white">
+						<div className="text-white z-10">
 							começe escolhendo um usuario para enviar menssagem
 						</div>
 					)}
 				</div>
-			)}	
+			): null}	
         </div>
     )
 }

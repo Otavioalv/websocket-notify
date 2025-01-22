@@ -4,11 +4,12 @@ import HeaderMessage from "./HeaderMessage";
 
 interface MessageProps {
 	listMessages: messageInterface[],
-	toUser: number
+	toUserState: [number, React.Dispatch<React.SetStateAction<number>>]
 }
 
-export default function Message({listMessages, toUser}:MessageProps) {
+export default function Message({listMessages, toUserState}:MessageProps) {
 	const divMessagesRef = useRef<HTMLDivElement | null>(null);
+	const [toUser, setToUser] = toUserState;
 
 	useEffect(() => {
 		if(divMessagesRef.current)
@@ -17,8 +18,16 @@ export default function Message({listMessages, toUser}:MessageProps) {
 
 	return (
 		<>
-			<HeaderMessage/>
-			<div className="text-white w-full  flex flex-col py-2 overflow-auto scroll-smooth" ref={divMessagesRef}>
+			<HeaderMessage setReturn={setToUser}/>
+
+
+			{/* boobbles */}
+			<div className="fixed w-full h-full bg-green-800/90 z-0">
+
+			</div>
+			<div className="text-white min-w-full h-full flex flex-col py-2 overflow-auto scroll-smooth relative" ref={divMessagesRef}>
+
+
 				{listMessages.length ? (
 					<ul className="flex flex-col gap-3">
 						{
