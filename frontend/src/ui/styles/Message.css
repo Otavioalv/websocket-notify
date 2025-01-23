@@ -1,12 +1,16 @@
-.booble {
-    box-shadow: rgba(0, 0, 0, 0.30) 0px -12px 16px 0px inset,rgba(255, 0, 0, 0.09) 0px -10px 15px -8px;
-    background-color: #5b42f3;
-    background-image: 
-        radial-gradient(at 81% 39%, #5b42f3 0px, transparent 50%),
-        radial-gradient(at 35% 50%, #af40ff 0px, transparent 40%),
-        radial-gradient(at 23% 20%, #00ddeb 0px, transparent 50%);
-    
-    /* background: linear-gradient(144deg,#af40ff 15%,#5b42f3 55%,#00ddeb); */
+.bubble {
+    box-shadow: rgba(0, 0, 0, 0.30) 0px -12px 16px 0px inset,rgba(0, 0, 0, 0.09) 0px -10px 15px -8px;
+    background: radial-gradient(circle at 10% -15%,#af40ff 30%,#5b42f3 50%,#00ddeb);
+    /* animation: floatBuble 4s ease-in-out infinite; Animação suave */
+}
+
+@keyframes floatBuble {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 .TEST{
