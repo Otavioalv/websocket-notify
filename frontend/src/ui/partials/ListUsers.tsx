@@ -4,7 +4,7 @@ import { userPictureInterface } from "../../data/@types/userData";
 import ListPart from "../components/user/ListPart";
 
 interface ListUsersProps {
-    onClick: (id: number) => void
+    onClick: (user: userPictureInterface) => void
 }
 
 export default function ListUsers({onClick}: ListUsersProps) {
@@ -14,7 +14,6 @@ export default function ListUsers({onClick}: ListUsersProps) {
         const fetchUsers = async () => {
             const usersList:userPictureInterface[] = await listUsers();
 
-            console.log("LISTUSER:::: >>>> ", usersList);
             setUsers(usersList);
         }
 

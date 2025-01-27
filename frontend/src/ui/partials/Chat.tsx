@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {messageInterface} from "../../data/@types/userData";
+import {messageInterface, userPictureInterface} from "../../data/@types/userData";
 import ListUsers from "./ListUsers";
 import Message from "./Message";
 import InputMessageText from "../components/inputs/InputMessageText";
@@ -12,23 +12,24 @@ import useWindowSize from "../../data/hooks/useWindowSize";
 export default function Chat() {
 	
 	const [listMsg, setListMessages] = useState<messageInterface[]>([]);
-	const [toUser, setToUser] = useState<number>(0);
+	const [toUser, setToUser] = useState<userPictureInterface>({id_picture: 0, id_user: 0, name: "", passwd: "", picture_created_at: new Date(), picture_description: "", picture_name: "", url_img: ""});
 	const windowSize = useWindowSize();
 
-    const listMessages = async (id: number):Promise<void> => {
-        const result:messageInterface[] = await listMensagesService(id);
+    const listMessages = async (user: userPictureInterface):Promise<void> => {
+        const result:messageInterface[] = await listMensagesService(user.id_user);
 		setListMessages(result);
-		setToUser(id);
+		setToUser(user);
     }
 		
 	const handleSendMessage = async (msg:string):Promise<void> => {
 		if(msg.length)
-			await sendMessageService(msg, toUser);
+			await sendMessageService(msg, toUser.id_user);
 	}
 	
 	useEffect(() => {
+		console.log(toUser);
 		socket.on("message_from", (message: messageInterface) => {
-			if(toUser === message.to_user || toUser === message.from_user)
+			if(toUser.id_user === message.to_user || toUser.id_user === message.from_user)
 				setListMessages([...listMsg, message]);
 		});
 		
@@ -41,17 +42,19 @@ export default function Chat() {
         <div className="flex h-lvh">
             <ListUsers onClick={listMessages}/>
             
-			{(windowSize.width > 768 || toUser) ? (
+			{(windowSize.width > 768 || toUser.id_user) ? (
 				// div abaixo e a sessao de menssagem, editar pra deixar ersponsivo
 				<div className="w-full  md:h-lvh h-full flex flex-col justify-between absolute bg-slate-950 md:relative md:bg-transparent ">
-					{toUser ? (
+					{toUser.id_user ? (
 						<>	
 							<Message listMessages={listMsg} toUserState={[toUser, setToUser]}/>
 							<InputMessageText sendMsg={handleSendMessage}/>
 						</>
 					) : (
-						<div className="text-white z-10">
-							começe escolhendo um usuario para enviar menssagem
+						<div className="z-10 w-full h-full flex justify-center items-center">
+							<p className="text-white text-lg text-center">
+								Comece escolhendo um usuário para enviar mensagem
+							</p>
 						</div>
 					)}
 				</div>

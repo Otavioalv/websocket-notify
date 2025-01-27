@@ -3,7 +3,7 @@ import { UserModel } from '@/model/UserModel';
 import {Request, Response} from 'express';
 import { clearTokenCookie, genereteTokenUser, setTokenCookie } from '@/utils/tokenUtils';
 import path from 'path';
-import fs, { unlink, rm } from 'fs';
+import fs, { unlink, rm, access} from 'fs';
 import os from 'os';
 import { configAPI } from '@/config';
 
@@ -176,12 +176,17 @@ class UserController {
                 const oldImagePath = path.join(imagePath, path.basename(oldImgUrl));
 
                 // Deleta a imagem
-                unlink(oldImagePath, (err) => {
-                    if(err){
-                        console.log(err);
-                        throw err
-                    }
+                const err = unlink(oldImagePath, (err) => {
+                    return err ? true : false;
+                    // if(err){
+                    //     // console.log(err);
+                    //     return true
+                    // }
+                    // return false
                 });
+
+
+
             } 
         } catch (err) {
             throw err
