@@ -3,6 +3,8 @@ import { uploadImageService } from '../../data/services/WebsocketService';
 import { useNavigate } from 'react-router-dom';
 import { CiImageOn } from "react-icons/ci";
 
+// style de test
+import '../styles/Message.css'
 
 
 
@@ -19,8 +21,10 @@ export default function InsertImage() {
         await uploadImageService(selectedFile, navigate);
     }
 
+
+
     return (
-        <div className='text-white w-full h-full absolute flex justify-center items-center flex-col'>
+        <div className='text-white w-full h-full absolute flex justify-evenly items-center flex-col'>
             <input 
                 type="file" 
                 accept='.png, .jpeg, .jpg' 
@@ -32,26 +36,27 @@ export default function InsertImage() {
             <label 
                 htmlFor="file-input"
                 className='
+                    border-dashed-spaced 
                     border
-                    border-white
-                    border-dashed
                     flex 
                     justify-center 
                     items-center 
                     flex-col
                     rounded
-                    p-3
+                    p-6
+                    w-96
+                    h-96
                     '
+                style={{}}
             >
-                <CiImageOn className='w-72 h-72'/>
-                <p>
+                <CiImageOn className='w-full h-full'/>
+                <p className='text-3xl'>
                     Insira uma imagem
                 </p>
             </label>
             
             <button 
                 onClick={handleUpload}
-                
             >
                 Enviar
             </button>
