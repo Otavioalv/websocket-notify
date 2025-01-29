@@ -165,7 +165,6 @@ class UserModel{
             client.release();
             return result;
         } catch (err) {
-            console.log(err);
             client?.release();
             throw new Error("Erro ao verificar imagem");
             

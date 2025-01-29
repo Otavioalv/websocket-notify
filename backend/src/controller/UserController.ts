@@ -143,6 +143,7 @@ class UserController {
             }
 
             const {id} = req.body.payload as payloadTokenInterface;
+
             const description: string = `Picture from User ID - ${id}`;
             const imageUrl:string = `${configAPI.freeAddCmplt}/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
 
@@ -166,7 +167,7 @@ class UserController {
         }
     }
 
-    private async verifyIfPictureExists(id_user: number): Promise<void>{
+    private async verifyIfPictureExists(id_user: number){
         try {
             const imagePath:string = path.join(__dirname, '..', 'picturesWb')
             const pictureUser = await this.userModel.getPictureFromUser(id_user);
@@ -176,15 +177,11 @@ class UserController {
                 const oldImagePath = path.join(imagePath, path.basename(oldImgUrl));
 
                 // Deleta a imagem
-                const err = unlink(oldImagePath, (err) => {
-                    return err ? true : false;
-                    // if(err){
-                    //     // console.log(err);
-                    //     return true
-                    // }
-                    // return false
+                unlink(oldImagePath, (err) => {
+                    if(err){
+                        throw err
+                    }
                 });
-
 
 
             } 

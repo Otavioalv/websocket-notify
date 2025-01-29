@@ -1,5 +1,5 @@
 import React, {useState, ChangeEvent, MouseEvent} from "react";
-import { createUser, loginUser, logoutCookie, testPrivate} from "../../data/services/WebsocketService";
+import { createAndLogin, createUser, loginUser, logoutCookie, testPrivate} from "../../data/services/WebsocketService";
 
 import {FaUser, FaLock, FaLockOpen} from 'react-icons/fa';
 
@@ -39,7 +39,8 @@ export default function Form () {
             await loginUser(formData, navigate);
         }
         else if(btt === "singup") {
-            await createUser(formData);
+            // await createUser(formData, navigate);
+            await createAndLogin(formData, navigate);
         }
     } 
     

@@ -44,7 +44,7 @@ export default function Chat() {
             
 			{(windowSize.width > 768 || toUser.id_user) ? (
 				// div abaixo e a sessao de menssagem, editar pra deixar ersponsivo
-				<div className="w-full  md:h-lvh h-full flex flex-col justify-between absolute bg-slate-950 md:relative md:bg-transparent ">
+				<div className="w-full  md:h-lvh h-full flex flex-col justify-between absolute bg-slate-950 md:relative md:bg-transparent">
 					{toUser.id_user ? (
 						<>	
 							<Message listMessages={listMsg} toUserState={[toUser, setToUser]}/>

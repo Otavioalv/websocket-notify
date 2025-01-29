@@ -75,7 +75,8 @@ module.exports = {
         "custon-bubble-2": "radial-gradient(circle at 80% -15%,#ed7aff 30%,#30FFC2 50%,#FFC930)",
         "custon-bubble-3": "radial-gradient(circle at 10% 60%,#FFAA00 ,#BD30FF 50%,#30FF9B)",
         "custon-bubble-4": "radial-gradient(circle at 10% 20%,#a230ff ,#FF0009 ,#ffa600)",
-        "custon-bubble-5": "radial-gradient(circle at 10% -15%,#00ddeb 30%,#5b42f3 50%,#af40ff)"
+        "custon-bubble-5": "radial-gradient(circle at 10% -15%,#00ddeb 30%,#5b42f3 50%,#af40ff)",
+        "dashed-lg": `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='white' stroke-width='4' stroke-dasharray='8' stroke-dashoffset='0' stroke-linecap='square'/%3e%3c/svg%3e")`
       }
     },
   },

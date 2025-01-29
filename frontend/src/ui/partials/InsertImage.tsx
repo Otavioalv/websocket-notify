@@ -5,6 +5,7 @@ import { CiImageOn } from "react-icons/ci";
 
 // style de test
 import '../styles/Message.css'
+import Button from '../components/inputs/Button';
 
 
 
@@ -36,16 +37,20 @@ export default function InsertImage() {
             <label 
                 htmlFor="file-input"
                 className='
-                    border-dashed-spaced 
-                    border
+                    bg-dashed-lg
                     flex 
                     justify-center 
                     items-center 
+                    hover:bg-violet-900/40
+                    transition-all
+                    cursor-pointer
                     flex-col
                     rounded
                     p-6
-                    w-96
-                    h-96
+                    w-full
+                    md:w-2/3
+                    md:h-96
+                    max-h-96
                     '
                 style={{}}
             >
@@ -54,11 +59,12 @@ export default function InsertImage() {
                     Insira uma imagem
                 </p>
             </label>
-            
+                
             <button 
+                className='bg-violet-600 p-3 w-full md:w-2/3 rounded hover:bg-violet-700 cursor-pointer z-10 transition-all'
                 onClick={handleUpload}
             >
-                Enviar
+                ENVIAR
             </button>
         </div>
     )

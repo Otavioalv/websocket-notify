@@ -21,7 +21,7 @@ export default function Message({listMessages, toUserState}:MessageProps) {
 
 	return (
 		<>
-			<HeaderMessage setReturn={setToUser}/>
+			<HeaderMessage setReturn={setToUser} user={toUser}/>
 
 
 			{/* bubbles */}

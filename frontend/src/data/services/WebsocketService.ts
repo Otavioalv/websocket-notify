@@ -43,8 +43,8 @@ export async function loginUser(data: userData, navigate: NavigateFunction):Prom
             });
         }
         
-        navigate('/insert-image');
-        window.location.reload();
+        // navigate('/chat');
+        // window.location.reload();
         await choseNotify([response.data.message], response.status);
         
     } catch (error) {
@@ -53,17 +53,34 @@ export async function loginUser(data: userData, navigate: NavigateFunction):Prom
     }
 }
 
-export async function createUser(data: userData):Promise<void> {
+export async function createUser(data: userData, navigate: NavigateFunction):Promise<void> {
     try {
         const url: string = URL_API + "notify/create-user"
         const response = await axios.post(url, data) as responseAxiosInterface;    
         
+
+        // navigate('/insert-image');
+        // window.location.reload();
+
         await choseNotify([response.data.message], response.status);
     } catch (error) {
         
         const err = error as errorAxiosInterface;
         await choseNotify([err.response.data.message], err.response.status);
         await choseNotify(err.response.data.errors?.map( m => m) || [], 100);
+        throw err
+    }
+}
+
+export async function createAndLogin(data:userData, navigate: NavigateFunction): Promise<void>{
+    try {
+        await createUser(data, navigate);
+        await loginUser(data, navigate);
+
+        navigate('/insert-image');
+        window.location.reload();   
+    } catch (error) {
+        console.log(error);
     }
 }
 

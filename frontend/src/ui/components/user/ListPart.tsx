@@ -18,7 +18,7 @@ export default function ListPart({user, onClick}: ListPartProps) {
                 <img 
                     src={`${user.url_img}`} 
                     alt={user.name} 
-                    className=" bg-white absolute min-w-full min-h-full"
+                    className="absolute min-w-full min-h-full"
                     
                 />
             </div>
