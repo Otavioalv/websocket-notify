@@ -23,12 +23,6 @@ export default function HeaderMessage({setReturn, user}: HeaderMessageInterface)
         }
         setReturn(user);
     }
-    console.log(user);
-
-
-    // const handleSetReturn = async () => {
-    //     test = 0;
-    // }
 
     return (
         <div className="bg-violet-800 p-2 px-6 flex items-center z-10 gap-6">

@@ -27,10 +27,10 @@ interface errorAxiosInterface extends AxiosError {
 }
 
 
-export async function loginUser(data: userData, navigate: NavigateFunction):Promise<void>{
+export async function loginUser(data: userData, navigate?: NavigateFunction):Promise<void>{
     try {
-        const url: string = URL_API + "notify/login-user"
-        console.log(url);
+        const url: string = URL_API + "notify/login-user";
+
         const response = await axios.post(url, data, {
             withCredentials: true,
             headers: {"Content-Type": "application/json"}
@@ -42,9 +42,13 @@ export async function loginUser(data: userData, navigate: NavigateFunction):Prom
                 console.log("Conectado");
             });
         }
-        
-        // navigate('/chat');
-        // window.location.reload();
+
+        // Se passar navigate, ele vai pra chat
+        if(navigate){
+            navigate('/chat');
+            window.location.reload();
+        }
+
         await choseNotify([response.data.message], response.status);
         
     } catch (error) {
@@ -75,7 +79,7 @@ export async function createUser(data: userData, navigate: NavigateFunction):Pro
 export async function createAndLogin(data:userData, navigate: NavigateFunction): Promise<void>{
     try {
         await createUser(data, navigate);
-        await loginUser(data, navigate);
+        await loginUser(data);
 
         navigate('/insert-image');
         window.location.reload();   
@@ -102,7 +106,6 @@ export async function listUsers(): Promise<userPictureInterface[]>{
     try {
         const url:string = URL_API + "notify/list-users"
         const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
-        console.log(response.data.results);
         // console.log(response.data);
         await choseNotify([response.data.message], response.status);
 

@@ -1,5 +1,5 @@
 import React, {useState, ChangeEvent, MouseEvent} from "react";
-import { createAndLogin, createUser, loginUser, logoutCookie, testPrivate} from "../../data/services/WebsocketService";
+import { createAndLogin, loginUser} from "../../data/services/WebsocketService";
 
 import {FaUser, FaLock, FaLockOpen} from 'react-icons/fa';
 

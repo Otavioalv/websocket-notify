@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { userPictureInterface } from "../../../data/@types/userData";
 
 interface ListPartProps {

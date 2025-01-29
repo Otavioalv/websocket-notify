@@ -8,7 +8,6 @@ async function authenticatedRouter (req: Request, res: Response, next: NextFunct
 	
         // Verifica se foi fornecido o token
         if(!token || !token.replace("Bearer ", "")) {
-            console.log("Rota inavessivel");
             return res.status(403).send({message: "Rota inacessivel"});
         }
 

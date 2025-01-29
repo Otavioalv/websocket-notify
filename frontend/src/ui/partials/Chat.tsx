@@ -27,7 +27,6 @@ export default function Chat() {
 	}
 	
 	useEffect(() => {
-		console.log(toUser);
 		socket.on("message_from", (message: messageInterface) => {
 			if(toUser.id_user === message.to_user || toUser.id_user === message.from_user)
 				setListMessages([...listMsg, message]);
@@ -40,6 +39,10 @@ export default function Chat() {
 	
     return (
         <div className="flex h-lvh">
+			<div className="text-white flex-1">
+				configurações
+			</div>
+
             <ListUsers onClick={listMessages}/>
             
 			{(windowSize.width > 768 || toUser.id_user) ? (

@@ -36,8 +36,6 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 					// Adiciona o usuario ao map, atribui o id do mesmo que e fixo ao id do socket io que e variavel
                     userSocketMap.set(userID, socket.id);
                     
-                    console.log(userSocketMap);
-
 
                     socket.on('disconnect', () => {
                         userSocketMap.delete(userID);
@@ -76,9 +74,6 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                             // entao so vai salvar a menssagem no banco de dados
                             if(fromUserSocketID){
                                 // mandar menssagem ao usuario (individual)
-
-                                // Criar uma sala para somente 2 usuarios
-                                console.log(toUserSocketID, fromUserSocketID);
                                 
                                 io?.to(toUserSocketID).to(fromUserSocketID).emit("message_from", message);
 
