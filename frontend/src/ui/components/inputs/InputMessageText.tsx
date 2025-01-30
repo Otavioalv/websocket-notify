@@ -9,17 +9,18 @@ interface InputMessageTextProps {
 export default function InputMessageText({sendMsg}:InputMessageTextProps) {
 	const [message, setMessage]  = useState<string>("");
 	
-	const handleMessage = async (e:ChangeEvent<HTMLInputElement>):Promise<void> => {
+	const handleMessage = async (e:ChangeEvent<HTMLTextAreaElement>):Promise<void> => {
 		const msg: string = e.target.value;
 		setMessage(msg);
 	}
 	
 	const handleSendMessage = async ():Promise<void> => {
-		await sendMsg(message);
+		if(message.length >= 1 && message !== "\n")
+			await sendMsg(message);
 		setMessage("");
 	}
 
-	const handlekeyDownIpt = async (e: KeyboardEvent<HTMLInputElement>):Promise<void> => {
+	const handlekeyDownIpt = async (e: KeyboardEvent<HTMLTextAreaElement>):Promise<void> => {
 		if(e.key === "Enter") {
 			await handleSendMessage();
 		}
@@ -28,9 +29,8 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
 	return (
 		// bg-trasparent h-20 w-4/5 bottom-4 m-0 p-4 flex gap-4 text-slate-950 fixed
 		<div className="bg-trasparent h-20 bottom-4 m-0 p-4 flex gap-4 text-slate-950 z-10">
-			<input 
-				type="text" 
-				className="w-full h-full rounded-md px-6 border border-violet-600 outline-none shadow-outline-sm focus:shadow-outline-md"
+			<textarea 
+				className="w-full h-full rounded-md px-6 border border-violet-600 outline-none shadow-outline-sm focus:shadow-outline-md resize-none"
 				placeholder="Message..."
 				value={message}
 				onChange={handleMessage}

@@ -21,7 +21,7 @@ export default function ListUsers({onClick}: ListUsersProps) {
     }, []);
 
     return (
-        <div className="md:w-1/4 w-full text-white">
+        <div className="w-full text-white">
             {users.length ? (
                 <div className="h-full w-full">
                     <ul className="w-full p-3 flex flex-col gap-1">

@@ -48,7 +48,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 					});
 
                     socket.on("create_message", async (msg:string, toUser: number) => {
-                        
+
 						if(toUser && io){
 							const message:basicMessageInterface = {
 								message: msg,

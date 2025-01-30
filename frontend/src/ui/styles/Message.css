@@ -12,3 +12,8 @@
         transform: translateY(-10px);
     }
 }
+
+.test {
+    white-space: pre-wrap;
+    word-break: break-all;
+}

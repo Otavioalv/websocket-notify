@@ -87,7 +87,6 @@ class UserModel{
             await client.query('COMMIT');
             
             client.release();
-
             return result;
         } catch (error) {
             console.log(error);
@@ -101,7 +100,7 @@ class UserModel{
         try {
             client = await connection.connect();
             
-
+            console.log(messageData);
             const SQL:string = "INSERT INTO messages (message, from_user, to_user, at_date) VALUES ($1, $2, $3, $4);";
             
             await client.query("BEGIN");

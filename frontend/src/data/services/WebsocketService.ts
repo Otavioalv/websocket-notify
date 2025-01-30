@@ -128,6 +128,7 @@ export async function listMensagesService(userId: number): Promise<messageInterf
 
 		const list:messageInterface[] = response.data.results;
         
+        console.log(list);
 		return list;
     } catch(error) {
         const err = error as errorAxiosInterface;

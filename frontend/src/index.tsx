@@ -9,6 +9,7 @@ import App from './ui/partials/App';
 import Form from './ui/partials/Form';
 import Chat from './ui/partials/Chat';
 import InsertImage from './ui/partials/InsertImage';
+import TestText from './ui/partials/TestText';
 
 const routes:RouteObject[] = [
   {
@@ -18,6 +19,10 @@ const routes:RouteObject[] = [
         { 
           index: true, // define form como padrao
           element: <Form/>
+        },
+        {
+          path: "/test",
+          element: <TestText/>
         },
         {
           path: '/form',

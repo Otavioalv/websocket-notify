@@ -6,6 +6,7 @@ import InputMessageText from "../components/inputs/InputMessageText";
 import { listMensagesService, sendMessageService } from "../../data/services/WebsocketService";
 import socket from "../../data/services/SocketIOService";
 import useWindowSize from "../../data/hooks/useWindowSize";
+import { FaGear } from "react-icons/fa6";
 
 
 
@@ -39,11 +40,21 @@ export default function Chat() {
 	
     return (
         <div className="flex h-lvh">
-			<div className="text-white flex-1">
-				configurações
-			</div>
 
-            <ListUsers onClick={listMessages}/>
+			<div className="md:w-1/4 w-full">
+				
+				<div className="w-full p-3">
+					<ul className="flex justify-end">
+						<li className="w-6 h-6">
+							<FaGear className="w-full h-full text-white "/>
+						</li>
+					</ul>
+
+					{/* outra lista de configs */}
+				</div>
+
+				<ListUsers onClick={listMessages}/>
+			</div>
             
 			{(windowSize.width > 768 || toUser.id_user) ? (
 				// div abaixo e a sessao de menssagem, editar pra deixar ersponsivo
