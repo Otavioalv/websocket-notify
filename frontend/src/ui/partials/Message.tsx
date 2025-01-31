@@ -8,10 +8,11 @@ import BubbleBg from "./BubbleBg";
 
 interface MessageProps {
 	listMessages: messageInterface[],
-	toUserState: [userPictureInterface, React.Dispatch<React.SetStateAction<userPictureInterface>>]
+	toUserState: [userPictureInterface, React.Dispatch<React.SetStateAction<userPictureInterface>>],
+	user: userPictureInterface
 }
 
-export default function Message({listMessages, toUserState}:MessageProps) {
+export default function Message({listMessages, toUserState, user}:MessageProps) {
 	const divMessagesRef = useRef<HTMLDivElement | null>(null);
 	const [toUser, setToUser] = toUserState;
 
@@ -46,19 +47,34 @@ export default function Message({listMessages, toUserState}:MessageProps) {
 											text-black
 											min-h-10 
 											min-w-32
-											w-fit 
+											max-w-[80%]
+
 											m-0 
 											px-3 
 											py-1
-											rounded-md 
-											${toUser.id_user === msg.to_user ? "rounded-br-none": "rounded-bl-none"}	
+											rounded-lg
+											${toUser.id_user === msg.to_user ? "rounded-br-none": "rounded-bl-none"}
 										`}
 									>
+
+										{
+											toUser.id_user !== msg.to_user ? (
+												<div className="flex items-center gap-3">
+													<div className="w-10 h-10 rounded-full overflow-hidden">
+														<img src={user.url_img} alt={`user-chat-${user.name}`} className=""/>
+													</div>
+													<span>{user.name}</span>
+												</div>
+											) : null
+										}
+
 										<p
 											className={`
 												whitespace-pre-wrap
-												${toUser.id_user === msg.to_user ? "text-start": "text-end"}
+												flex
+												${toUser.id_user === msg.to_user ? "justify-start ": "justify-end"}
 											`}
+											style={{wordBreak: "break-word"}}
 										>
 											{msg.message}
 										</p>
