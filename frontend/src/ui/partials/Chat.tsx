@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {messageInterface, userPictureInterface} from "../../data/@types/userData";
 import ListUsers from "./ListUsers";
 import Message from "./Message";
@@ -6,7 +6,7 @@ import InputMessageText from "../components/inputs/InputMessageText";
 import { listMensagesService, sendMessageService } from "../../data/services/WebsocketService";
 import socket from "../../data/services/SocketIOService";
 import useWindowSize from "../../data/hooks/useWindowSize";
-import { FaGear } from "react-icons/fa6";
+import MenuConf from "./MenuConf";
 
 
 
@@ -15,8 +15,6 @@ export default function Chat() {
 	const [listMsg, setListMessages] = useState<messageInterface[]>([]);
 	const [toUser, setToUser] = useState<userPictureInterface>({id_picture: 0, id_user: 0, name: "", passwd: "", picture_created_at: new Date(), picture_description: "", picture_name: "", url_img: ""});
 	const windowSize = useWindowSize();
-
-	const dropDownRef = useRef<HTMLUListElement | null>(null);
 
     const listMessages = async (user: userPictureInterface):Promise<void> => {
         const result:messageInterface[] = await listMensagesService(user.id_user);
@@ -34,51 +32,20 @@ export default function Chat() {
 			if(toUser.id_user === message.to_user || toUser.id_user === message.from_user)
 				setListMessages([...listMsg, message]);
 		});
+
+		
 		
 		return () => {
 			socket.off("message_from");
 		}
 	}, [listMsg, toUser, windowSize]);
 	
-	const handleDropDown = async () => {
-		console.log("ola")
-
-		if(dropDownRef.current)
-			dropDownRef.current.style.maxHeight = "100vh";
-	}
 
     return (
         <div className="flex h-lvh">
 
 			<div className="md:w-1/4 w-full">
-				
-				<div className="w-full p-3">
-					<div className="flex justify-end items-end gap-2 flex-col  relative">
-						
-						<button className="w-6 h-6" onClick={() => handleDropDown()}>
-							<FaGear className="w-full h-full text-white "/>
-						</button>
-
-						<ul className="flex flex-col absolute -bottom-2 translate-y-full bg-white min-w-28 overflow-hidden" ref={dropDownRef}>
-							<li>
-								1
-							</li>
-							<li>
-								1
-							</li>
-							<li>
-								1
-							</li>
-							<li>
-								1
-							</li>
-						
-						</ul>
-					</div>
-
-					{/* outra lista de configs */}
-				</div>
-
+				<MenuConf/>
 				<ListUsers onClick={listMessages}/>
 			</div>
             
