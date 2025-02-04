@@ -172,8 +172,8 @@ class UserController {
             const payload:payloadTokenInterface = req.body.payload as payloadTokenInterface;
             const {id} = payload;
             
-            const listUser:userInterface = await this.userModel.findUserById(id);
-
+            const listUser:userInterface[] = await this.userModel.findUserById(id);
+            
             res.status(200).send({message: "Informações do usuario", results: listUser});
 
         } catch(err) {

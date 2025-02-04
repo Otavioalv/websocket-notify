@@ -119,14 +119,19 @@ export async function listUsers(): Promise<userPictureInterface[]>{
     }
 }
 
-export async function listUser(): Promise<void> {
+export async function listUser(): Promise<userPictureInterface[]> {
     try {
         const url:string = URL_API + "notify/list-user-from-token"
-        
+        const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
+
+        await choseNotify([response.data.message], response.status);
+
+        const user: userPictureInterface[] = response.data.results;
+        return user;
     } catch (error) {
         const err = error as errorAxiosInterface;
         await choseNotify([err.response.data.message], err.response.status);
-        
+        return [];
     }
 }
 

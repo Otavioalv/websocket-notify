@@ -1,6 +1,5 @@
 import React, {useRef, useState} from "react";
 import { FaGear } from "react-icons/fa6";
-import { Router } from "react-router-dom";
 
 
 export default function MenuConf() {
@@ -50,8 +49,6 @@ export default function MenuConf() {
                 
                 </ul>
             </div>
-
-            {/* outra lista de configs */}
         </div>
 
     )

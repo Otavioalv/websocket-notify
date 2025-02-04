@@ -42,18 +42,30 @@ class UserModel{
         }
     }
 
-    public async findUserById(id: number): Promise<userInterface>{
+    public async findUserById(id: number): Promise<userInterface[]>{
         let client: PoolClient | undefined;
         try {
             client = await connection.connect();
-            const SQL: string = `SELECT trim(name) as name, id_user, trim(passwd) as passwd, at_date FROM user_notify WHERE id_user = $1`;
+            const SQL: string = `
+                SELECT 
+                    trim(un.name) as name, 
+                    un.id_user as id_user, 
+                    un.at_date as at_date,
+                    pi.name as picture_name,
+                    pi.url_img as url_img,
+                    pi.description as picture_description,
+                    pi.created_at as picture_created_at
+                FROM user_notify as un
+                LEFT JOIN pictures as pi
+                on un.id_user = pi.id_user
+                WHERE un.id_user = $1;`;
 
             await client.query("BEGIN");
             const result: userInterface = ((await client.query(SQL, [id]))).rows[0] ?? {};
             await client.query("COMMIT");
             client.release();
 
-            return result
+            return [result]
         } catch (err) {
             client?.release();
             throw new Error("Erro interno no servidor");
