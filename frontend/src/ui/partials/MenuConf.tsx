@@ -6,7 +6,7 @@ import { Router } from "react-router-dom";
 export default function MenuConf() {
     const dropDownRef = useRef<HTMLUListElement | null>(null);
     const [checkedConf, setCheckedConf] = useState<boolean>(true);
-    const [opcList, setOpcList] = useState<Record<string, string>>({"Usuário": "usuario"}); // key e value, value e a opção de pagina
+    const [opcList, setOpcList] = useState<Record<string, string>>({"Usuário": "/edit-user"}); // key e value, value e a opção de pagina
 
 
     const handleDropDown = async () => {
@@ -32,14 +32,17 @@ export default function MenuConf() {
                 </label>
 
                 <ul 
-                    className="flex flex-col absolute -bottom-2 translate-y-full text-white min-w-36 overflow-hidden transition-all" 
+                    className={`flex flex-col absolute translate-y-full text-white min-w-36 overflow-hidden transition-all rounded-xl ${!checkedConf ? "border" : ""}`} 
                     ref={dropDownRef}
                     style={{maxHeight: "0px"}}
                 >
                     {   
                         Object.entries(opcList).map(([value, key], i) => (
-                            <li className="p-2 text-right border-b bg-violet-600 hover:bg-violet-500 border-violet-500 transition cursor-pointer">
-                                {value}
+                            <li className="bg-slate-950  transition flex" key={`${value}-${i}`}>
+
+                                <a href={key} className={`w-full h-full p-2 text-right hover:bg-violet-600/20 cursor-pointer ${!checkedConf && i !== Object.entries(opcList).length - 1 ? "border-b border-violet-500" : ""}`}>
+                                    {value}
+                                </a>
                             </li>
                         ))
                     }

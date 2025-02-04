@@ -10,6 +10,7 @@ import Form from './ui/partials/Form';
 import Chat from './ui/partials/Chat';
 import InsertImage from './ui/partials/InsertImage';
 import TestText from './ui/partials/TestText';
+import EditUser from './ui/partials/EditUser';
 
 const routes:RouteObject[] = [
   {
@@ -36,6 +37,10 @@ const routes:RouteObject[] = [
           path: '/chat',
           element: <Chat/>,
           
+        }, 
+        {
+          path: "/edit-user",
+          element: <EditUser/>
         }
       ]
   },

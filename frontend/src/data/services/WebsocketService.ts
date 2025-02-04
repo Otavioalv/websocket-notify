@@ -119,6 +119,17 @@ export async function listUsers(): Promise<userPictureInterface[]>{
     }
 }
 
+export async function listUser(): Promise<void> {
+    try {
+        const url:string = URL_API + "notify/list-user-from-token"
+        
+    } catch (error) {
+        const err = error as errorAxiosInterface;
+        await choseNotify([err.response.data.message], err.response.status);
+        
+    }
+}
+
 export async function listMensagesService(userId: number): Promise<messageInterface[]> {
     try {
         const url:string = `${URL_API}notify/list-menssages/${userId}`;

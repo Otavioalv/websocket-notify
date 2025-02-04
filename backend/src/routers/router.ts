@@ -33,6 +33,10 @@ router.post('/list-menssages/:userId', authenticatedRouter, async(req: Request, 
     await new UserController().listMenssages(req, res);
 });
 
+router.post("/list-user-from-token", authenticatedRouter, async(req: Request, res: Response) => {
+    await new UserController().listUserFromToken(req, res);
+});
+
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

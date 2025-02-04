@@ -42,6 +42,25 @@ class UserModel{
         }
     }
 
+    public async findUserById(id: number): Promise<userInterface>{
+        let client: PoolClient | undefined;
+        try {
+            client = await connection.connect();
+            const SQL: string = `SELECT trim(name) as name, id_user, trim(passwd) as passwd, at_date FROM user_notify WHERE id_user = $1`;
+
+            await client.query("BEGIN");
+            const result: userInterface = ((await client.query(SQL, [id]))).rows[0] ?? {};
+            await client.query("COMMIT");
+            client.release();
+
+            return result
+        } catch (err) {
+            client?.release();
+            throw new Error("Erro interno no servidor");
+        }
+
+    }
+
     public async listUsers(payload: payloadTokenInterface):Promise<userPictureInterface[]> {
         let client:PoolClient | undefined;
         try {
