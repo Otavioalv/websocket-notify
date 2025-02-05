@@ -45,8 +45,6 @@ export default function MenuConf() {
                             </li>
                         ))
                     }
-                    
-                
                 </ul>
             </div>
         </div>

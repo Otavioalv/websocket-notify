@@ -8,6 +8,8 @@ import Button from "../components/inputs/Button";
 
 import { userData} from "../../data/@types/userData";
 import { useNavigate } from "react-router-dom";
+import BgCard from "./BgCard";
+import ContainerCard from "../components/ContainerCard";
 
 
 export default function Form () {
@@ -54,21 +56,9 @@ export default function Form () {
 
 
     return (
-        <div className="flex justify-center items-center  w-full h-full min-h-lvh m-0 p-0  text-white">
-            
-            {/* <div className="absolute left-0 top-0">
-                <button className="bg-black p-3 rounded-md  " onClick={handleLogOutCookie}>
-                    Logout Cookie
-                </button>
-
-                <button className="bg-black p-3 rounded-md  " onClick={handleTestPrivate}>
-                    test private
-                </button>
-            </div> */}
-
-            <form className="flex flex-col gap-6 p-5 w-96 max-w-96 rounded-lg relative bg-violet-600 overflow-hidden" onChange={(e) => {e.preventDefault()}}>
-                
-                <InputField 
+        <ContainerCard>
+            <form className="flex flex-col gap-6 p-5 w-96 max-w-96 rounded-lg relative  overflow-hidden text-white" onChange={(e) => {e.preventDefault()}}>
+                <InputField
                     dataInfo={{
                         name: "username", 
                         type: "text", 
@@ -88,15 +78,11 @@ export default function Form () {
                         altIcon: FaLockOpen
                     }}
                 />
-                
-                <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] left-0 top-0 ml-[-30%] mt-[-47%] bg-gradient-to-r from-violet-600/90 to-violet-800/90 animate-spin-3s"></div>
-                <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] left-0 top-24 -ml-3 bg-gradient-to-r from-violet-600/90 to-violet-800/90 animate-spin-4s"></div>
-                <div className="absolute z-0  w-[640px] h-[800px] rounded-[40%] -left-10 mt-[5%] top-32 -ml-3 bg-gradient-to-r from-violet-600/90 to-violet-800/90 animate-spin-5s"></div>
 
                 <Button name='LOGIN' id="login" type="submit" onClick={handleForm}/>
                 <h1 className="z-10"> No account? Sing up!</h1>
                 <Button name="SING UP" id="singup" type="submit" onClick={handleForm}/>
             </form>
-        </div>
+        </ContainerCard>
     )
 }
