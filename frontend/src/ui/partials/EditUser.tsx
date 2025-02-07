@@ -3,6 +3,7 @@ import { listUser } from '../../data/services/WebsocketService';
 import { userPictureInterface } from '../../data/@types/userData';
 import Button from '../components/inputs/Button';
 import ContainerCard from '../components/ContainerCard';
+import "../styles/EditUser.css"
 
 
 // pegar as informações do usuario atraves do token
@@ -24,33 +25,27 @@ export default function EditUser() {
 
     return(
         <ContainerCard>
-            {/* flip card */}
-            <div className='text-white p-6 px-16 rounded-md '>
-                {/* flip card quando apertar o botao update */}
-
-                {/* flip card inner */}
-                <div className=''>
-                    {/* flip card front */}
-                    <div className='flex flex-col items-center justify-center gap-5'>
+            <div className='flip-card'>
+                <div className='flip-card-inner'>
+                    <div className='flip-card-front'>
                         {user ? (
                             <>
-                            
-                                <div className='w-52 h-52 overflow-hidden rounded-full flex justify-center items-center z-10'>
+                                <div className='img-container'>
                                     <img src={`https://placehold.co/600x800/EEE/31343C`} alt={`user-${user.name}-picture`} className=''/>
                                 </div>
                                 
-                                <div className="z-10">
-                                    <p className='text-center text-xl font-light'>
+                                <div className="name-container">
+                                    <p className=''>
                                         {user.name}
                                     </p>
                                 </div>
 
-                                <div className='w-full h-12 rounded-md z-10'>
+                                <div className='button-container'>
                                     <Button name='UPDATE'/>
                                 </div>
                                 
-                                <div className="z-10 w-full text-right">
-                                    <p className='text-xs'>
+                                <div className="date-container">
+                                    <p className=''>
                                         {new Date(user?.at_date?.toString() || "").toLocaleString("pt-BR").substring(0, 10)}
                                     </p>
                                 </div>
@@ -58,22 +53,30 @@ export default function EditUser() {
                         ) : null}
                     </div>
 
-                    {/* flip card back */}
-                    <div>
-                        {/* imagem */}
-                        <div>
-                            <img src="" alt="" />
-                        </div>
+                    <div className='flip-card-back'>
+                        {user ? (
+                            <>
+                                <div className='img-container'>
+                                    <img src={`https://placehold.co/600x800/EEE/31343C`} alt={`user-${user.name}-picture`} className=''/>
+                                </div>
+                                
+                                <div className="name-container">
+                                    <p className=''>
+                                        {user.name} - teste
+                                    </p>
+                                </div>
 
-                        {/* nome */}
-                        <div>
-                            <input type="text" />
-                        </div>
-
-                        {/* botao */}
-                        <div>
-                            <button></button>
-                        </div>
+                                <div className='button-container'>
+                                    <Button name='UPDATE - teste'/>
+                                </div>
+                                
+                                <div className="date-container">
+                                    <p className=''>
+                                        {new Date(user?.at_date?.toString() || "").toLocaleString("pt-BR").substring(0, 10)} - teste
+                                    </p>
+                                </div>
+                            </>
+                        ) : null}
                     </div>
                 </div>
             </div>

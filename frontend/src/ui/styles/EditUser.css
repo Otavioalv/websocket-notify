@@ -1,0 +1,78 @@
+/* From Uiverse.io by joe-watson-sbf */ 
+.flip-card {
+    padding: 1.5em;
+    color: #ffffff;
+    perspective: 10000px;
+    background-color: transparent;
+    width: 500px;
+    height: 500px;
+}
+
+
+.flip-card-inner {
+    position: relative;
+    transition: transform .8s;
+    transform-style: preserve-3d;
+    width: 100%;
+    height: 100%; 
+}
+
+.flip-card:hover .flip-card-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+}
+
+/* configura todas as divs globalmente dos flip cards front e back */
+.flip-card-front > div, .flip-card-back > div {
+    z-index: 10;
+}
+
+.flip-card-back {
+    transform: rotateY(180deg);
+}
+
+.img-container {
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%; /*1000px*/
+    width: 208px;
+    height: 208px;
+    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, .2);
+}
+
+/* tornar responsivo os tamanhos */
+.button-container {
+    width: 100%;
+    height: 48px;
+}
+
+.date-container {
+    width: 100%;
+    text-align: right;
+}
+
+.date-container > p{
+    font-size: 12px;
+    line-height: 16px;
+}
+
+
+@media screen and (min-width: 800px) {
+
+}
