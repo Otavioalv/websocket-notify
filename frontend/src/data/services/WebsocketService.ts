@@ -168,7 +168,7 @@ export async function sendMessageService(msg:string, toUser:number): Promise<voi
 export async function uploadImageService(fileImage: File | null, navigate: NavigateFunction): Promise<void>{
     try {
         const url:string = `${URL_API}notify/upload-picture`;
-        
+
         if(!fileImage) {
             await choseNotify(["Insira uma imagem"], 400);
             return;
@@ -188,6 +188,34 @@ export async function uploadImageService(fileImage: File | null, navigate: Navig
         window.location.reload();
 
         await choseNotify([response.data.message], response.status);
+    } catch(error) {
+        const err = error as errorAxiosInterface;
+        console.log(err);
+        await choseNotify([err.response.data.message], err.response.status);
+    }
+}
+
+export async function updateUser(fileImage: File | null, username: string, navigate: NavigateFunction): Promise<void>{
+    try {
+        const url:string = `${URL_API}notify/update-user`;
+        
+        if(fileImage || username){
+            const formData = new FormData();
+
+            formData.append('image', "fileImage");
+    
+            const response = await axios.post(url, formData,  {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            }) as responseAxiosInterface;    
+            
+            await choseNotify([response.data.message], response.status);    
+        }
+
+        navigate('/edit-user');
+        window.location.reload();
     } catch(error) {
         const err = error as errorAxiosInterface;
         console.log(err);

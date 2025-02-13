@@ -42,7 +42,7 @@ class UserModel{
         }
     }
 
-    public async findUserById(id: number): Promise<userInterface[]>{
+    public async findUserById(id: number): Promise<userPictureInterface[]>{
         let client: PoolClient | undefined;
         try {
             client = await connection.connect();
@@ -61,7 +61,7 @@ class UserModel{
                 WHERE un.id_user = $1;`;
 
             await client.query("BEGIN");
-            const result: userInterface = ((await client.query(SQL, [id]))).rows[0] ?? {};
+            const result: userPictureInterface = ((await client.query(SQL, [id]))).rows[0] ?? {};
             await client.query("COMMIT");
             client.release();
 

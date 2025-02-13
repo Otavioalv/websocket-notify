@@ -5,9 +5,6 @@ import { CiImageOn } from "react-icons/ci";
 
 // style de test
 import '../styles/Message.css'
-import Button from '../components/inputs/Button';
-
-
 
 export default function InsertImage() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);

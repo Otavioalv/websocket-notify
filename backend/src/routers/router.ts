@@ -37,7 +37,6 @@ router.post("/list-user-from-token", authenticatedRouter, async(req: Request, re
     await new UserController().listUserFromToken(req, res);
 });
 
-
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, './src/picturesWb'); 
@@ -55,5 +54,10 @@ const upload = multer({storage});
 router.post('/upload-picture',  upload.single('image'), authenticatedRouter, async(req: Request, res: Response) => {
     await new UserController().uploadPicture(req, res);
 })
+
+router.post("/update-user", upload.single('image'), authenticatedRouter, async(req: Request, res: Response) => {
+    await new UserController().updateUser(req, res);
+});
+
 
 export {router};

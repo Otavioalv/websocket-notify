@@ -8,7 +8,6 @@ import Button from "../components/inputs/Button";
 
 import { userData} from "../../data/@types/userData";
 import { useNavigate } from "react-router-dom";
-import BgCard from "./BgCard";
 import ContainerCard from "../components/ContainerCard";
 
 

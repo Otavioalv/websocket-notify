@@ -1,47 +1,88 @@
-import React, { useEffect, useState } from 'react';
-import { listUser } from '../../data/services/WebsocketService';
-import { userPictureInterface } from '../../data/@types/userData';
+import React, { ChangeEvent, useEffect, useState, MouseEvent, useCallback } from 'react';
+import { listUser, updateUser } from '../../data/services/WebsocketService';
+import { userData, userPictureInterface } from '../../data/@types/userData';
 import Button from '../components/inputs/Button';
 import ContainerCard from '../components/ContainerCard';
 import "../styles/EditUser.css"
+import InputField from '../components/inputs/InputField';
+import { FaUser } from 'react-icons/fa';
+import { CiImageOn } from "react-icons/ci";
+import { useNavigate } from 'react-router-dom';
 
 
 // pegar as informações do usuario atraves do token
 export default function EditUser() {
     const [user, setUser] = useState<userPictureInterface | null>(null);
+    const [updateButton, setUpdateButton] = useState<boolean>(false);
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const navigate = useNavigate();
+    
+    const [formData, setFormData] = useState<userData>({
+        id_user: 0, 
+        name: "",
+        passwd: "",
+        at_date: new Date()
+    });
+
+    // Função de receber usuario
+    const handlerUser = useCallback(async () => {
+         const userList:userPictureInterface[] = await listUser();
+         setUser(userList[0]);
+         formData.name = userList[0].name;
+    }, [formData]);
+
+    const handleUpdateButton = async (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        setUpdateButton(!updateButton);
+    }
+
+    const handleFormEdit = async (event: ChangeEvent<HTMLInputElement>, name:string) => {
+        setFormData(
+            {
+                ...formData,
+                [name]: event.target.value
+            }
+        )
+    }
+
+    const handleUpdateUser = async (e:MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        handleUpdateButton(e);
+        await updateUser(selectedFile, formData.name, navigate);
+    }
+
+    const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setSelectedFile(file);
+    }
 
     useEffect(() => {
         handlerUser();
-    }, []);
-
-    // Função de receber usuario
-    const handlerUser = async () => {
-         const user:userPictureInterface[] = await listUser();
-         setUser(user[0]);
-         console.log(user);
-    }
-
+    }, [handlerUser]);
 
 
     return(
         <ContainerCard>
             <div className='flip-card'>
-                <div className='flip-card-inner'>
-                    <div className='flip-card-front'>
-                        {user ? (
+                <div 
+                    className='flip-card-inner'
+                    style={{transform: `${updateButton ? "rotateY(180deg)" : "none"}`}}
+                >
+                    <div className={`flip-card-front z-10`}>
+                        {user? (
                             <>
-                                <div className='img-container'>
-                                    <img src={`https://placehold.co/600x800/EEE/31343C`} alt={`user-${user.name}-picture`} className=''/>
+                                <div className='min-w-52 min-h-52 relative overflow-hidden rounded-full'>
+                                    <img src={user.url_img} alt={`user-${user.name}-picture`} className='absolute min-w-full min-h-full'/>
                                 </div>
                                 
                                 <div className="name-container">
-                                    <p className=''>
+                                    <p className='text-lg'>
                                         {user.name}
                                     </p>
                                 </div>
 
                                 <div className='button-container'>
-                                    <Button name='UPDATE'/>
+                                    <Button name='UPDATE' onClick={handleUpdateButton}/>
                                 </div>
                                 
                                 <div className="date-container">
@@ -53,28 +94,60 @@ export default function EditUser() {
                         ) : null}
                     </div>
 
-                    <div className='flip-card-back'>
+                    <div className='flip-card-back z-20'>
                         {user ? (
                             <>
-                                <div className='img-container'>
-                                    <img src={`https://placehold.co/600x800/EEE/31343C`} alt={`user-${user.name}-picture`} className=''/>
-                                </div>
-                                
-                                <div className="name-container">
-                                    <p className=''>
-                                        {user.name} - teste
-                                    </p>
-                                </div>
+                                <form className='w-full flex flex-col justify-center items-center gap-4' onChange={(e) => {e.preventDefault()}}>
+                                    
+                                    <div className='flex justify-center items-center flex-col w-full'>
+                                        <input 
+                                            type="file" 
+                                            accept='.png, .jpeg, .jpg'
+                                            onChange={handleFileChange}
+                                            id="file-input"
+                                            className='hidden'
+                                        />
 
-                                <div className='button-container'>
-                                    <Button name='UPDATE - teste'/>
-                                </div>
-                                
-                                <div className="date-container">
-                                    <p className=''>
-                                        {new Date(user?.at_date?.toString() || "").toLocaleString("pt-BR").substring(0, 10)} - teste
-                                    </p>
-                                </div>
+                                        <label 
+                                            htmlFor="file-input"
+                                            className='
+                                                w-full
+                                                flex
+                                                flex-col
+                                                justify-center
+                                                items-center
+                                                p-6
+                                                bg-dashed-lg
+                                                rounded
+                                                hover:bg-violet-900/40
+                                                cursor-pointer
+                                            '
+                                        >
+                                            <CiImageOn className='w-28 h-full'/>
+                                            <p>
+                                                Insira uma imagem
+                                            </p>
+                                        </label>
+                                    </div>
+
+                                    
+
+                                    <InputField 
+                                        dataInfo={{
+                                            name: "username",
+                                            type: 'text',
+                                            value: formData.name,
+                                            onChange: (event) => handleFormEdit(event, 'name'),
+                                            icon: FaUser
+                                        }}
+                                    />
+
+
+                                    <div className='w-full flex flex-col gap-4'>
+                                        <Button name='UPDATE' onClick={handleUpdateUser}/>
+                                        <Button name='CANCEL' onClick={handleUpdateButton}/>
+                                    </div>
+                                </form>    
                             </>
                         ) : null}
                     </div>

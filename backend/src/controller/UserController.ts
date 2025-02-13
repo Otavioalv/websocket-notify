@@ -167,18 +167,30 @@ class UserController {
         }
     }
 
-    public async listUserFromToken(req: Request, res: Response){
+    public async listUserFromToken(req: Request, res: Response):Promise<void>{
         try {
             const payload:payloadTokenInterface = req.body.payload as payloadTokenInterface;
             const {id} = payload;
             
-            const listUser:userInterface[] = await this.userModel.findUserById(id);
+            const listUser:userPictureInterface[] = await this.userModel.findUserById(id);
             
             res.status(200).send({message: "Informações do usuario", results: listUser});
 
         } catch(err) {
             console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});;
+        }
+    }
+
+    public async updateUser(req: Request, res: Response):Promise<void>{
+        try {
+            const image  = req.file as Express.Multer.File;
+            
+            if(image)
+                await this.uploadPicture(req, res);
+        } catch (err) {
+            console.log(err);
+            res.status(500).send({message: "Erro interno no servidor"});
         }
     }
 
