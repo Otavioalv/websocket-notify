@@ -199,22 +199,23 @@ export async function updateUser(fileImage: File | null, username: string, navig
     try {
         const url:string = `${URL_API}notify/update-user`;
         
-        if(fileImage || username){
-            const formData = new FormData();
-
-            formData.append('image', "fileImage");
-    
-            const response = await axios.post(url, formData,  {
-                withCredentials: true,
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }) as responseAxiosInterface;    
+        
+        const formData = new FormData();
             
-            await choseNotify([response.data.message], response.status);    
-        }
 
-        navigate('/edit-user');
+        if(fileImage) formData.append('image', fileImage);
+
+        formData.append("name", username);
+        
+        const response = await axios.post(url, formData,  {
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            }
+        }) as responseAxiosInterface;    
+        
+        await choseNotify([response.data.message], response.status);    
+
         window.location.reload();
     } catch(error) {
         const err = error as errorAxiosInterface;

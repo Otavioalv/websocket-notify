@@ -142,19 +142,7 @@ class UserController {
                 return;
             }
 
-            const {id} = req.body.payload as payloadTokenInterface;
-
-            const description: string = `Picture from User ID - ${id}`;
-            const imageUrl:string = `${configAPI.freeAddCmplt}/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
-
-            const dataImage:pictureInterface = {
-                id_user: id,
-                picture_name: image.filename,
-                url_img: imageUrl,
-                picture_description: description,
-                picture_created_at: new Date(), // preenchimento irrelevante
-                id_picture: 0, // preenchimento irrelevante
-            };
+            const dataImage:pictureInterface = await this.generateDataPicture(req);
 
             await this.verifyIfPictureExists(dataImage.id_user);
 
@@ -185,12 +173,45 @@ class UserController {
     public async updateUser(req: Request, res: Response):Promise<void>{
         try {
             const image  = req.file as Express.Multer.File;
+            const userData = req.body as userInterface;
+            const name = userData.name.trim();
+            const {id} = req.body.payload as payloadTokenInterface;
+
+            if(image) {
+                const dataImage:pictureInterface = await this.generateDataPicture(req);
+                await this.verifyIfPictureExists(dataImage.id_user);
+                await this.userModel.uploadPicture(dataImage);
+            };
             
-            if(image)
-                await this.uploadPicture(req, res);
+            await this.userModel.updateUser(name, id);
+            res.status(200).send({message: "Usuario atualizado com sucesso"});
         } catch (err) {
             console.log(err);
             res.status(500).send({message: "Erro interno no servidor"});
+        }
+    }
+
+    private async generateDataPicture(req: Request): Promise<pictureInterface>{
+        try{
+            const image  = req.file as Express.Multer.File;
+
+            const {id} = req.body.payload as payloadTokenInterface;
+
+            const description: string = `Picture from User ID - ${id}`;
+            const imageUrl:string = `${configAPI.freeAddCmplt}/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
+
+            const dataImage:pictureInterface = {
+                id_user: id,
+                picture_name: image.filename,
+                url_img: imageUrl,
+                picture_description: description,
+                picture_created_at: new Date(), // preenchimento irrelevante
+                id_picture: 0, // preenchimento irrelevante
+            };
+
+            return dataImage;
+        } catch(err) {
+            throw new Error("Erro ao gerar dados de imagem");
         }
     }
 
@@ -209,8 +230,6 @@ class UserController {
                         throw err
                     }
                 });
-
-
             } 
         } catch (err) {
             throw err

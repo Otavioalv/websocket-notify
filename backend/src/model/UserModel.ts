@@ -201,6 +201,32 @@ class UserModel{
         }
 
     }
+
+    public async updateUser(username: string, id: number):Promise<void> {
+        let client: PoolClient | undefined;
+        try {
+            client = await connection.connect();
+
+            const SQL: string = `
+                UPDATE 
+                    user_notify
+                SET 
+                    name = $1
+                WHERE 
+                    id_user = $2;
+                `;
+
+            await client.query("BEGIN")
+            await client.query(SQL, [username, id]);
+            await client.query("COMMIT")
+
+            client.release();
+        } catch (err) {
+            client?.release();
+            throw new Error("Erro ao atualizar usuario");
+            
+        }
+    }
 }
 
 export {UserModel}

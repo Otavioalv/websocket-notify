@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 // pegar as informações do usuario atraves do token
 export default function EditUser() {
-    const [user, setUser] = useState<userPictureInterface | null>(null);
+    const [user, setUser] = useState<userPictureInterface>({id_picture: 0, id_user: 0, name: "", passwd: "", picture_created_at: new Date(), picture_description: "", picture_name: "", url_img: ""});
     const [updateButton, setUpdateButton] = useState<boolean>(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const navigate = useNavigate();
@@ -28,8 +28,7 @@ export default function EditUser() {
     const handlerUser = useCallback(async () => {
          const userList:userPictureInterface[] = await listUser();
          setUser(userList[0]);
-         formData.name = userList[0].name;
-    }, [formData]);
+    }, []);
 
     const handleUpdateButton = async (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -47,8 +46,8 @@ export default function EditUser() {
 
     const handleUpdateUser = async (e:MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        handleUpdateButton(e);
-        await updateUser(selectedFile, formData.name, navigate);
+        const username: string = formData.name || user.name;
+        await updateUser(selectedFile, username, navigate);
     }
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -132,16 +131,15 @@ export default function EditUser() {
 
                                     
 
-                                    <InputField 
+                                    <InputField
                                         dataInfo={{
-                                            name: "username",
-                                            type: 'text',
+                                            name: user.name, 
+                                            type: "text", 
                                             value: formData.name,
-                                            onChange: (event) => handleFormEdit(event, 'name'),
+                                            onChange: (event) => {handleFormEdit(event, 'name')}, 
                                             icon: FaUser
                                         }}
                                     />
-
 
                                     <div className='w-full flex flex-col gap-4'>
                                         <Button name='UPDATE' onClick={handleUpdateUser}/>
