@@ -4,10 +4,11 @@ import { userPictureInterface } from "../../data/@types/userData";
 import ListPart from "../components/user/ListPart";
 
 interface ListUsersProps {
-    onClick: (user: userPictureInterface) => void
+    onClick: (user: userPictureInterface) => void,
+    userSelected: userPictureInterface,
 }
 
-export default function ListUsers({onClick}: ListUsersProps) {
+export default function ListUsers({onClick, userSelected}: ListUsersProps) {
     const [users, setUsers] = useState<userPictureInterface[]>([]);
 
     useEffect(() => {
@@ -27,7 +28,7 @@ export default function ListUsers({onClick}: ListUsersProps) {
                     <ul className="w-full p-3 flex flex-col gap-1">
                         {
                             users.map((user:userPictureInterface, _) => (
-                                <ListPart user={user} key={user.id_user} onClick={onClick}/>
+                                <ListPart user={user} key={user.id_user} onClick={onClick} userSelected={userSelected}/>
                             ))
                         }
                     </ul>

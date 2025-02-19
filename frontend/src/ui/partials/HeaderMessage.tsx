@@ -25,9 +25,9 @@ export default function HeaderMessage({setReturn, user}: HeaderMessageInterface)
     }
 
     return (
-        <div className="bg-violet-800 p-2 px-6 flex items-center z-10 gap-6">
-            <button className="w-6 h-6 m-0" onClick={handleSetReturn}>
-                <BsArrowReturnLeft className="w-full h-full text-white"/>
+        <div className="bg-violet-800/30 backdrop-blur p-2 px-6 flex items-center z-10 gap-6">
+            <button className="w-6 h-6 m-0 " onClick={handleSetReturn} >
+                <BsArrowReturnLeft className="w-full h-full text-white hover:text-violet-500 active:text-violet-500"/>
             </button>
 
             <div className="flex justify-center items-center gap-4 text-white">

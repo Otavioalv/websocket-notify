@@ -55,6 +55,10 @@ export default function EditUser() {
         setSelectedFile(file);
     }
 
+    const returnToChat = () => {
+        navigate("/chat");
+    }
+
     useEffect(() => {
         handlerUser();
     }, [handlerUser]);
@@ -62,30 +66,31 @@ export default function EditUser() {
 
     return(
         <ContainerCard>
-            <div className='flip-card'>
+            <div className='min-w-96 h-[500px] p-4 text-white bg-transparent'>
                 <div 
-                    className='flip-card-inner'
+                    className='flip-card-inner flex relative h-full'
                     style={{transform: `${updateButton ? "rotateY(180deg)" : "none"}`}}
                 >
-                    <div className={`flip-card-front z-10`}>
+                    <div className={`flip-card-front z-10 flex flex-col justify-center items-center gap-5 absolute w-full h-full`}>
                         {user? (
                             <>
                                 <div className='min-w-52 min-h-52 relative overflow-hidden rounded-full'>
                                     <img src={user.url_img} alt={`user-${user.name}-picture`} className='absolute min-w-full min-h-full'/>
                                 </div>
                                 
-                                <div className="name-container">
+                                <div className="">
                                     <p className='text-lg'>
                                         {user.name}
                                     </p>
                                 </div>
 
-                                <div className='button-container'>
-                                    <Button name='UPDATE' onClick={handleUpdateButton}/>
+                                <div className='w-full flex flex-col gap-4'>
+                                    <Button name='UPDATE' onClick={handleUpdateButton}/>    
+                                    <Button name="RETURN" onClick={returnToChat}/>
                                 </div>
                                 
-                                <div className="date-container">
-                                    <p className=''>
+                                <div className="w-full text-right">
+                                    <p className='text-xs'>
                                         {new Date(user?.at_date?.toString() || "").toLocaleString("pt-BR").substring(0, 10)}
                                     </p>
                                 </div>
@@ -93,7 +98,7 @@ export default function EditUser() {
                         ) : null}
                     </div>
 
-                    <div className='flip-card-back z-20'>
+                    <div className='flip-card-back z-20 flex flex-col justify-center items-center gap-5 absolute w-full h-full'>
                         {user ? (
                             <>
                                 <form className='w-full flex flex-col justify-center items-center gap-4' onChange={(e) => {e.preventDefault()}}>
@@ -101,7 +106,7 @@ export default function EditUser() {
                                     <div className='flex justify-center items-center flex-col w-full'>
                                         <input 
                                             type="file" 
-                                            accept='.png, .jpeg, .jpg'
+                                            accept='.png, .jpeg, .jpg, .webp'
                                             onChange={handleFileChange}
                                             id="file-input"
                                             className='hidden'

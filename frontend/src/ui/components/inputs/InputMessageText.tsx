@@ -28,9 +28,9 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
     }
     
     return (
-        <form className="bg-trasparent h-20 bottom-4 m-0 p-4 flex gap-4 text-slate-950 z-10 bg-violet-800">
+        <form className="bg-trasparent h-20 bottom-4 m-0 p-4 flex gap-4 text-slate-950 z-10 bg-violet-800/30 backdrop-blur">
             <textarea 
-                className="w-full h-full rounded-md px-6 py-3 border border-violet-600 outline-none shadow-outline-sm focus:shadow-outline-md resize-none bg-violet-500 text-white"
+                className="w-full h-full rounded-md px-6 py-2 border border-violet-600 outline-none shadow-outline-sm focus:shadow-outline-md resize-none bg-violet-500 text-white"
                 placeholder="Message..."
                 value={message}
                 onChange={handleMessage}
@@ -39,7 +39,7 @@ export default function InputMessageText({sendMsg}:InputMessageTextProps) {
                 typeof="text"
             />
             <button 
-                className="h-full bg-violet-500 hover:bg-violet-600 active:bg-violet-700 p-3 rounded-md cursor-pointer shadow-outline-sm hover:shadow-outline-md"
+                className="h-full bg-violet-500 hover:bg-violet-600 active:bg-violet-600 p-3 rounded-md cursor-pointer shadow-outline-sm hover:shadow-outline-md"
                 type="reset"
                 onClick={async () => {await handleSendMessage()}}
             >

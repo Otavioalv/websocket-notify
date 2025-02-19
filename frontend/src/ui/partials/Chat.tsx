@@ -32,8 +32,6 @@ export default function Chat() {
 			if(toUser.id_user === message.to_user || toUser.id_user === message.from_user)
 				setListMessages([...listMsg, message]);
 		});
-
-		
 		
 		return () => {
 			socket.off("message_from");
@@ -46,7 +44,7 @@ export default function Chat() {
 
 			<div className="md:w-1/4 w-full">
 				<MenuConf/>
-				<ListUsers onClick={listMessages}/>
+				<ListUsers onClick={listMessages} userSelected={toUser}/>
 			</div>
             
 			{(windowSize.width > 768 || toUser.id_user) ? (

@@ -61,9 +61,11 @@ export default function Message({listMessages, toUserState, user}:MessageProps) 
 											toUser.id_user !== msg.to_user ? (
 												<div className="flex items-center gap-3">
 													<div className="w-10 h-10 rounded-full overflow-hidden">
-														<img src={user.url_img} alt={`user-chat-${user.name}`} className=""/>
+														<img src={user.url_img} alt={`user-chat-${user.name}`} className="w-full h-full"/>
 													</div>
-													<span>{user.name}</span>
+													<span className="text-gray-400">
+														{user.name}
+													</span>
 												</div>
 											) : null
 										}
