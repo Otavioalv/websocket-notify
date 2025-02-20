@@ -1,17 +1,13 @@
+import { configDb } from '@/config';
 import {Pool, PoolClient} from 'pg';
 
-const USER:string = "postgres";
-const PASSWD:string = "123456";
-const PORT:number = 5432;
-const HOST:string = "127.0.0.1";
-const DB: string = "websocket_notify";
 
 const connection = new Pool({   
-    user: USER,
-    password: PASSWD, 
-    host: HOST, 
-    port: PORT, 
-    database: DB
+    user: configDb.user,
+    password: configDb.pswd,
+    host: configDb.host,
+    port: parseInt(configDb.port),
+    database: configDb.database
 });
 
 connection.connect((err: Error | undefined, client: PoolClient | undefined) => {

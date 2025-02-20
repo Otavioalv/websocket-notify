@@ -42,14 +42,13 @@ export default function Chat() {
     return (
         <div className="flex h-lvh">
 
-			<div className="md:w-1/4 w-full">
+			<div className="xl:w-1/4 w-full">
 				<MenuConf/>
 				<ListUsers onClick={listMessages} userSelected={toUser}/>
 			</div>
             
-			{(windowSize.width > 768 || toUser.id_user) ? (
-				// div abaixo e a sessao de menssagem, editar pra deixar ersponsivo
-				<div className="w-full  md:h-lvh h-full flex flex-col justify-between absolute bg-slate-950 md:relative md:bg-transparent">
+			{(windowSize.width > 1280 || toUser.id_user) ? (
+				<div className="w-full  xl:h-lvh h-full flex flex-col justify-between absolute bg-slate-950 xl:relative md:bg-transparent">
 					{toUser.id_user ? (
 						<>	
 							<Message listMessages={listMsg} toUserState={[toUser, setToUser]} user={toUser}/>

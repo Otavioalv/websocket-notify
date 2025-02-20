@@ -1,5 +1,5 @@
 import { Express } from "express"
-import { authJwt } from "@/config"
+import { authJwt, configCookie } from "@/config"
 import { JwtPayload, sign, verify, VerifyErrors } from "jsonwebtoken"
 import { Response, Request, CookieOptions } from "express"
 
@@ -43,8 +43,10 @@ export const setTokenCookie = async (res: Response, token: string) => {
             httpOnly: true,
             secure: false 
         }
-    
-        res.cookie('access_token', token, options);
+        
+        const {cookieNameToken} = configCookie;
+
+        res.cookie(cookieNameToken, token, options);
     } catch (e) {
         const error = e as Error;
         console.log("Erro ao realizar login: ", error.name);
@@ -55,7 +57,6 @@ export const setTokenCookie = async (res: Response, token: string) => {
 export const getTokenCookie = async (req: Request):Promise<string> => {
     try {
         const token = await req.cookies.access_token;
-
         return token;
     } catch(e) {
 		console.log(e);
@@ -65,8 +66,9 @@ export const getTokenCookie = async (req: Request):Promise<string> => {
 
 export const clearTokenCookie = async (res: Response) => {
     try {
+        const {cookieNameToken} = configCookie;
 
-        res.clearCookie('access_token', {
+        res.clearCookie(cookieNameToken, {
             httpOnly: true,
             secure: false // Defina como 'true' em produção
         });

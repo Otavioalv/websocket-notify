@@ -4,6 +4,7 @@ import { Server, Socket } from "socket.io";
 import { getPayload } from './tokenUtils';
 import { payloadTokenInterface, basicMessageInterface } from '@/interfaces/userInterface';
 import { UserModel } from "@/model/UserModel";
+import { configAPI, configCookie } from "@/config";
 
 let io: Server | null = null;
 const userModel: UserModel = new UserModel();
@@ -18,17 +19,19 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 			
             io = new Server(server, {
                 cors: {
-                    origin: ["http://localhost:3000",  "http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000", "http://192.168.1.4:3000", "http://10.8.2.24:3000"], 
+                    origin: configAPI.validAddress, 
                     credentials: true
                 }
             });
         
             io.on('connection', async (socket: Socket) => {
                 console.log("Cliente conectado: ", socket.id);
-    
-                const token = socket.request.headers.cookie?.replace("access_token=", "");
-                const payload:payloadTokenInterface | null = token ? await getPayload(token) : null;   
                 
+                const {cookieNameToken} = configCookie;
+
+                const token = socket.request.headers.cookie?.replace(`${cookieNameToken}=`, "");
+                const payload:payloadTokenInterface | null = token ? await getPayload(token) : null;
+
                 if(token && payload) {
                     
                     const userID: number = payload.id;
@@ -36,7 +39,6 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 					// Adiciona o usuario ao map, atribui o id do mesmo que e fixo ao id do socket io que e variavel
                     userSocketMap.set(userID, socket.id);
                     
-
                     socket.on('disconnect', () => {
                         userSocketMap.delete(userID);
                         console.log("Cliente desconectado: ", socket.id);

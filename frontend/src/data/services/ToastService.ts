@@ -18,20 +18,3 @@ export const choseNotify = async (msg: string[], status: number) => {
     else if (status >= 500 && status <= 599)
         msg.forEach(async (m) => await notifyError(m));
 }
-
-
-// setInterval(() => {
-//     choseNotify(["teste 100"], 100);
-//     choseNotify(["teste 200"], 200);
-//     choseNotify(["teste 300"], 300);
-//     choseNotify(["teste 400"], 400);
-//     choseNotify(["teste 500"], 500);
-// }, 1000);
-
-// setTimeout(() => {
-//     choseNotify(["teste 100"], 100);
-//     choseNotify(["teste 200"], 200);
-//     choseNotify(["teste 300"], 300);
-//     choseNotify(["teste 400"], 400);
-//     choseNotify(["teste 500"], 500);
-// }, 1000);

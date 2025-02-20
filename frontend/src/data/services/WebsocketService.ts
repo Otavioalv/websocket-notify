@@ -95,7 +95,6 @@ export async function logoutCookie():Promise<void> {
         const response = await axios.post(url, {}, {withCredentials: true}) as responseAxiosInterface;
 
         socket.emit('logout');
-
         await choseNotify([response.data.message], response.status);
     } catch (error) {
         const err = error as errorAxiosInterface;

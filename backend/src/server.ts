@@ -6,13 +6,14 @@ import  http from 'http';
 import {router} from './routers/router'
 import { initializeSocketIO } from './utils/socketIO';
 import path from 'path';
+import { configAPI } from './config';
 
 const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors({
-    origin: ["http://192.168.1.115:3000", "http://192.168.1.5:3000", "http://127.0.0.1:3000", "http://192.168.1.4:3000", "http://10.8.2.24:3000"], 
+    origin: configAPI.validAddress, 
     credentials: true
 }));
 
@@ -32,14 +33,14 @@ app.use('/notify', router);
 app.use('/*', (req: Request, res: Response) => {res.status(200).send({message: "router not exists"})});
 
 
-const PORT:number = 8090;
-const HOST:string = "0.0.0.0";
+const PORT:number = parseInt(configAPI.port);
+const HOST:string = configAPI.publicHost;
 const server = http.createServer(app);
 
 initializeSocketIO(server, app);
 
 
 server.listen(PORT, HOST, async () => {
-    console.log(`Listening in url local: http://127.0.0.1:${PORT} and http://0.0.0.0:${PORT}`);
+    console.log(`Listening in url local: http://${configAPI.localHost}:${PORT} and http://${configAPI.publicHost}:${PORT}`);
 });
 

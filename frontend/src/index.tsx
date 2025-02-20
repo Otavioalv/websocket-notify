@@ -11,6 +11,7 @@ import Chat from './ui/partials/Chat';
 import InsertImage from './ui/partials/InsertImage';
 import TestText from './ui/partials/TestText';
 import EditUser from './ui/partials/EditUser';
+import LogOut from './ui/partials/LogOut';
 
 const routes:RouteObject[] = [
   {
@@ -41,6 +42,10 @@ const routes:RouteObject[] = [
         {
           path: "/edit-user",
           element: <EditUser/>
+        },
+        {
+          path: '/log-out',
+          element: <LogOut/>
         }
       ]
   },
@@ -53,6 +58,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
+  /* remover react strict mode. Permitir somente para desenvolvimento */
   <React.StrictMode>
     <RouterProvider router={router} />
   </React.StrictMode>
