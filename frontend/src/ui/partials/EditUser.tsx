@@ -74,8 +74,12 @@ export default function EditUser() {
                     <div className={`flip-card-front z-10 flex flex-col justify-center items-center gap-5 absolute w-full h-full`}>
                         {user? (
                             <>
-                                <div className='min-w-52 min-h-52 relative overflow-hidden rounded-full'>
-                                    <img src={user.url_img} alt={`user-${user.name}-picture`} className='absolute min-w-full min-h-full'/>
+                                <div className="max-w-52 min-h-52 relative overflow-hidden rounded-full">
+                                    <img 
+                                        src={`${user.url_img}`} 
+                                        alt={user.name} 
+                                        className="object-cover h-full"
+                                    />
                                 </div>
                                 
                                 <div className="">

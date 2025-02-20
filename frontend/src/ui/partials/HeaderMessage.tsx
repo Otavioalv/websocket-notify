@@ -31,8 +31,12 @@ export default function HeaderMessage({setReturn, user}: HeaderMessageInterface)
             </button>
 
             <div className="flex justify-center items-center gap-4 text-white">
-                <div className="min-w-12 min-h-12 relative overflow-hidden rounded-full">
-                    <img src={user.url_img} alt="user-header-img" className="absolute min-w-full min-h-full"/>
+                <div className="w-12 h-12 relative overflow-hidden rounded-full">
+                    <img 
+                        src={`${user.url_img}`} 
+                        alt={user.name} 
+                        className="object-cover h-full"
+                    />
                 </div>
 
                 <p>
