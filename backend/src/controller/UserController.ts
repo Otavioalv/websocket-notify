@@ -197,8 +197,11 @@ class UserController {
 
             const {id} = req.body.payload as payloadTokenInterface;
 
+            const completeUrl:string = `http://${configAPI.serverHost}:${configAPI.port}`
+
             const description: string = `Picture from User ID - ${id}`;
-            const imageUrl:string = `${configAPI.freeAddCmplt}/picturesWb/${image.filename}`;  // criar url com ip, o ip tem q ser global
+            const imageUrl:string = `${completeUrl}/picturesWb/${image.filename}`; 
+
 
             const dataImage:pictureInterface = {
                 id_user: id,

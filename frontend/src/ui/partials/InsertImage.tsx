@@ -33,7 +33,7 @@ export default function InsertImage() {
 
             <label 
                 htmlFor="file-input"
-                className='
+                className={`
                     bg-dashed-lg
                     flex 
                     justify-center 
@@ -48,7 +48,8 @@ export default function InsertImage() {
                     md:w-2/3
                     md:h-96
                     max-h-96
-                    '
+                    ${selectedFile ? 'bg-violet-300/60' : ''}
+                    `}
                 style={{}}
             >
                 <CiImageOn className='w-full h-full'/>
@@ -58,8 +59,9 @@ export default function InsertImage() {
             </label>
                 
             <button 
-                className='bg-violet-600 p-3 w-full md:w-2/3 rounded hover:bg-violet-700 cursor-pointer z-10 transition-all'
+                className={` p-3 w-full md:w-2/3 rounded z-10 transition-all ${selectedFile ? 'hover:bg-violet-700 bg-violet-600 cursor-pointer' : 'bg-gray-500 cursor-not-allowed'}`} 
                 onClick={handleUpload}
+                disabled={selectedFile ? true : false}
             >
                 ENVIAR
             </button>

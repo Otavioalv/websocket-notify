@@ -107,7 +107,7 @@ export default function EditUser() {
                             <>
                                 <form className='w-full flex flex-col justify-center items-center gap-4' onChange={(e) => {e.preventDefault()}}>
                                     
-                                    <div className='flex justify-center items-center flex-col w-full'>
+                                    <div className={`flex justify-center items-center flex-col w-full`}>
                                         <input 
                                             type="file" 
                                             accept='.png, .jpeg, .jpg, .webp'
@@ -118,7 +118,7 @@ export default function EditUser() {
 
                                         <label 
                                             htmlFor="file-input"
-                                            className='
+                                            className={`
                                                 w-full
                                                 flex
                                                 flex-col
@@ -127,9 +127,11 @@ export default function EditUser() {
                                                 p-6
                                                 bg-dashed-lg
                                                 rounded
-                                                hover:bg-violet-900/40
                                                 cursor-pointer
-                                            '
+                                                backdrop-blur
+                                                hover:bg-violet-900/40
+                                                ${selectedFile ? 'bg-violet-300/60' : ''}
+                                            `}
                                         >
                                             <CiImageOn className='w-28 h-full'/>
                                             <p>
@@ -151,7 +153,7 @@ export default function EditUser() {
                                     />
 
                                     <div className='w-full flex flex-col gap-4'>
-                                        <Button name='UPDATE' onClick={handleUpdateUser}/>
+                                        <Button name='UPDATE' onClick={handleUpdateUser} disabled={selectedFile ? true : false}/>
                                         <Button name='CANCEL' onClick={handleUpdateButton}/>
                                     </div>
                                 </form>    

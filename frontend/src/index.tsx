@@ -59,9 +59,7 @@ const root = ReactDOM.createRoot(
 
 root.render(
   /* remover react strict mode. Permitir somente para desenvolvimento */
-  <React.StrictMode>
     <RouterProvider router={router} />
-  </React.StrictMode>
 );
 
 reportWebVitals();
