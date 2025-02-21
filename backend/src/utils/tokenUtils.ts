@@ -1,6 +1,5 @@
-import { Express } from "express"
 import { authJwt, configCookie } from "@/config"
-import { JwtPayload, sign, verify, VerifyErrors } from "jsonwebtoken"
+import { sign, verify, VerifyErrors } from "jsonwebtoken"
 import { Response, Request, CookieOptions } from "express"
 
 import { payloadTokenInterface, userInterface } from "@/interfaces/userInterface"

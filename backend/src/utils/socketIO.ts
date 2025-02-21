@@ -5,6 +5,7 @@ import { getPayload } from './tokenUtils';
 import { payloadTokenInterface, basicMessageInterface } from '@/interfaces/userInterface';
 import { UserModel } from "@/model/UserModel";
 import { configAPI, configCookie } from "@/config";
+import { responseMessages } from "./responseMessages";
 
 let io: Server | null = null;
 const userModel: UserModel = new UserModel();
@@ -44,11 +45,6 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
                         console.log("Cliente desconectado: ", socket.id);
                     })
 					
-					// Fazer futuramente
-					socket.on("list_messages", () => {
-						console.log("Menssagens listadas");
-					});
-
                     socket.on("create_message", async (msg:string, toUser: number) => {
 
 						if(toUser && io){
@@ -58,11 +54,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
 								to_user: toUser,
                                 at_date: new Date()
 							};
-							// console.log(message);
-							// console.log("socket id TO: ", userSocketMap.get(message.to_user));
-							// console.log("socket id FROM: ", userSocketMap.get(message.from_user));
-							
-                            
+						
 							const toUserSocketID:string = userSocketMap.get(message.to_user) ?? "";
 							const fromUserSocketID:string = userSocketMap.get(message.from_user) ?? "";
 
@@ -100,7 +92,7 @@ export const initializeSocketIO = async (server: HttpServer, app: Express) => {
             return app.use((err: any, req: Request, res: Response) => {
                 res.status(500).send(
                     {
-                        message: "Erro interno no servidor"
+                        message: responseMessages.InternalServerError
                     }
                 );
             });

@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { getPayload, getTokenCookie } from "./tokenUtils";
 import { payloadTokenInterface } from "@/interfaces/userInterface";
+import { successResponse } from "./response";
+import { responseMessages } from "./responseMessages";
 
 async function authenticatedRouter (req: Request, res: Response, next: NextFunction) {
     try {
@@ -8,7 +10,8 @@ async function authenticatedRouter (req: Request, res: Response, next: NextFunct
 	
         // Verifica se foi fornecido o token
         if(!token || !token.replace("Bearer ", "")) {
-            return res.status(403).send({message: "Rota inacessivel"});
+            return res.status(403).send(successResponse(responseMessages.InaccessibleRoute));
+            
         }
 
         // Pega payload
@@ -20,7 +23,7 @@ async function authenticatedRouter (req: Request, res: Response, next: NextFunct
     } catch (e) {
         const error = e as Error;
         console.log(error.message);
-        res.status(403).send({message: "Voce não tem autorização para acessar esse conteudo", errors: [error.message]});
+        res.status(403).send(successResponse(responseMessages.UserAuthenticationProblem, [error.message]));
     }
 }
 

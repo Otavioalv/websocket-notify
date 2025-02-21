@@ -1,5 +1,6 @@
 import connection from "@/database/connectionPostgres";
 import { basicMessageInterface, messageInterface, payloadTokenInterface, pictureInterface, userInterface, userPictureInterface } from "@/interfaces/userInterface";
+import { responseMessages } from "@/utils/responseMessages";
 import { PoolClient } from "pg";
 
 class UserModel{
@@ -20,7 +21,7 @@ class UserModel{
         } catch (err) {
             client?.release();
             console.log(err);
-            throw new Error("Erro interno no servidor");
+            throw new Error(responseMessages.InternalServerError);
         }
     }
 
@@ -38,7 +39,7 @@ class UserModel{
             return result;
         } catch (err) { 
             client?.release();
-            throw new Error("Erro interno no servidor")
+            throw new Error(responseMessages.InternalServerError)
         }
     }
 
@@ -68,7 +69,7 @@ class UserModel{
             return [result]
         } catch (err) {
             client?.release();
-            throw new Error("Erro interno no servidor");
+            throw new Error(responseMessages.InternalServerError);
         }
 
     }
@@ -102,7 +103,7 @@ class UserModel{
             return result;
         } catch (error) {
             client?.release();
-            throw new Error("Erro ao listar usuarios");
+            throw new Error(responseMessages.ErrorListUser);
         }
     }
 
@@ -122,7 +123,7 @@ class UserModel{
         } catch (error) {
             console.log(error);
             client?.release();
-            throw new Error("Erro ao listar menssagens");
+            throw new Error(responseMessages.ErrorListMessage);
         }
     }
 
@@ -144,7 +145,7 @@ class UserModel{
         } catch (error) {
             console.log(error);
             client?.release();
-            throw new Error("Erro ao salvar menssagem");
+            throw new Error(responseMessages.ErrorSaveImage);
         }
     }
 
@@ -177,7 +178,7 @@ class UserModel{
         } catch (err) {
             console.log(err);
             client?.release();
-            throw new Error("Erro ao salvar imagem no banco de dados");
+            throw new Error(responseMessages.ErrorSaveImage);
         }
     }
 
@@ -196,7 +197,7 @@ class UserModel{
             return result;
         } catch (err) {
             client?.release();
-            throw new Error("Erro ao verificar imagem");
+            throw new Error(responseMessages.ErrorVerifyImage);
             
         }
 
@@ -223,7 +224,7 @@ class UserModel{
             client.release();
         } catch (err) {
             client?.release();
-            throw new Error("Erro ao atualizar usuario");
+            throw new Error(responseMessages.ErrorUpdateUser);
             
         }
     }
