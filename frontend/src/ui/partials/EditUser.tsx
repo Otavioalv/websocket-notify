@@ -153,7 +153,7 @@ export default function EditUser() {
                                     />
 
                                     <div className='w-full flex flex-col gap-4'>
-                                        <Button name='UPDATE' onClick={handleUpdateUser} disabled={selectedFile ? true : false}/>
+                                        <Button name='UPDATE' onClick={handleUpdateUser} />
                                         <Button name='CANCEL' onClick={handleUpdateButton}/>
                                     </div>
                                 </form>    
