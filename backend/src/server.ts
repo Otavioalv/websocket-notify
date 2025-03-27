@@ -32,7 +32,6 @@ app.use((err:any, req:Request, res:Response, next: NextFunction) => {
 app.use('/notify', router);
 app.use('/*', (req: Request, res: Response) => {res.status(200).send({message: "router not exists"})});
 
-
 const PORT:number = parseInt(configAPI.port);
 const HOST:string = configAPI.publicHost;
 const server = http.createServer(app);
