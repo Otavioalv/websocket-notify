@@ -12,7 +12,7 @@ const connection = new Pool({
 
 connection.connect((err: Error | undefined, client: PoolClient | undefined) => {
     if(err) {
-        throw new Error(`Erro connecting to database`);
+        throw new Error(`Erro connecting to database: ${err}`);
     } else {
         console.log(`Connected to database`);
     }
