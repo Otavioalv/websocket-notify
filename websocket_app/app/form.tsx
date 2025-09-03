@@ -1,6 +1,7 @@
-import CardContainer from "@/components/CardContainer";
+// import CardContainer from "@/components/CardContainer";
 import ViewSafe from "@/components/ViewSafe";
 import React from "react";
+import { LinearGradient} from "expo-linear-gradient";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
@@ -8,36 +9,37 @@ import { TextInput, View } from "react-native";
 
 export default function Form() {
     return(
-        <ViewSafe>
-            <CardContainer>                
+        <LinearGradient
+            colors={["#7F22FE", "#A800B7"]}
+            locations={[.3, 1]}
+            className="w-full h-full"
+        >
+            <ViewSafe>
+                <View className="mx-2">
 
+                    <View 
+                        className="
+                            flex-row border border-white rounded-lg p-2 
+                            items-center gap-1 z-10 bg-transparent
+                            backdrop-blur
+                        "
+                    >
+                        <FontAwesome5 
+                            name="user-alt" 
+                            size={24} 
+                            color="white"
+                        />
 
-                <View 
-                    className="
-                        flex-row border-2 border-white/10 rounded-lg p-2 
-                        items-center gap-1 z-10 bg-violet-600/30 
-                        focus-within:border-violet-500 backdrop-blur
-                    "
-                >   
-
-                    <FontAwesome5 
-                        name="user-alt" 
-                        size={24} 
-                        color="white"
-                    />
-
-                    <TextInput 
-                        className="text-white text-xl flex-1"
-                        placeholder="username"
-                        placeholderTextColor="#888"
-                    />
+                        <TextInput 
+                            className="text-white text-xl flex-1 bg-transparent"
+                            placeholder="Username"
+                            placeholderTextColor="#fff"
+                        />
+                    </View>
                 </View>
-
-
-                {/* <FontAwesome5 name="lock" size={24} color="black" /> <FontAwesome5 name="lock-open" size={24} color="black" />*/}
-                
-            </CardContainer>
-        </ViewSafe>
+                    {/* <FontAwesome5 name="lock" size={24} color="black" /> <FontAwesome5 name="lock-open" size={24} color="black" />*/}
+            </ViewSafe>
+        </LinearGradient>
     )
 }
 
