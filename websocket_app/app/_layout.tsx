@@ -7,6 +7,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 
 import "@/global.css";
 import React from 'react';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function RootLayout() {
@@ -22,12 +23,14 @@ export default function RootLayout() {
   // }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      
-      <Stack screenOptions={{headerShown: false}}>
-      </Stack>
+    <SafeAreaProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          
+          <Stack screenOptions={{headerShown: false}}>
+          </Stack>
 
-      <StatusBar style="auto" />
-    </ThemeProvider>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+    </SafeAreaProvider>
   );
 }
