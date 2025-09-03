@@ -1,13 +1,14 @@
+import ViewSafe from "@/components/ViewSafe";
 import React from "react";
 
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 
 export default function Form() {
     return(
-        <View>
-            <Text style={{color: "#fff"}}>
-                Formulario
+        <ViewSafe>
+            <Text className="text-white">
+                Formulario no app
             </Text>
-        </View>
+        </ViewSafe>
     )
 }
