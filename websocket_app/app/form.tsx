@@ -5,15 +5,21 @@ import { LinearGradient} from "expo-linear-gradient";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 
-import { TextInput, View } from "react-native";
+
+
+import { TextInput, View, Animated } from "react-native";
+import BgFormAnimation from "@/components/ui/BgFormAnimation";
 
 export default function Form() {
     return(
         <LinearGradient
-            colors={["#7F22FE", "#A800B7"]}
-            locations={[.3, 1]}
+        colors={["#7F22FE", "#A800B7"]}
+        locations={[.3, 1]}
             className="w-full h-full"
-        >
+        >   
+            {/* Teste de background */}
+            <BgFormAnimation/>
+
             <ViewSafe>
                 <View className="mx-2">
 
