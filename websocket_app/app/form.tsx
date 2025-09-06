@@ -2,13 +2,11 @@
 import ViewSafe from "@/components/ViewSafe";
 import React from "react";
 import { LinearGradient} from "expo-linear-gradient";
+import { View } from "react-native";
+import BgFormAnimation from "@/components/ui/BgFormAnimation";
+import InputTextForm from "@/components/Input/InputTextForm";
 
 import { FontAwesome5 } from "@expo/vector-icons";
-
-
-
-import { TextInput, View, Animated } from "react-native";
-import BgFormAnimation from "@/components/ui/BgFormAnimation";
 
 export default function Form() {
     return(
@@ -17,31 +15,27 @@ export default function Form() {
         locations={[.3, 1]}
             className="w-full h-full"
         >   
-            {/* Teste de background */}
             <BgFormAnimation/>
 
             <ViewSafe>
-                <View className="mx-2">
+                <View className="px-2 gap-6">
+                    
+                    
+                    <InputTextForm 
+                        placeholder="Username"
+                        icon={
+                            <FontAwesome5 name="user-alt" />
+                        }
+                    />
 
-                    <View 
-                        className="
-                            flex-row border border-white rounded-lg p-2 
-                            items-center gap-1 z-10 bg-transparent
-                            backdrop-blur
-                        "
-                    >
-                        <FontAwesome5 
-                            name="user-alt" 
-                            size={24} 
-                            color="white"
-                        />
+                    <InputTextForm 
+                        placeholder="Password"
+                        icon={
+                            <FontAwesome5 name="lock" />
+                        }
+                    />
 
-                        <TextInput 
-                            className="text-white text-xl flex-1 bg-transparent"
-                            placeholder="Username"
-                            placeholderTextColor="#fff"
-                        />
-                    </View>
+
                 </View>
                     {/* <FontAwesome5 name="lock" size={24} color="black" /> <FontAwesome5 name="lock-open" size={24} color="black" />*/}
             </ViewSafe>
