@@ -21,7 +21,7 @@ class UserController {
             const errorsData:string[] = await this.validateDataCreateUser(data);
 
             if(errorsData.length) {
-                res.status(401).send(errorResponse(responseMessages.ErrorCreatingUser));
+                res.status(401).send(errorResponse(responseMessages.ErrorCreatingUser, errorsData));
                 return;
             }
 

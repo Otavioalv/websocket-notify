@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY ./package*.json ./
 
+# RUN apt-get update && apt-get install -y nano && rm -rf /var/lib/apt/lists/*
+RUN apk update && apk upgrade && apk add nano && apk add --no-interactive nano
+
 # RUN npm install
 RUN npm ci
 

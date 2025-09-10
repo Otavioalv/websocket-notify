@@ -8,6 +8,7 @@ import InputTextForm from "@/components/Input/InputTextForm";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 import ButtomForm from "@/components/Input/ButtomForm";
+import { createUser, createUserType, test } from "@/services/webService";
 
 export default function Form() {
     const textState = useState<string>("");
@@ -18,8 +19,21 @@ export default function Form() {
     //     console.log(passwdState[0]);
     // }, [textState, passwdState]);
 
-    const test = async () => {
-        console.log("Botao apertado");
+    const fetchTest = async () => {
+        console.log("TESTE: ", await test());
+    }
+
+    const fetchSingUp = async () => {
+        const userData:createUserType = {
+            name: textState[0],
+            passwd: textState[0]
+        };
+
+        try {
+            await createUser(userData);
+        } catch(err) {
+            console.log(err);
+        }
     }
 
 
@@ -55,11 +69,11 @@ export default function Form() {
 
                     <ButtomForm 
                         textBtt="LOGIN"
-                        callableBtt={test}
+                        callableBtt={fetchTest}
                     />
                     <ButtomForm 
                         textBtt="SING UP"
-                        callableBtt={test}
+                        callableBtt={fetchSingUp}
                     />
 
                 </View>
