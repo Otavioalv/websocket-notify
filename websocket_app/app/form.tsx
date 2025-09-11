@@ -26,7 +26,7 @@ export default function Form() {
     const fetchSingUp = async () => {
         const userData:createUserType = {
             name: textState[0],
-            passwd: textState[0]
+            passwd: passwdState[0]
         };
 
         try {

@@ -12,10 +12,9 @@ export const createUser = async (data: createUserType) => {
     try {
         const endPoint: string = "/notify/create-user";
 
+        console.log(data);
         const response = await webApi.post(endPoint, data);
-
         console.log(response);
-
         return;
     } catch(err) {
         console.log(err);
