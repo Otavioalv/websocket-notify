@@ -93,10 +93,13 @@ class UserModel{
                 on un.id_user = pi.id_user
                 WHERE un.id_user != $1;
             `;
+
+            // const SQL = `SELECT name from user_notify WHERE id_user = $1`;
             
             await client.query('BEGIN');
             const result = (await client.query(SQL, [payload.id])).rows as userPictureInterface[];
             await client.query('COMMIT');
+            
 
             client.release();
 
