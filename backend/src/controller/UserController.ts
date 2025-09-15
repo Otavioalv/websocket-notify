@@ -104,9 +104,7 @@ class UserController {
     public async listUsers(req: Request, res: Response): Promise<void> {
         try {
             const payload = await req.body.payload as payloadTokenInterface;
-
             const list:userPictureInterface[] = await this.userModel.listUsers(payload);
-
             res.status(200).send(successResponse(responseMessages.UserListSuccessful, list));
         } catch (err) {
             console.log(err);

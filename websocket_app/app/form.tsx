@@ -19,11 +19,6 @@ export default function Form() {
     //     console.log(passwdState[0]);
     // }, [textState, passwdState]);
 
-    const fetchTest = async () => {
-        console.log("TESTE: ", await test());
-
-    }
-
     const fetchSingUp = async () => {
         const userData:createUserType = {
             name: textState[0],
@@ -45,7 +40,7 @@ export default function Form() {
 
         try {
             await loginUser(userData);
-        } catch (err) {
+        } catch(err) {
             console.log(err);
         }
     }
@@ -54,7 +49,7 @@ export default function Form() {
     const fetchListUsers = async () => {
         try {
             await listUsers();
-        } catch (err) {
+        } catch(err) {
             console.log(err);
         }
     }
@@ -99,10 +94,10 @@ export default function Form() {
                         callableBtt={fetchSingUp}
                     />
 
-                    <ButtomForm 
+                    {/* <ButtomForm 
                         textBtt="TESTE"
                         callableBtt={fetchListUsers}
-                    />
+                    /> */}
 
                 </View>
             </ViewSafe>

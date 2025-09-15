@@ -8,7 +8,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 
 import "@/global.css";
 import React from 'react';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
 export default function RootLayout() {
@@ -39,26 +39,30 @@ export default function RootLayout() {
 //   fonts,
 // };
 
-  const FormTheme: Theme = {
-    ...DefaultTheme,
-    dark: false,
-    colors: {
-      background: "#7F22FE",
-      primary: 'rgb(0, 122, 255)',
-      card: 'rgb(255, 255, 255)',
-      text: 'rgb(28, 28, 30)',
-      border: 'rgb(216, 216, 216)',
-      notification: 'rgb(255, 59, 48)',
-    }, 
-  }
+
+
+
+  // const FormTheme: Theme = {
+  //   ...DefaultTheme,
+  //   dark: false,
+  //   colors: {
+  //     background: "#7F22FE",
+  //     primary: 'rgb(0, 122, 255)',
+  //     card: 'rgb(255, 255, 255)',
+  //     text: 'rgb(28, 28, 30)',
+  //     border: 'rgb(216, 216, 216)',
+  //     notification: 'rgb(255, 59, 48)',
+  //   }, 
+  // }
 
 
   return (
     <SafeAreaProvider>
         {/* <ThemeProvider value={FormTheme}> */}
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          
-          <Stack screenOptions={{headerShown: false}}>
+          <Stack 
+            screenOptions={{headerShown: false}}
+          >
           </Stack>
 
           <StatusBar style="light" />

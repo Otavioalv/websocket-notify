@@ -15,3 +15,11 @@ CREATE TABLE messages (
 );
 
 
+CREATE TABLE pictures (
+    id_picture SERIAL PRIMARY KEY,
+    name VARCHAR(500) NOT NULL,
+    url_img TEXT NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    id_user INTEGER NOT NULL REFERENCES user_notify(id_user) ON DELETE CASCADE
+);
