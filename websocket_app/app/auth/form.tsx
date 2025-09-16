@@ -9,10 +9,13 @@ import InputTextForm from "@/components/Input/InputTextForm";
 import { FontAwesome5 } from "@expo/vector-icons";
 import ButtomForm from "@/components/Input/ButtomForm";
 import { createUser, createUserType, listUsers, loginUser, test } from "@/services/webService";
+import { useRouter } from "expo-router";
 
 export default function Form() {
     const textState = useState<string>("");
     const passwdState = useState<string>("");
+    const router = useRouter();
+
 
     // useEffect(() => {
     //     console.log(textState[0]);
@@ -26,7 +29,8 @@ export default function Form() {
         };
 
         try {
-            await createUser(userData);
+            if(await createUser(userData))
+                router.navigate("/tabs/list-users");
         } catch(err) {
             console.log(err);
         }
@@ -39,7 +43,8 @@ export default function Form() {
         };
 
         try {
-            await loginUser(userData);
+            if(await loginUser(userData))
+                router.navigate("/tabs/list-users");
         } catch(err) {
             console.log(err);
         }
@@ -49,6 +54,7 @@ export default function Form() {
     const fetchListUsers = async () => {
         try {
             await listUsers();
+            router.navigate("/auth/set-picture");
         } catch(err) {
             console.log(err);
         }
@@ -94,10 +100,10 @@ export default function Form() {
                         callableBtt={fetchSingUp}
                     />
 
-                    {/* <ButtomForm 
+                    <ButtomForm 
                         textBtt="TESTE"
                         callableBtt={fetchListUsers}
-                    /> */}
+                    />
 
                 </View>
             </ViewSafe>

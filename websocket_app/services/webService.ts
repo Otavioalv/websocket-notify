@@ -1,3 +1,4 @@
+import { userPictureInterface } from "@/types";
 import webApi from "./webApi";
 import axios, { AxiosError, AxiosResponse } from "axios";
 
@@ -24,23 +25,22 @@ interface errorAxiosInterface extends AxiosError {
 
 
 
-export const createUser = async (data: createUserType) => {
+
+export const createUser = async (data: createUserType): Promise<boolean> => {
     try {
         const endPoint: string = "/notify/create-user";
 
-        console.log(data);
         const response = await webApi.post(endPoint, data)  as responseAxiosInterface;
-        console.log(response);
-        return;
+        
+        return response.request.status < 300;
     } catch(error) {
         const err = error as errorAxiosInterface
-
         console.log(err.response.data);
-        return;
+        return false;
     }
 }
 
-export const loginUser = async (data: createUserType) => {
+export const loginUser = async (data: createUserType):Promise<boolean> => {
     try {
         const endPoint: string = "/notify/login-user";
 
@@ -48,26 +48,27 @@ export const loginUser = async (data: createUserType) => {
         const response = await webApi.post(endPoint, data) as responseAxiosInterface;
         console.log(response);
         
-        return;
+        return response.request.status < 300;
     } catch (error) {
         const err = error as errorAxiosInterface;
         console.log(err.response.data);
-        return;
+        return false;
     }
 }
 
-export const listUsers = async () => {
+export const listUsers = async (): Promise<userPictureInterface[]> => {
     try {
         const endPoint: string = "/notify/list-users";
 
         const response = await webApi.post(endPoint, {}) as responseAxiosInterface;
-        console.log(response);
-        
-        return;
+        const usersList = response.data.results as userPictureInterface[]
+
+        // console.log(response);
+        return usersList;
     } catch (error) {
         const err = error as errorAxiosInterface;
         console.log(err.response);
-        return;
+        return [];
     }
 }
 

@@ -57,12 +57,17 @@ export default function RootLayout() {
 
 
   return (
+    // Fazer essas 2 tags nos componentes separador,
+    // Deixar somente Stacks
     <SafeAreaProvider>
         {/* <ThemeProvider value={FormTheme}> */}
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack 
-            screenOptions={{headerShown: false}}
+            screenOptions={{
+              headerShown: false
+            }}
           >
+            <Stack.Screen name='index'/>
           </Stack>
 
           <StatusBar style="light" />
