@@ -10,10 +10,13 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import ButtomForm from "@/components/Input/ButtomForm";
 import { createUser, createUserType, listUsers, loginUser, test } from "@/services/webService";
 import { useRouter } from "expo-router";
+import SetPicture from "./set-picture";
 
 export default function Form() {
     const textState = useState<string>("");
     const passwdState = useState<string>("");
+    const [formPicture, setFormPicture] = useState<boolean>(false);
+
     const router = useRouter();
 
 
@@ -21,6 +24,10 @@ export default function Form() {
     //     console.log(textState[0]);
     //     console.log(passwdState[0]);
     // }, [textState, passwdState]);
+
+    const handleSetFormPicture = async () => {
+        setFormPicture(!formPicture);
+    }
 
     const fetchSingUp = async () => {
         const userData:createUserType = {
@@ -71,6 +78,50 @@ export default function Form() {
 
             <ViewSafe>
                 <View className="px-6 gap-6 h-full justify-center">
+
+                    {/* {!formPicture 
+                        ? (
+                            <>
+                                <InputTextForm 
+                                    placeholder="Username"
+                                    textState={textState}
+                                    icon={
+                                        <FontAwesome5 name="user-alt" />
+                                    }
+                                />
+                                <InputTextForm 
+                                    placeholder="Password"
+                                    textState={passwdState}
+                                    hidden={true}
+                                    icon={
+                                        <FontAwesome5 name="lock" />
+                                    }
+                                    iconShow={
+                                        <FontAwesome5 name="lock-open" />
+                                    }
+                                                        
+                                />
+
+                                <ButtomForm 
+                                    textBtt="LOGIN"
+                                    callableBtt={fetchLogin}
+                                />
+                                <ButtomForm 
+                                    textBtt="SING UP"
+                                    // callableBtt={fetchSingUp}
+                                    callableBtt={handleSetFormPicture}
+                                />
+
+                                <ButtomForm 
+                                    textBtt="TESTE"
+                                    callableBtt={fetchListUsers}
+                                />
+                            </>
+                        )
+                        : (
+                            <SetPicture/>
+                        )
+                    } */}
                     <InputTextForm 
                         placeholder="Username"
                         textState={textState}
@@ -95,7 +146,7 @@ export default function Form() {
                         textBtt="LOGIN"
                         callableBtt={fetchLogin}
                     />
-                    <ButtomForm 
+                    <ButtomForm
                         textBtt="SING UP"
                         callableBtt={fetchSingUp}
                     />
@@ -104,7 +155,6 @@ export default function Form() {
                         textBtt="TESTE"
                         callableBtt={fetchListUsers}
                     />
-
                 </View>
             </ViewSafe>
         </LinearGradient>

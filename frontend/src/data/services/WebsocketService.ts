@@ -12,7 +12,7 @@ import socket from "./SocketIOService";
 // "http://10.8.2.24:8090/"
 // http://127.0.0.1:8090
 // 192.168.1.114
-const URL_API: string = "http://192.168.1.114:8090";  // /notify /login-user
+const URL_API: string = "http://127.0.0.1:8090/";  // /notify /login-user
 
 
 

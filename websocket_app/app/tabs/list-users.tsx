@@ -15,7 +15,7 @@ export default function ListUsers() {
 
     return (
         <View>
-            <Text
+            {/* <Text
                 className="text-white"
             >
                 Texto
@@ -28,7 +28,8 @@ export default function ListUsers() {
                 <Text className="text-white">
                     Precione
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
+
 
         </View>
     )
