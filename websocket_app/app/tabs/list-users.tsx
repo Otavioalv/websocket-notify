@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { listUsers} from "@/services/webService";
 import { userPictureInterface } from "@/types";
@@ -7,30 +7,38 @@ import { userPictureInterface } from "@/types";
 export default function ListUsers() {
     const [listUsersData, setListUsersData] = useState<userPictureInterface[]>([]);
 
-    const fetchListUsers = async () => {
+    const fetchListUsers = useCallback( async () => {
         setListUsersData(await listUsers());
+        // console.log(listUsersData);
+    }, []);
 
-        console.log(listUsersData);
-    }
+    useEffect(() => {
+        fetchListUsers();
+    }, [fetchListUsers]);
 
     return (
         <View>
-            {/* <Text
-                className="text-white"
-            >
-                Texto
-            </Text>
+            {
+                listUsersData.map((user, i) => (
+                    <View
+                        key={i}
+                    >   
 
-            <TouchableOpacity
-                className="mt-56"
-                onPress={fetchListUsers}
-            >
-                <Text className="text-white">
-                    Precione
-                </Text>
-            </TouchableOpacity> */}
-
-
+                        <View>
+                            <Image
+                                className="w-20 h-20"
+                                source={{uri: `https://robohash.org/${user.name}-${user.id_user}`}}
+                            />
+                        </View>
+                        
+                        <View>
+                            <Text className="text-white">
+                                {user.name}
+                            </Text>
+                        </View>
+                    </View>
+                ))
+            }
         </View>
     )
 }
